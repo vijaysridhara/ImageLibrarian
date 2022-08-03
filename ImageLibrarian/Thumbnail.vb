@@ -454,7 +454,7 @@ Friend Class Thumbnail
     Private Function LoadMetaData() As Boolean
         Try
             MetaData.Clear()
-            Dim ed As New ExifData
+
             Dim count As Integer = 0
             Debug.Print("____" & Origfilename)
             Dim proDirecs As IEnumerable(Of Directory) = ImageMetadataReader.ReadMetadata(FullPath)
