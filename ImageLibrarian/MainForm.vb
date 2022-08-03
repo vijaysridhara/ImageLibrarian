@@ -614,6 +614,7 @@ Public Class MainForm
                             Dim fst As IO.BinaryWriter = New IO.BinaryWriter(New IO.FileStream(ARCHLOC & "\ArchiveRepository.db", IO.FileMode.CreateNew))
                             fst.Write(My.Resources.ArchiveRepository)
                             fst.Dispose()
+                            Initialize(ARCHLOC)
                         End If
                         If IO.Directory.Exists(ARCHLOC & "\CacheImages") = False Then
                             My.Computer.FileSystem.CreateDirectory(ARCHLOC & "\CacheImages")
@@ -626,6 +627,7 @@ Public Class MainForm
                         Dim fst As IO.BinaryWriter = New IO.BinaryWriter(New IO.FileStream(ARCHLOC & "\ArchiveRepository.db", IO.FileMode.CreateNew))
                         fst.Write(My.Resources.ArchiveRepository)
                         fst.Dispose()
+                        Initialize(ARCHLOC)
                     End If
                     If IO.Directory.Exists(ARCHLOC & "\CacheImages") = False Then
                         My.Computer.FileSystem.CreateDirectory(ARCHLOC & "\CacheImages")
@@ -639,7 +641,6 @@ Public Class MainForm
 
         End If
 
-        End
     End Sub
 
     Private Sub archTimer_Tick(sender As Object, e As EventArgs) Handles archTimer.Tick
