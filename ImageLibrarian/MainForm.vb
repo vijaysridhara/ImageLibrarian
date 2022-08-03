@@ -301,6 +301,7 @@ Public Class MainForm
 
         If trvArchives.Nodes("[[ROOT]]").Nodes(cat).Nodes.ContainsKey(subcat) Then Exit Sub
         trvArchives.Nodes("[[ROOT]]").Nodes(cat).Nodes.Add(subcat, subcat).Tag = subcat
+        classifications(cat).SubCategories.Add(subcat)
         trvArchives.Nodes("[[ROOT]]").Nodes(cat).Expand()
     End Sub
     Private Sub ThumbnailContainer1_Message(msg As String) Handles ThumbnailContainer1.Message
