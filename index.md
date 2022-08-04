@@ -1,3 +1,6 @@
+### [Home](index.html) | [Documentation](documentation.html)  | [Developer](developer.html)
+
+
 ## ImageLibrarian
 
 Here I will divide the pages into three parts. The first page or home page is for the most, who just want latest release "Binary" for download :) 
