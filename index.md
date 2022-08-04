@@ -1,7 +1,7 @@
-## Welcome to ImageLibrarian Page
+## ImageLibrarian
 
 Here I will divide the pages into three parts. The first page or home page is for the most, who just want latest release "Binary" for download :) 
-The Documentation page for documentation, and finally the Developer page for developer upates. 
+The [Documentation](documentation.md) page for documentation, and finally the [Developer](developer.md) page for developer upates. 
 
 ### _Mind you this is still a beta release_
 ## Features in Beta 0.1
