@@ -17,6 +17,11 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 7. Simple editor to crop, resize , rotate, flip the image
 8. Export with resize format 
 
+## Requirements
+1. Windows 10 or 11 64 Bit
+2. 8 GB or more memory
+3. 500mb to 2GB of Diskspace for cache, based on your content
+4. .NET Framework 6.0.7
 
 So without wasting any time, where is my download
 ## Download Beta 0.1 of ImageLibrarian
