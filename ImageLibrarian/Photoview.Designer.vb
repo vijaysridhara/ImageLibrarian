@@ -24,11 +24,15 @@ Partial Class Photoview
     Private Sub InitializeComponent()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
         Me.tlstpOpen = New System.Windows.Forms.ToolStripButton()
+        Me.tlstpSave = New System.Windows.Forms.ToolStripButton()
+        Me.tlstpSaveas = New System.Windows.Forms.ToolStripButton()
+        Me.tlstpCopyImage = New System.Windows.Forms.ToolStripButton()
         Me.tlstpClose = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.tlstpUndo = New System.Windows.Forms.ToolStripButton()
         Me.tlstpRedo = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.tlstpResizeimage = New System.Windows.Forms.ToolStripButton()
         Me.tlstpCrop = New System.Windows.Forms.ToolStripButton()
         Me.tlstpConfirmCrop = New System.Windows.Forms.ToolStripButton()
         Me.tlstpFlipHorizontal = New System.Windows.Forms.ToolStripButton()
@@ -37,14 +41,10 @@ Partial Class Photoview
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
         Me.tlstpZoom = New System.Windows.Forms.ToolStripComboBox()
-        Me.tlstpResetImage = New System.Windows.Forms.ToolStripButton()
         Me.tlstpFitToscreen = New System.Windows.Forms.ToolStripButton()
-        Me.pnlPhotoContainerr = New System.Windows.Forms.Panel()
         Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
-        Me.tlstpSaveas = New System.Windows.Forms.ToolStripButton()
-        Me.tlstpSave = New System.Windows.Forms.ToolStripButton()
-        Me.tlstpCopyImage = New System.Windows.Forms.ToolStripButton()
-        Me.tlstpResizeimage = New System.Windows.Forms.ToolStripButton()
+        Me.tlstpResetImage = New System.Windows.Forms.ToolStripButton()
+        Me.pnlPhotoContainerr = New System.Windows.Forms.Panel()
         Me.ToolStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -66,6 +66,36 @@ Partial Class Photoview
         Me.tlstpOpen.Name = "tlstpOpen"
         Me.tlstpOpen.Size = New System.Drawing.Size(28, 28)
         Me.tlstpOpen.Text = "Open image"
+        '
+        'tlstpSave
+        '
+        Me.tlstpSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tlstpSave.Enabled = False
+        Me.tlstpSave.Image = Global.VijaySridhara.Applications.My.Resources.Resources.save
+        Me.tlstpSave.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tlstpSave.Name = "tlstpSave"
+        Me.tlstpSave.Size = New System.Drawing.Size(28, 28)
+        Me.tlstpSave.Text = "Save to original location"
+        '
+        'tlstpSaveas
+        '
+        Me.tlstpSaveas.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tlstpSaveas.Enabled = False
+        Me.tlstpSaveas.Image = Global.VijaySridhara.Applications.My.Resources.Resources.saveas
+        Me.tlstpSaveas.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tlstpSaveas.Name = "tlstpSaveas"
+        Me.tlstpSaveas.Size = New System.Drawing.Size(28, 28)
+        Me.tlstpSaveas.Text = "Save image as"
+        '
+        'tlstpCopyImage
+        '
+        Me.tlstpCopyImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tlstpCopyImage.Enabled = False
+        Me.tlstpCopyImage.Image = Global.VijaySridhara.Applications.My.Resources.Resources.copyimage
+        Me.tlstpCopyImage.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tlstpCopyImage.Name = "tlstpCopyImage"
+        Me.tlstpCopyImage.Size = New System.Drawing.Size(28, 28)
+        Me.tlstpCopyImage.Text = "Copy image to clipboard"
         '
         'tlstpClose
         '
@@ -106,6 +136,16 @@ Partial Class Photoview
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
         Me.ToolStripSeparator2.Size = New System.Drawing.Size(6, 31)
+        '
+        'tlstpResizeimage
+        '
+        Me.tlstpResizeimage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tlstpResizeimage.Enabled = False
+        Me.tlstpResizeimage.Image = Global.VijaySridhara.Applications.My.Resources.Resources.resize
+        Me.tlstpResizeimage.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tlstpResizeimage.Name = "tlstpResizeimage"
+        Me.tlstpResizeimage.Size = New System.Drawing.Size(28, 28)
+        Me.tlstpResizeimage.Text = "Resize image"
         '
         'tlstpCrop
         '
@@ -176,16 +216,6 @@ Partial Class Photoview
         Me.tlstpZoom.Size = New System.Drawing.Size(75, 31)
         Me.tlstpZoom.Text = "100"
         '
-        'tlstpResetImage
-        '
-        Me.tlstpResetImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tlstpResetImage.Enabled = False
-        Me.tlstpResetImage.Image = Global.VijaySridhara.Applications.My.Resources.Resources.refresh
-        Me.tlstpResetImage.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tlstpResetImage.Name = "tlstpResetImage"
-        Me.tlstpResetImage.Size = New System.Drawing.Size(28, 28)
-        Me.tlstpResetImage.Text = "Reset image to original"
-        '
         'tlstpFitToscreen
         '
         Me.tlstpFitToscreen.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
@@ -196,6 +226,21 @@ Partial Class Photoview
         Me.tlstpFitToscreen.Size = New System.Drawing.Size(28, 28)
         Me.tlstpFitToscreen.Text = "Fit to screen"
         '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 31)
+        '
+        'tlstpResetImage
+        '
+        Me.tlstpResetImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.tlstpResetImage.Enabled = False
+        Me.tlstpResetImage.Image = Global.VijaySridhara.Applications.My.Resources.Resources.refresh
+        Me.tlstpResetImage.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.tlstpResetImage.Name = "tlstpResetImage"
+        Me.tlstpResetImage.Size = New System.Drawing.Size(28, 28)
+        Me.tlstpResetImage.Text = "Reset image to original"
+        '
         'pnlPhotoContainerr
         '
         Me.pnlPhotoContainerr.AutoScroll = True
@@ -204,51 +249,6 @@ Partial Class Photoview
         Me.pnlPhotoContainerr.Name = "pnlPhotoContainerr"
         Me.pnlPhotoContainerr.Size = New System.Drawing.Size(1006, 585)
         Me.pnlPhotoContainerr.TabIndex = 1
-        '
-        'ToolStripSeparator4
-        '
-        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
-        Me.ToolStripSeparator4.Size = New System.Drawing.Size(6, 31)
-        '
-        'tlstpSaveas
-        '
-        Me.tlstpSaveas.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tlstpSaveas.Enabled = False
-        Me.tlstpSaveas.Image = Global.VijaySridhara.Applications.My.Resources.Resources.saveas
-        Me.tlstpSaveas.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tlstpSaveas.Name = "tlstpSaveas"
-        Me.tlstpSaveas.Size = New System.Drawing.Size(28, 28)
-        Me.tlstpSaveas.Text = "Save image as"
-        '
-        'tlstpSave
-        '
-        Me.tlstpSave.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tlstpSave.Enabled = False
-        Me.tlstpSave.Image = Global.VijaySridhara.Applications.My.Resources.Resources.save
-        Me.tlstpSave.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tlstpSave.Name = "tlstpSave"
-        Me.tlstpSave.Size = New System.Drawing.Size(28, 28)
-        Me.tlstpSave.Text = "Save to original location"
-        '
-        'tlstpCopyImage
-        '
-        Me.tlstpCopyImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tlstpCopyImage.Enabled = False
-        Me.tlstpCopyImage.Image = Global.VijaySridhara.Applications.My.Resources.Resources.copyimage
-        Me.tlstpCopyImage.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tlstpCopyImage.Name = "tlstpCopyImage"
-        Me.tlstpCopyImage.Size = New System.Drawing.Size(28, 28)
-        Me.tlstpCopyImage.Text = "Copy image to clipboard"
-        '
-        'tlstpResizeimage
-        '
-        Me.tlstpResizeimage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
-        Me.tlstpResizeimage.Enabled = False
-        Me.tlstpResizeimage.Image = Global.VijaySridhara.Applications.My.Resources.Resources.resize
-        Me.tlstpResizeimage.ImageTransparentColor = System.Drawing.Color.Magenta
-        Me.tlstpResizeimage.Name = "tlstpResizeimage"
-        Me.tlstpResizeimage.Size = New System.Drawing.Size(28, 28)
-        Me.tlstpResizeimage.Text = "Resize image"
         '
         'Photoview
         '

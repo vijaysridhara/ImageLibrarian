@@ -409,8 +409,6 @@ Partial Class MainForm
         '
         'txtFile
         '
-        Me.txtFile.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtFile.BackColor = System.Drawing.SystemColors.ControlDark
         Me.txtFile.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtFile.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)

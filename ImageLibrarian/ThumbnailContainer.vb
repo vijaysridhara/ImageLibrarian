@@ -439,7 +439,7 @@ Friend Class ThumbnailContainer
             RaiseEvent Message("Getting images from cache...")
             Dim l As List(Of Thumbnail) = ArchHelper.GetThumbnails(cat, subcat, CurrentArchive)
 
-            If l Is Nothing Then Exit Sub
+            If l Is Nothing Then IsCurrentlyLoading = False : Exit Sub
             RaiseEvent Message("There are " & l.Count & " images in cache for the selected category[" & cat & "] And subcategory[" & subcat & "]")
             Application.DoEvents()
             Dim cnt As Integer = l.Count

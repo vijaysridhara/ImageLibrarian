@@ -244,4 +244,14 @@ Public Class Photoview
             ph.WorkingImage = img
         End If
     End Sub
+
+    Private Sub ToolStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles ToolStrip1.ItemClicked
+
+    End Sub
+
+    Private Sub Photoview_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            Photoview_Closing(Nothing, New CancelEventArgs)
+        End If
+    End Sub
 End Class
