@@ -584,11 +584,12 @@ Public Class MainForm
         Dim oldArchLoc As String = ARCHLOC
         Dim setT As New Settings(archHelper)
         If setT.ShowDialog() = DialogResult.OK Then
-            If oldArchLoc.ToLower <> ARCHLOC.ToLower Then
-                trvArchives.Nodes.Clear()
-                Initialize(ARCHLOC)
-                My.Settings.ArchiveLocation = ARCHLOC
+            If oldArchLoc.ToLower <> setT.txtLocation.Text.ToLower Then
+                trvArchives.Nodes("[[ROOT]]").Nodes.Clear()
+                My.Settings.ArchiveLocation = setT.txtLocation.Text
+                ARCHLOC = My.Settings.ArchiveLocation
                 My.Settings.Save()
+                Initialize(ARCHLOC)
                 cboArchives.Items.Clear()
                 For Each a As Arch In archives
                     If (a.IsPrivate And chkPrivate.Checked) Or a.IsPrivate = False Then cboArchives.Items.Add(a.Name)
@@ -725,6 +726,7 @@ Public Class MainForm
                 Exit Sub
             End If
             Dim rootNd As TreeNode = trvArchives.Nodes("[[ROOT]]")
+
             rootNd.Nodes.Clear()
             rootNd.Text = CurrentArchive
             For Each el As Classification In classifications.Values
