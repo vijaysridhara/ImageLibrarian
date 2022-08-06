@@ -7,6 +7,22 @@ Here I will divide the pages into three parts. The first page or home page is fo
 The [Documentation](documentation.md) page for documentation, and finally the [Developer](developer.md) page for developer upates. 
 
 ### _Mind you this is still a beta release_
+
+## 06 Aug 2022, Beta 0.1.1 released
+
+# Defects fixed
+1. Copy and then paste was not working 
+2. Paste (after copy) is pulling old thumbnails if present in cache
+
+# Shortcuts enabled
+1. Ctrl + C = Copy
+2. Ctrl + V = Paste
+3. Ctrl + F5 = Refresh thumbnail
+4. Delete = Delete thumb
+5. Ctrl + Delete =Delete file on disk
+6. Ctrl + A = Select all 
+7. Enter = Open file in simple view
+
 ## Features in Beta 0.1
 1. Ability to do a nondestructive caching of images 
 2. Ability to load quickly from cache
@@ -23,20 +39,7 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 3. 500mb to 2GB of Diskspace for cache, based on your content
 4. .NET Framework 6.0.7
 
-### 06 Aug 2022, Beta 0.1.1 released
 
-## Defects fixed
-1. Copy and then paste was not working 
-2. Paste (after copy) is pulling old thumbnails if present in cache
-
-## Shortcuts enabled
-1. Ctrl + C = Copy
-2. Ctrl + V = Paste
-3. Ctrl + F5 = Refresh thumbnail
-4. Delete = Delete thumb
-5. Ctrl + Delete =Delete file on disk
-6. Ctrl + A = Select all 
-7. Enter = Open file in simple view
 
 So without wasting any time, where is my download
 ## Download Beta 0.1.1 of ImageLibrarian
