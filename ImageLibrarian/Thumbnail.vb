@@ -593,6 +593,67 @@ Friend Class Thumbnail
         c1.Category = Category
         c1.SubCategory = SubCategory
         c1.ArchiveName = ArchiveName
+        For Each propitm As PropItem In MetaData.Values
+            Dim p1 As PropItem = propitm.Clone
+            c1.MetaData.Add(p1.Name, p1)
+        Next
         Return c1
     End Function
+    Public Sub CreateQuickThumb(c1 As Thumbnail)
+        Try
+            Dim img As Image
+            Using stream As System.IO.FileStream = New System.IO.FileStream(Me.FullPath, FileMode.Open, System.IO.FileAccess.Read)
+                Using br As System.IO.BinaryReader = New BinaryReader(stream)
+                    Dim memSt As System.IO.MemoryStream = New System.IO.MemoryStream(br.ReadBytes(stream.Length))
+                    img = New Bitmap(memSt)
+                End Using
+            End Using
+            Stars = 0
+            Dim imgF As ImageFormat = img.RawFormat
+            If imgF.Equals(ImageFormat.Jpeg) Then
+                FileType = "jpg"
+            ElseIf imgF.Equals(ImageFormat.Png) Then
+                FileType = "png"
+            ElseIf imgF.Equals(ImageFormat.Bmp) Then
+                FileType = "bmp"
+            ElseIf imgF.Equals(ImageFormat.Gif) Then
+                FileType = "gif"
+            End If
+            Dim g As Graphics = Graphics.FromImage(img)
+            Dim propItems() As Imaging.PropertyItem = img.PropertyItems
+            Dim asrat As Single = img.Width / img.Height
+            Dim nw, nh As Single
+            c1.OrigResolution = New Size(img.Width, img.Height)
+            If asrat > 1 Then
+                nw = c1.Resolution.Width
+                nh = nw / asrat
+                While nh > c1.Resolution.Height
+                    nw = nw - 2
+                    nh = nw / asrat
+                End While
+            Else
+                nh = c1.Resolution.Height
+                nw = asrat * nh
+                While nw > c1.Resolution.Width
+                    nh = nh - 2
+                    nw = asrat * nh
+                End While
+            End If
+
+            Dim fAtts As FileInfo = New FileInfo(c1.FullPath)
+            c1.FileSize = fAtts.Length
+            Dim dt As Date = fAtts.LastWriteTime
+            c1.LastModTime = dt.ToString("yyyy-MM-dd HH:mm:ss.ffffff", CultureInfo.InvariantCulture)
+            c1.ThumbImage = New Bitmap(img, New Size(nw, nh))
+
+            g.Dispose()
+            img.Dispose()
+
+            c1.ThumbImage.Save(c1.CachePath & "\" & c1.CacheFilename)
+            c1.ImageLoaded = True
+            img = Nothing
+        Catch ex As Exception
+            RaiseEvent ErrorOccured(ex, c1.FullPath)
+        End Try
+    End Sub
 End Class

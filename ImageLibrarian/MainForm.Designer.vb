@@ -28,6 +28,7 @@ Partial Class MainForm
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
         Me.pnlThumbnails = New System.Windows.Forms.Panel()
         Me.ThumbnailContainer1 = New VijaySridhara.Applications.ThumbnailContainer()
+        Me.txtFocusBox = New System.Windows.Forms.TextBox()
         Me.pnlLEft = New System.Windows.Forms.Panel()
         Me.trvArchives = New System.Windows.Forms.TreeView()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
@@ -74,11 +75,12 @@ Partial Class MainForm
         Me.pnlThumbnails.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.pnlThumbnails.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.pnlThumbnails.Controls.Add(Me.ThumbnailContainer1)
+        Me.pnlThumbnails.Controls.Add(Me.txtFocusBox)
         Me.pnlThumbnails.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlThumbnails.Location = New System.Drawing.Point(207, 64)
         Me.pnlThumbnails.Name = "pnlThumbnails"
         Me.pnlThumbnails.Size = New System.Drawing.Size(762, 404)
-        Me.pnlThumbnails.TabIndex = 3
+        Me.pnlThumbnails.TabIndex = 2
         '
         'ThumbnailContainer1
         '
@@ -92,9 +94,19 @@ Partial Class MainForm
         Me.ThumbnailContainer1.Name = "ThumbnailContainer1"
         Me.ThumbnailContainer1.ShiftKey = False
         Me.ThumbnailContainer1.Size = New System.Drawing.Size(0, 0)
-        Me.ThumbnailContainer1.TabIndex = 0
+        Me.ThumbnailContainer1.TabIndex = 1
         Me.ThumbnailContainer1.Text = "ThumbnailContainer1"
         Me.ThumbnailContainer1.ThumbSize = New System.Drawing.Size(200, 150)
+        '
+        'txtFocusBox
+        '
+        Me.txtFocusBox.BackColor = System.Drawing.SystemColors.ControlDarkDark
+        Me.txtFocusBox.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtFocusBox.Font = New System.Drawing.Font("Segoe UI", 1.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
+        Me.txtFocusBox.Location = New System.Drawing.Point(13, 72)
+        Me.txtFocusBox.Name = "txtFocusBox"
+        Me.txtFocusBox.Size = New System.Drawing.Size(0, 3)
+        Me.txtFocusBox.TabIndex = 0
         '
         'pnlLEft
         '
@@ -201,7 +213,7 @@ Partial Class MainForm
         Me.plRight.Location = New System.Drawing.Point(973, 0)
         Me.plRight.Name = "plRight"
         Me.plRight.Size = New System.Drawing.Size(220, 589)
-        Me.plRight.TabIndex = 0
+        Me.plRight.TabIndex = 4
         '
         'txtSearch
         '
@@ -219,7 +231,7 @@ Partial Class MainForm
         Me.lblWarn2.Location = New System.Drawing.Point(85, 441)
         Me.lblWarn2.Name = "lblWarn2"
         Me.lblWarn2.Size = New System.Drawing.Size(18, 22)
-        Me.lblWarn2.TabIndex = 8
+        Me.lblWarn2.TabIndex = 9
         Me.lblWarn2.Visible = False
         '
         'lblWarn1
@@ -238,7 +250,7 @@ Partial Class MainForm
         Me.butUpdateComments.Location = New System.Drawing.Point(4, 441)
         Me.butUpdateComments.Name = "butUpdateComments"
         Me.butUpdateComments.Size = New System.Drawing.Size(75, 26)
-        Me.butUpdateComments.TabIndex = 7
+        Me.butUpdateComments.TabIndex = 8
         Me.butUpdateComments.Text = "Update"
         Me.butUpdateComments.UseVisualStyleBackColor = True
         '
@@ -300,7 +312,7 @@ Partial Class MainForm
         Me.txtComments.Multiline = True
         Me.txtComments.Name = "txtComments"
         Me.txtComments.Size = New System.Drawing.Size(211, 141)
-        Me.txtComments.TabIndex = 6
+        Me.txtComments.TabIndex = 7
         '
         'Label2
         '
@@ -308,7 +320,7 @@ Partial Class MainForm
         Me.Label2.Location = New System.Drawing.Point(4, 272)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(70, 17)
-        Me.Label2.TabIndex = 5
+        Me.Label2.TabIndex = 6
         Me.Label2.Text = "Co&mments"
         '
         'txtTags
@@ -368,7 +380,7 @@ Partial Class MainForm
         Me.chkPrivate.Location = New System.Drawing.Point(632, 5)
         Me.chkPrivate.Name = "chkPrivate"
         Me.chkPrivate.Size = New System.Drawing.Size(130, 21)
-        Me.chkPrivate.TabIndex = 9
+        Me.chkPrivate.TabIndex = 8
         Me.chkPrivate.Text = "Show private also"
         Me.ToolTip1.SetToolTip(Me.chkPrivate, "List private archives")
         Me.chkPrivate.UseVisualStyleBackColor = True
@@ -392,7 +404,7 @@ Partial Class MainForm
         Me.cboArchives.Location = New System.Drawing.Point(542, 31)
         Me.cboArchives.Name = "cboArchives"
         Me.cboArchives.Size = New System.Drawing.Size(214, 25)
-        Me.cboArchives.TabIndex = 8
+        Me.cboArchives.TabIndex = 9
         '
         'butCopyFilelink
         '
@@ -403,7 +415,7 @@ Partial Class MainForm
         Me.butCopyFilelink.Location = New System.Drawing.Point(506, 41)
         Me.butCopyFilelink.Name = "butCopyFilelink"
         Me.butCopyFilelink.Size = New System.Drawing.Size(18, 20)
-        Me.butCopyFilelink.TabIndex = 5
+        Me.butCopyFilelink.TabIndex = 6
         Me.ToolTip1.SetToolTip(Me.butCopyFilelink, "Copy file path")
         Me.butCopyFilelink.UseVisualStyleBackColor = True
         '
@@ -416,7 +428,7 @@ Partial Class MainForm
         Me.txtFile.Name = "txtFile"
         Me.txtFile.ReadOnly = True
         Me.txtFile.Size = New System.Drawing.Size(278, 15)
-        Me.txtFile.TabIndex = 4
+        Me.txtFile.TabIndex = 5
         '
         'butAbout
         '
@@ -427,7 +439,7 @@ Partial Class MainForm
         Me.butAbout.Location = New System.Drawing.Point(184, 5)
         Me.butAbout.Name = "butAbout"
         Me.butAbout.Size = New System.Drawing.Size(32, 32)
-        Me.butAbout.TabIndex = 0
+        Me.butAbout.TabIndex = 4
         Me.ToolTip1.SetToolTip(Me.butAbout, "About Image librarian")
         Me.butAbout.UseVisualStyleBackColor = True
         '
@@ -440,7 +452,7 @@ Partial Class MainForm
         Me.butSettings.Location = New System.Drawing.Point(146, 5)
         Me.butSettings.Name = "butSettings"
         Me.butSettings.Size = New System.Drawing.Size(32, 32)
-        Me.butSettings.TabIndex = 10
+        Me.butSettings.TabIndex = 3
         Me.ToolTip1.SetToolTip(Me.butSettings, "Show settings")
         Me.butSettings.UseVisualStyleBackColor = True
         '
@@ -463,7 +475,7 @@ Partial Class MainForm
         Me.txtLog.Name = "txtLog"
         Me.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.txtLog.Size = New System.Drawing.Size(762, 118)
-        Me.txtLog.TabIndex = 2
+        Me.txtLog.TabIndex = 3
         '
         'Splitter3
         '
@@ -495,6 +507,7 @@ Partial Class MainForm
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Image Librarian"
         Me.pnlThumbnails.ResumeLayout(False)
+        Me.pnlThumbnails.PerformLayout()
         Me.pnlLEft.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.plRight.ResumeLayout(False)
@@ -541,4 +554,5 @@ Partial Class MainForm
     Friend WithEvents chkPrivate As CheckBox
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents ToolTip1 As ToolTip
+    Friend WithEvents txtFocusBox As TextBox
 End Class

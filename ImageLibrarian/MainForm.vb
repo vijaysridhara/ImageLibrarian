@@ -125,6 +125,9 @@ Public Class MainForm
         ShowThumbnailsinVisibleArea()
     End Sub
     Private Sub ThumbnailContainer_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If Not txtFocusBox.Focused Then
+            Exit Sub
+        End If
         If e.KeyCode = Keys.ControlKey Then
             ThumbnailContainer1.ControlKey = True
 
@@ -132,6 +135,40 @@ Public Class MainForm
         If e.KeyCode = Keys.ShiftKey Then
             ThumbnailContainer1.ShiftKey = True
         End If
+
+        Select Case e.KeyCode
+            Case Keys.X
+                If e.Control Then
+                    ThumbnailContainer1.Cut()
+                End If
+            Case Keys.C
+                If e.Control Then
+                    ThumbnailContainer1.Copy()
+                End If
+            Case Keys.A
+                If e.Control Then
+                    ThumbnailContainer1.SelectAll()
+                End If
+            Case Keys.V
+                If e.Control Then
+                    ThumbnailContainer1.Paste()
+                End If
+            Case Keys.Delete
+                If e.Control Then
+                    ThumbnailContainer1.DeleteFile()
+                Else
+                    ThumbnailContainer1.DeleteThumb()
+                End If
+
+            Case Keys.F5
+                If e.Control Then
+                    ThumbnailContainer1.RefreshThumb()
+                End If
+
+            Case Keys.Enter
+                ThumbnailContainer1.Openfile()
+
+        End Select
     End Sub
 
     Private Sub ThumbnailContainer_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
@@ -807,5 +844,13 @@ Public Class MainForm
 
     Private Sub txtFile_TextChanged(sender As Object, e As EventArgs) Handles txtFile.TextChanged
 
+    End Sub
+
+    Private Sub pnlThumbnails_MouseDown(sender As Object, e As MouseEventArgs) Handles pnlThumbnails.MouseDown
+        txtFocusBox.Focus()
+    End Sub
+
+    Private Sub ThumbnailContainer1_MouseDown(sender As Object, e As MouseEventArgs) Handles ThumbnailContainer1.MouseDown
+        txtFocusBox.Focus()
     End Sub
 End Class

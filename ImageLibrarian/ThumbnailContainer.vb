@@ -159,11 +159,12 @@ Friend Class ThumbnailContainer
                     If selecteDThumb Is Nothing Then Exit Sub
                     Process.Start("explorer.exe", "/select," & selecteDThumb.FullPath)
                 Case "Paste"
-                    If IsSearch Then
-                        MsgBox("You cannot paste into search output", MsgBoxStyle.Exclamation)
-                        Exit Sub
-                    End If
-                    Dim clipList As List(Of Thumbnail) = tnaiClipboard.GetClippedElements
+                If String.IsNullOrEmpty(CurrentSubCategory) Then Exit Select
+                If IsSearch Then
+                    MsgBox("You cannot paste into search output", MsgBoxStyle.Exclamation)
+                    Exit Sub
+                End If
+                Dim clipList As List(Of Thumbnail) = tnaiClipboard.GetClippedElements
                     If tnaiClipboard.Operation = "CUT" Then
                         Dim cnt As Integer = 0
                         If clipList Is Nothing Then Exit Select
@@ -186,24 +187,55 @@ Friend Class ThumbnailContainer
                         Dim cnt As Integer = 0
                         If clipList Is Nothing Then Exit Select
                         Dim totcount As Integer = clipList.Count
-                        For Each c As Thumbnail In clipList
-                            cnt += 1
-                            If Not ArchHelper.ContainsFile(c.FullPath, CurrentCategory, CurrentSubCategory, CurrentArchive) Then
-                                Dim C1 As Thumbnail = c.Clone
-                                C1.Category = CurrentCategory
-                                C1.SubCategory = CurrentSubCategory
-                                C1.ArchiveName = CurrentArchive
+                    For Each c As Thumbnail In clipList
+                        cnt += 1
+                        If Not ArchHelper.ContainsFile(c.FullPath, CurrentCategory, CurrentSubCategory, CurrentArchive) Then
+                            Dim C1 As Thumbnail = c.Clone
+                            C1.Category = CurrentCategory
+                            C1.SubCategory = CurrentSubCategory
+                            C1.ArchiveName = CurrentArchive
+
+                            If ArchHelper.AddEntry(C1) Then
+                                C1.CreateQuickThumb(C1)
                                 AddThumb(C1)
-                                ArchHelper.AddEntry(C1)
                             End If
-                            RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
-                        Next
-                    End If
+                        End If
+                        RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
+                    Next
+                    Rearrange()
+                    Invalidate()
+                End If
                 Case Else
                     ExecuteMenuFunc(CType(sender, ToolStripMenuItem).Text)
             End Select
     End Sub
+    Public Sub Cut()
+        menuItemClicked(tlstpCut, Nothing)
+    End Sub
+    Public Sub Copy()
+        menuItemClicked(tlstpCopy, Nothing)
+    End Sub
+    Public Sub Paste()
+        menuItemClicked(tlstpPaste, Nothing)
+    End Sub
+    Public Sub SelectAll()
+        menuItemClicked(tlstpSelectAll, Nothing)
+    End Sub
+    Public Sub DeleteThumb()
+        menuItemClicked(tlstpRemoveCached, Nothing)
 
+    End Sub
+    Public Sub DeleteFile()
+        menuItemClicked(tlstpRemoveOriginal, Nothing)
+
+    End Sub
+    Public Sub RefreshThumb()
+        menuItemClicked(tlstpRefreshThumbnail, Nothing)
+    End Sub
+    Public Sub Openfile()
+        If selecteDThumb Is Nothing Then Exit Sub
+        ThumbnailContainer_MouseDoubleClick(Nothing, New MouseEventArgs(MouseButtons.Left, 2, selecteDThumb.Location.X + 10, selecteDThumb.Location.Y + 10, 0))
+    End Sub
     Private Sub ExecuteMenuFunc(menuname As String)
         Try
             If selecteDThumb Is Nothing Then Exit Sub
@@ -260,6 +292,7 @@ Friend Class ThumbnailContainer
                     For Each C As Thumbnail In selThumbs
                         cnt += 1
                         My.Computer.FileSystem.DeleteFile(C.FullPath)
+
                         If ArchHelper.RemoveThumb(C) Then
                             RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
                             RemoveHandler C.ErrorOccured, AddressOf Thumb_ErrorOccured
@@ -267,6 +300,7 @@ Friend Class ThumbnailContainer
                             RemoveHandler C.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
                             RemoveHandler C.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
                             RemoveHandler C.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+                            My.Computer.FileSystem.DeleteFile(C.CachePath & "\" & C.CacheFilename)
                             tnailList.Remove(C)
                         End If
 
@@ -280,6 +314,7 @@ Friend Class ThumbnailContainer
                     For Each C As Thumbnail In selThumbs
                         cnt += 1
                         If ArchHelper.RemoveThumb(C) Then
+                            My.Computer.FileSystem.DeleteFile(C.CachePath & "\" & C.CacheFilename)
                             RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
                             RemoveHandler C.ErrorOccured, AddressOf Thumb_ErrorOccured
                             RemoveHandler C.RedrawThumb, AddressOf Thumb_UpdateCalled
@@ -295,7 +330,7 @@ Friend Class ThumbnailContainer
                     tnaiClipboard.SetClippedElements(GetSelThumbs)
                     tnaiClipboard.Operation = "CUT"
                 Case "Copy"
-                    tnaiClipboard.SetClippedElements(GetSelThumbs)
+                    tnaiClipboard.SetClippedElements(selThumbs)
                     tnaiClipboard.Operation = "COPY"
                 Case "Export resized"
                     Dim ls As List(Of Thumbnail) = GetSelThumbs()

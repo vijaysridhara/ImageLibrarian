@@ -45,6 +45,10 @@ Friend Class PropItem
         Me.Name = name
         Me.Value = value
     End Sub
+    Public Function Clone() As PropItem
+        Dim p1 As New PropItem(Me.Name, Me.Value)
+        Return p1
+    End Function
 End Class
 Module comFun
     Public ARCHLOC As String
