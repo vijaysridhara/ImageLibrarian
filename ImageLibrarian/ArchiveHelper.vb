@@ -504,10 +504,10 @@ Friend Class ArchiveHelper
                 t.Origfilename = rdr(2)
                 t.OrigResolution = New Size(rdr(4).split(",")(0), rdr(4).split(",")(1))
                 t.FileSize = rdr(5)
-                t.LastModTime = rdr(7)
-                t.Comment = rdr(8)
+                t.LastModTime = IIf(rdr.IsDBNull(7), "", rdr(7))
+                t.Comment = IIf(rdr.IsDBNull(8), "", rdr(8))
                 t.Stars = rdr(9)
-                t.Tags = rdr(10)
+                t.Tags = IIf(rdr.IsDBNull(10), "", rdr(10))
                 t.Category = cat
                 t.SubCategory = subcat
                 t.ArchiveName = archname

@@ -40,8 +40,22 @@ Friend Class Thumbnail
     Event ThumbnailLoaded(c As Thumbnail)
     Event ThumbnailSelected(c As Thumbnail)
     Event ThumbnailMetaUpdated(c As Thumbnail)
+    Event ThumbnailHideChanged(c As Thumbnail)
     Private _metadata As New Dictionary(Of String, PropItem)
     Private _archname As String
+    Private _hide As Boolean
+    Public Property Hide As Boolean
+        Get
+            Return _hide
+        End Get
+        Set(value As Boolean)
+            If _hide <> value Then
+                _hide = value
+                RaiseEvent ThumbnailHideChanged(Me)
+            End If
+
+        End Set
+    End Property
     Public Property ArchiveName As String
         Get
             Return _archname
@@ -553,6 +567,7 @@ Friend Class Thumbnail
     Public Function Draw(g As Graphics) As Boolean
         '   Debug.Print(_fullPath & " " & _img.Size.ToString)
         'If _img Is Nothing Then Exit Sub
+        If Hide Then Exit Function
         On Error Resume Next
         If ImageLoaded Then
             g.FillRectangle(clearBrush, New Rectangle(Location, Resolution))
@@ -593,6 +608,7 @@ Friend Class Thumbnail
         c1.Category = Category
         c1.SubCategory = SubCategory
         c1.ArchiveName = ArchiveName
+        c1.Hide = Hide
         For Each propitm As PropItem In MetaData.Values
             Dim p1 As PropItem = propitm.Clone
             c1.MetaData.Add(p1.Name, p1)

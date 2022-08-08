@@ -29,7 +29,9 @@ Public Class MainForm
         EXPLOC = IIf(String.IsNullOrEmpty(My.Settings.ExportLocation), My.Computer.FileSystem.SpecialDirectories.MyPictures, My.Settings.ExportLocation)
         IMPFROM = IIf(String.IsNullOrEmpty(My.Settings.ImportFrom), My.Computer.FileSystem.SpecialDirectories.MyPictures, My.Settings.ImportFrom)
         LASTARCH = My.Settings.LastArchive
-
+        cboShowtypes.SelectedIndex = 0
+        archTimer.Interval = 200
+        archTimer.Enabled = True
         If IO.Directory.Exists(ARCHLOC) Then
             If IO.Directory.Exists(ARCHLOC & "\CacheImages") Then
                 If IO.File.Exists(ARCHLOC & "\ArchiveRepository.db") Then
@@ -124,52 +126,6 @@ Public Class MainForm
 
         ShowThumbnailsinVisibleArea()
     End Sub
-    Private Sub ThumbnailContainer_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        If Not txtFocusBox.Focused Then
-            Exit Sub
-        End If
-        If e.KeyCode = Keys.ControlKey Then
-            ThumbnailContainer1.ControlKey = True
-
-        End If
-        If e.KeyCode = Keys.ShiftKey Then
-            ThumbnailContainer1.ShiftKey = True
-        End If
-
-        Select Case e.KeyCode
-            Case Keys.X
-                If e.Control Then
-                    ThumbnailContainer1.Cut()
-                End If
-            Case Keys.C
-                If e.Control Then
-                    ThumbnailContainer1.Copy()
-                End If
-            Case Keys.A
-                If e.Control Then
-                    ThumbnailContainer1.SelectAll()
-                End If
-            Case Keys.V
-                If e.Control Then
-                    ThumbnailContainer1.Paste()
-                End If
-            Case Keys.Delete
-                If e.Control Then
-                    ThumbnailContainer1.DeleteFile()
-                Else
-                    ThumbnailContainer1.DeleteThumb()
-                End If
-
-            Case Keys.F5
-                If e.Control Then
-                    ThumbnailContainer1.RefreshThumb()
-                End If
-
-            Case Keys.Enter
-                ThumbnailContainer1.Openfile()
-
-        End Select
-    End Sub
 
     Private Sub ThumbnailContainer_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
         If e.KeyCode = Keys.ControlKey Then
@@ -186,8 +142,10 @@ Public Class MainForm
         ProgressBar1.Value = pct
         If pct = 100 Then
             ProgressBar1.Hide()
+
         Else
             ProgressBar1.Show()
+
         End If
         ProgressBar1.Refresh()
     End Sub
@@ -195,13 +153,16 @@ Public Class MainForm
         ProgressBar1.Value = pct
         If pct = 100 Then
             ProgressBar1.Hide()
+            butCacelOp.Hide()
         Else
             ProgressBar1.Show()
+            butCacelOp.Show()
         End If
         ProgressBar1.Refresh()
     End Sub
 
     Dim progSelect As Boolean = False
+    Private _cancelOp As Boolean
     Private Sub butImport_Click(sender As Object, e As EventArgs) Handles butImport.Click
         Dim self As New SelectType()
 
@@ -218,14 +179,19 @@ Public Class MainForm
                     If self.chkJPEG.Checked Then
                         types.Add("*.jpeg")
                         types.Add("*.jpg")
-                    ElseIf self.chkPNG.Checked Then
+                    End If
+                    If self.chkPNG.Checked Then
                         types.Add("*.png")
-                    ElseIf self.chkBMP.Checked Then
+                    End If
+                    If self.chkBMP.Checked Then
                         types.Add("*.bmp")
-                    ElseIf self.chkGIF.Checked Then
+                    End If
+                    If self.chkGIF.Checked Then
                         types.Add("*.gif")
 
+
                     End If
+                    butCacelOp.Show()
                     'ThumbnailContainer1.ClearImages()
                     Dim wid As Integer = pnlThumbnails.Width
                     Dim maxNos As Integer = Math.Round(wid / ThumbnailContainer1.MaxThumbWidth) 'The wid-10 is for scrollbar
@@ -309,6 +275,7 @@ Public Class MainForm
 
     Private Function LoadImagesSilent(level As Integer, rootPath As String, cat As String, subcat As String, types As List(Of String)) As Integer
         Try
+            If _cancelOp Then Return 0
             Dim rowsFound As Integer = 0
             rowsFound = ThumbnailContainer1.Massload(level, rootPath, types.ToArray, cat, subcat)
             Dim dirs() As String = IO.Directory.GetDirectories(rootPath)
@@ -342,11 +309,21 @@ Public Class MainForm
         trvArchives.Nodes("[[ROOT]]").Nodes(cat).Expand()
     End Sub
     Private Sub ThumbnailContainer1_Message(msg As String) Handles ThumbnailContainer1.Message
-        LogMessages("[info]: " + msg)
+        If msg = "[LOAD COMPLETED]" Then
+            isloading = False
+
+            Exit Sub
+        ElseIf msg = "[LOAD BEGAN]" Then
+            isloading = True
+
+            Exit Sub
+        End If
+        msgQueue.Enqueue("[info]: " + msg)
+
     End Sub
 
     Private Sub ThumbnailContainer1_Errored(ex As Exception) Handles ThumbnailContainer1.Errored
-        LogMessages("[ERROR]: " + ex.Message)
+        msgQueue.Enqueue("[ERROR]: " + ex.Message)
     End Sub
     Private Sub LogMessages(msg As String)
         txtLog.Text += msg & vbCrLf
@@ -358,12 +335,21 @@ Public Class MainForm
     Private Sub trvArchives_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles trvArchives.AfterSelect
         Try
             If progSelect Then Exit Sub
-            If ThumbnailContainer1.IsCurrentlyLoading Then Exit Sub
+            If Not ThumbnailContainer1.IsCurrentlyLoading Then
+                ThumbnailContainer1.CancelOperation = True
+                While ThumbnailContainer1.IsCurrentlyLoading
+                    Threading.Thread.Sleep(100)
+                    Application.DoEvents()
+                End While
+            End If
             If e.Node.Tag = "ROOT" Then
+
                 ThumbnailContainer1.ClearImages()
             ElseIf e.Node.Parent.Tag = "ROOT" Then
+
                 ThumbnailContainer1.ClearImages()
             Else
+
                 ThumbnailContainer1.GetImagesfromCache(e.Node.Parent.Tag, e.Node.Tag)
             End If
 
@@ -448,10 +434,12 @@ Public Class MainForm
             archHelper.Cleanup()
             RemoveHandler archHelper.DatabaseError, AddressOf archDBError
             RemoveHandler archHelper.Progress, AddressOf ArchProgress
-            chktmr.Dispose()
-            archTimer.Dispose()
-        End If
 
+
+        End If
+        chktmr.Dispose()
+        archTimer.Enabled = False
+        archTimer.Dispose()
     End Sub
 
     Private Sub butCopyFilelink_Click(sender As Object, e As EventArgs) Handles butCopyFilelink.Click
@@ -682,9 +670,19 @@ Public Class MainForm
 
     End Sub
 
+    Dim isloading As Boolean
     Private Sub archTimer_Tick(sender As Object, e As EventArgs) Handles archTimer.Tick
+        If Not isloading Then
+            butCacelOp.Hide()
+
+        ElseIf isloading Then
+            butCacelOp.Show()
+
+        End If
         While msgQueue.Count > 0
-            LogMessages("[ERROR]: " + msgQueue.Dequeue)
+
+            LogMessages(msgQueue.Dequeue)
+
         End While
     End Sub
     Dim passfail As Boolean
@@ -854,5 +852,99 @@ Public Class MainForm
 
     Private Sub ThumbnailContainer1_MouseDown(sender As Object, e As MouseEventArgs) Handles ThumbnailContainer1.MouseDown
         txtFocusBox.Focus()
+    End Sub
+
+    Private Sub cboShowtypes_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboShowtypes.SelectedIndexChanged
+         Select Case cboShowtypes.SelectedIndex
+            Case 0
+                ThumbnailContainer1.Showtypes = "all"
+            Case 1
+                ThumbnailContainer1.Showtypes = "jpg"
+            Case 2
+                ThumbnailContainer1.Showtypes = "png"
+            Case 3
+                ThumbnailContainer1.Showtypes = "bmp"
+            Case 4
+                ThumbnailContainer1.Showtypes = "gif"
+        End Select
+    End Sub
+
+    Private Sub ProgressBar1_Click(sender As Object, e As EventArgs) Handles ProgressBar1.Click
+
+    End Sub
+
+    Private Sub butCacelOp_Click(sender As Object, e As EventArgs) Handles butCacelOp.Click
+        ThumbnailContainer1.CancelOperation = True
+    End Sub
+
+    Private Sub txtFocusBox_KeyDown(sender As Object, e As KeyEventArgs) Handles txtFocusBox.KeyDown
+        If e.KeyCode = Keys.ControlKey Then
+            ThumbnailContainer1.ControlKey = True
+
+        End If
+        If e.KeyCode = Keys.ShiftKey Then
+            ThumbnailContainer1.ShiftKey = True
+        End If
+
+        Select Case e.KeyCode
+            Case Keys.X
+                If e.Control Then
+                    ThumbnailContainer1.Cut()
+                End If
+            Case Keys.C
+                If e.Control Then
+                    ThumbnailContainer1.Copy()
+                End If
+            Case Keys.A
+                If e.Control Then
+                    ThumbnailContainer1.SelectAll()
+                End If
+            Case Keys.V
+                If e.Control Then
+                    ThumbnailContainer1.Paste()
+                End If
+            Case Keys.Delete
+                If e.Control Then
+                    ThumbnailContainer1.DeleteFile()
+                Else
+                    ThumbnailContainer1.DeleteThumb()
+                End If
+
+            Case Keys.F5
+                If e.Control Then
+                    ThumbnailContainer1.RefreshThumb()
+                End If
+
+            Case Keys.Enter
+                ThumbnailContainer1.Openfile()
+            Case Keys.Right
+                ThumbnailContainer1.MoveRight()
+            Case Keys.Down
+                ThumbnailContainer1.MoveDown()
+            Case Keys.Up
+                ThumbnailContainer1.MoveUp()
+            Case Keys.Left
+                ThumbnailContainer1.MoveLeft()
+        End Select
+        e.SuppressKeyPress = True
+        e.Handled = True
+    End Sub
+
+    Private Sub MainForm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
+        e.Handled = True
+    End Sub
+
+    Private Sub ThumbnailContainer1_ThumbnailsScrolled() Handles ThumbnailContainer1.ThumbnailsScrolled
+        ShowThumbnailsinVisibleArea()
+    End Sub
+
+    Private Sub txtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
+
+    End Sub
+
+    Private Sub txtSearch_KeyDown(sender As Object, e As KeyEventArgs) Handles txtSearch.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            butSearch_Click(Nothing, Nothing)
+        End If
     End Sub
 End Class

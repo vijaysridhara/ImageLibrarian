@@ -32,7 +32,7 @@ Friend Class ThumbnailContainer
     Event ThumbnailSelected(c As Thumbnail)
     Event ThumbnailsCleared()
     Event ThumbnailsUnselected()
-
+    Event ThumbnailsScrolled()
     Event ThumbnailOneAdded(c As Thumbnail)
     Private WithEvents ctxContext As New ContextMenuStrip
     Private WithEvents tlstpCopyTo As New ToolStripMenuItem("Copy to", Nothing, AddressOf menuItemClicked)
@@ -55,6 +55,7 @@ Friend Class ThumbnailContainer
     Private WithEvents tlstpSep1 As New ToolStripSeparator
     Private WithEvents tlstpSep2 As New ToolStripSeparator
     Private WithEvents tlstpSep3 As New ToolStripSeparator
+
     Private WithEvents tlstpRefreshThumbnail As New ToolStripMenuItem("Refresh thumbnail", Nothing, AddressOf menuItemClicked)
     Private _isSearch As Boolean
     Event CategoryChanged(cat As String, subcat As String)
@@ -62,6 +63,162 @@ Friend Class ThumbnailContainer
     Private _currentCategory As String
     Private _currentSubCategory As String
     Private _currentArchive As String
+    Private _showtypes As String = "all"
+    Public Property Showtypes As String
+        Get
+            Return _showtypes
+        End Get
+        Set(value As String)
+            If _showtypes <> value.ToLower Then
+                _showtypes = value
+                For Each c As Thumbnail In tnailList
+                    If c.FileType <> value And value <> "all" Then
+                        c.Hide = True
+                    Else
+                        c.Hide = False
+                    End If
+                    If selecteDThumb Is c And c.Hide Then
+                        selecteDThumb = Nothing
+                    End If
+                Next
+                Rearrange()
+                Me.Invalidate()
+            End If
+
+        End Set
+    End Property
+    Public Sub MoveLeft()
+        On Error Resume Next
+        If tnailList.Count = 0 Then Exit Sub
+        If selecteDThumb Is Nothing Then Exit Sub
+        Dim ix As Integer = tnailList.IndexOf(selecteDThumb)
+        If ix = 0 Then Exit Sub
+        ix -= 1
+
+        While ix >= 0
+            If tnailList(ix).Hide Then
+                ix -= 1
+            Else
+                selecteDThumb.Selected = False
+
+                tnailList(ix).Selected = True
+                Dim tloc As Integer = tnailList(ix).Location.Y
+                Dim ploc As Integer = CType(Me.Parent, ContainerPanel).VerticalScroll.Value
+                If tloc < ploc Then
+                    CType(Me.Parent, ContainerPanel).VerticalScroll.Value = tnailList(ix).Location.Y
+                End If
+                selecteDThumb = tnailList(ix)
+                RaiseEvent ThumbnailSelected(selecteDThumb)
+                RaiseEvent ThumbnailsScrolled()
+
+                Exit Sub
+            End If
+        End While
+    End Sub
+    Public Sub MoveUp()
+        On Error Resume Next
+        If tnailList.Count = 0 Then Exit Sub
+        If selecteDThumb Is Nothing Then Exit Sub
+        Dim ix As Integer = tnailList.IndexOf(selecteDThumb)
+        If ix = 0 Then Exit Sub
+        ix -= maxColCount
+        If ix < 0 Then Exit Sub
+        While ix > -1
+            If tnailList(ix).Hide Then
+                ix -= maxColCount
+            Else
+                selecteDThumb.Selected = False
+
+                tnailList(ix).Selected = True
+                Dim tloc As Integer = tnailList(ix).Location.Y
+                Dim ploc As Integer = CType(Me.Parent, ContainerPanel).VerticalScroll.Value
+                If tloc < ploc Then
+                    CType(Me.Parent, ContainerPanel).VerticalScroll.Value = tnailList(ix).Location.Y
+
+                End If
+                selecteDThumb = tnailList(ix)
+
+                RaiseEvent ThumbnailSelected(selecteDThumb)
+                RaiseEvent ThumbnailsScrolled()
+                Exit Sub
+            End If
+        End While
+    End Sub
+    ''' <summary>
+    ''' This has defect, needs to be fixed
+    ''' </summary>
+    Public Sub MoveDown()
+        On Error Resume Next
+        If tnailList.Count = 0 Then Exit Sub
+        If selecteDThumb Is Nothing Then Exit Sub
+        Dim ix As Integer = tnailList.IndexOf(selecteDThumb)
+        If ix >= tnailList.Count Then Exit Sub
+        ix += maxColCount
+        While ix < tnailList.Count
+            If tnailList(ix).Hide Then
+                ix += maxColCount
+            Else
+                selecteDThumb.Selected = False
+
+                tnailList(ix).Selected = True
+                If (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height) > CType(Me.Parent, ContainerPanel).VerticalScroll.Value Then
+                    CType(Me.Parent, ContainerPanel).VerticalScroll.Value = tnailList(ix).Location.Y
+                End If
+                selecteDThumb = tnailList(ix)
+                RaiseEvent ThumbnailSelected(selecteDThumb)
+                RaiseEvent ThumbnailsScrolled()
+                Exit Sub
+            End If
+        End While
+    End Sub
+    Public Sub MoveRight()
+        On Error Resume Next
+        If tnailList.Count = 0 Then Exit Sub
+        If selecteDThumb Is Nothing Then Exit Sub
+        Dim ix As Integer = tnailList.IndexOf(selecteDThumb)
+        If ix >= tnailList.Count Then Exit Sub
+        ix += 1
+        While ix < tnailList.Count
+            If tnailList(ix).Hide Then
+                ix += 1
+            Else
+                selecteDThumb.Selected = False
+
+                tnailList(ix).Selected = True
+                If (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height) > CType(Me.Parent, ContainerPanel).VerticalScroll.Value Then
+                    CType(Me.Parent, ContainerPanel).VerticalScroll.Value = tnailList(ix).Location.Y
+                End If
+                selecteDThumb = tnailList(ix)
+                RaiseEvent ThumbnailSelected(selecteDThumb)
+                RaiseEvent ThumbnailsScrolled()
+                Exit Sub
+            End If
+        End While
+
+    End Sub
+    Private Sub RemoveHandlers(c As Thumbnail)
+        RemoveHandler c.ErrorOccured, AddressOf Thumb_ErrorOccured
+        RemoveHandler c.RedrawThumb, AddressOf Thumb_UpdateCalled
+        RemoveHandler c.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
+        RemoveHandler c.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
+        RemoveHandler c.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+    End Sub
+    Private Sub Addhandlers(c As Thumbnail)
+        AddHandler c.ErrorOccured, AddressOf Thumb_ErrorOccured
+        AddHandler c.RedrawThumb, AddressOf Thumb_UpdateCalled
+        AddHandler c.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
+        AddHandler c.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
+        AddHandler c.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+    End Sub
+    Private _cancelOp As Boolean
+    Public Property CancelOperation As Boolean
+        Get
+            Return _cancelOp
+        End Get
+        Set(value As Boolean)
+            _cancelOp = value
+        End Set
+    End Property
     Public Property CurrentArchive As String
         Get
             Return _currentArchive
@@ -270,11 +427,7 @@ Friend Class ThumbnailContainer
                                 C.Category = cc.cboCat.Text.Trim
                                 C.SubCategory = cc.cboSubCat.Text.Trim
                                 ArchHelper.UpdateThumb("category", C, True)
-                                RemoveHandler C.ErrorOccured, AddressOf Thumb_ErrorOccured
-                                RemoveHandler C.RedrawThumb, AddressOf Thumb_UpdateCalled
-                                RemoveHandler C.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-                                RemoveHandler C.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-                                RemoveHandler C.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+                                RemoveHandlers(C)
                                 tnailList.Remove(C)
                             End If
                         Next
@@ -295,11 +448,7 @@ Friend Class ThumbnailContainer
 
                         If ArchHelper.RemoveThumb(C) Then
                             RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
-                            RemoveHandler C.ErrorOccured, AddressOf Thumb_ErrorOccured
-                            RemoveHandler C.RedrawThumb, AddressOf Thumb_UpdateCalled
-                            RemoveHandler C.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-                            RemoveHandler C.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-                            RemoveHandler C.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+                           RemoveHandlers(c)
                             My.Computer.FileSystem.DeleteFile(C.CachePath & "\" & C.CacheFilename)
                             tnailList.Remove(C)
                         End If
@@ -316,11 +465,7 @@ Friend Class ThumbnailContainer
                         If ArchHelper.RemoveThumb(C) Then
                             My.Computer.FileSystem.DeleteFile(C.CachePath & "\" & C.CacheFilename)
                             RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
-                            RemoveHandler C.ErrorOccured, AddressOf Thumb_ErrorOccured
-                            RemoveHandler C.RedrawThumb, AddressOf Thumb_UpdateCalled
-                            RemoveHandler C.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-                            RemoveHandler C.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-                            RemoveHandler C.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+                            RemoveHandlers(C)
                             tnailList.Remove(C)
                         End If
                     Next
@@ -362,11 +507,7 @@ Friend Class ThumbnailContainer
                     RaiseEvent Progress(Math.Floor(inc / cnt * 100))
                 End If
 
-                AddHandler c.ErrorOccured, AddressOf Thumb_ErrorOccured
-                AddHandler c.RedrawThumb, AddressOf Thumb_UpdateCalled
-                AddHandler c.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-                AddHandler c.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-                AddHandler c.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+                Addhandlers(c)
             Next
             RaiseEvent Progress(100)
             'Me.Parent.Refresh()
@@ -378,11 +519,7 @@ Friend Class ThumbnailContainer
     End Sub
     Private Sub AddThumb(c As Thumbnail)
         tnailList.Add(c)
-        AddHandler c.ErrorOccured, AddressOf Thumb_ErrorOccured
-        AddHandler c.RedrawThumb, AddressOf Thumb_UpdateCalled
-        AddHandler c.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-        AddHandler c.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-        AddHandler c.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+        Addhandlers(c)
     End Sub
     Public Sub New()
         MyBase.New
@@ -425,14 +562,10 @@ Friend Class ThumbnailContainer
             End If
             tnailList.Add(c)
             Application.DoEvents()
-            AddHandler c.ErrorOccured, AddressOf Thumb_ErrorOccured
-            AddHandler c.RedrawThumb, AddressOf Thumb_UpdateCalled
-            AddHandler c.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-            AddHandler c.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-            AddHandler c.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+            Addhandlers(c)
         Next
         RaiseEvent Progress(100)
-        Rearrange()
+        Rearrange(True)
         Me.Invalidate()
     End Sub
     Public Property ThumbSize As Size
@@ -450,21 +583,31 @@ Friend Class ThumbnailContainer
         ControlKey = False
         ShiftKey = False
         For Each t As Thumbnail In tnailList
-            RemoveHandler t.ErrorOccured, AddressOf Thumb_ErrorOccured
-            RemoveHandler t.RedrawThumb, AddressOf Thumb_UpdateCalled
-            RemoveHandler t.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-            RemoveHandler t.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-            RemoveHandler t.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+            RemoveHandlers(t)
         Next
         tnailList.Clear()
         selecteDThumb = Nothing
         _isSearch = False
         _currentCategory = ""
         _currentSubCategory = ""
-
+        _cancelOp = False
+        _IsCurrload = False
         RaiseEvent ThumbnailsCleared()
     End Sub
-    Public IsCurrentlyLoading
+    Private _IsCurrload As Boolean
+    Public Property IsCurrentlyLoading As Boolean
+        Get
+            Return _IsCurrload
+        End Get
+        Set(value As Boolean)
+            _IsCurrload = value
+            If _IsCurrload Then
+                RaiseEvent Message("[LOAD BEGAN]")
+            Else
+                RaiseEvent Message("[LOAD COMPLETED]")
+            End If
+        End Set
+    End Property
     Public Sub GetImagesfromCache(cat As String, subcat As String)
         Try
             ClearImages()
@@ -473,7 +616,14 @@ Friend Class ThumbnailContainer
             CurrentSubCategory = subcat
             RaiseEvent Message("Getting images from cache...")
             Dim l As List(Of Thumbnail) = ArchHelper.GetThumbnails(cat, subcat, CurrentArchive)
-
+            If l Is Nothing Then Exit Sub
+            For Each c As Thumbnail In l
+                If Showtypes = "all" Then
+                    c.Hide = False
+                ElseIf Showtypes.ToLower <> c.FileType.ToLower Then
+                    c.Hide = True
+                End If
+            Next
             If l Is Nothing Then IsCurrentlyLoading = False : Exit Sub
             RaiseEvent Message("There are " & l.Count & " images in cache for the selected category[" & cat & "] And subcategory[" & subcat & "]")
             Application.DoEvents()
@@ -493,6 +643,10 @@ Friend Class ThumbnailContainer
             'RaiseEvent Progress(100)
             'Rearrange()
             'Me.Parent.Refresh()
+
+            If Showtypes <> "all" Then
+                Rearrange()
+            End If
             Dim thd As New Threading.Thread(AddressOf LoadThumbnailImagesThread)
             thd.Start()
         Catch ex As Exception
@@ -518,12 +672,13 @@ Friend Class ThumbnailContainer
                 Dim c As New Thumbnail(path, GetNextKey, ArchHelper.CachePath & "\CacheImages")
                 c.Category = cat
                 tnailList.Add(c)
-                AddHandler c.ErrorOccured, AddressOf Thumb_ErrorOccured
-                AddHandler c.RedrawThumb, AddressOf Thumb_UpdateCalled
-                AddHandler c.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-                AddHandler c.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-                AddHandler c.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
+                Addhandlers(c)
                 ArchHelper.AddEntry(c)
+                If Showtypes = "all" Then
+                    c.Hide = False
+                ElseIf Showtypes.ToLower <> c.FileType.ToLower Then
+                    c.Hide = True
+                End If
 
             Next
             UnselectAll()
@@ -583,12 +738,12 @@ Friend Class ThumbnailContainer
                     c.SubCategory = subcat
                     c.ArchiveName = CurrentArchive
                     tnailList.Add(c)
-                    AddHandler c.ErrorOccured, AddressOf Thumb_ErrorOccured
-                    AddHandler c.RedrawThumb, AddressOf Thumb_UpdateCalled
-                    AddHandler c.ThumbnailLoaded, AddressOf Thumb_ThumbnailLoaded
-                    AddHandler c.ThumbnailSelected, AddressOf Thumb_ThumbnailSelected
-                    AddHandler c.ThumbnailMetaUpdated, AddressOf Thumb_MetaUpdated
-
+                    Addhandlers(c)
+                    If Showtypes = "all" Then
+                        c.Hide = False
+                    ElseIf Showtypes.tolower <> c.FileType.ToLower Then
+                        c.Hide = True
+                    End If
                 Next
                 RaiseEvent Progress(100)
                 Rearrange()
@@ -601,9 +756,9 @@ Friend Class ThumbnailContainer
             If tnailList.Count > 0 Then
                 UnselectAll()
                 Rearrange()
-                tnailList(tnailList.Count - 1).Selected = True
-                RaiseEvent ThumbnailSelected(tnailList(tnailList.Count - 1))
-                RaiseEvent ThumbnailOneAdded(tnailList(tnailList.Count - 1))
+                'tnailList(tnailList.Count - 1).Selected = True
+                'RaiseEvent ThumbnailSelected(tnailList(tnailList.Count - 1))
+                'RaiseEvent ThumbnailOneAdded(tnailList(tnailList.Count - 1))
 
             End If
             Me.Parent.Refresh()
@@ -700,16 +855,24 @@ Friend Class ThumbnailContainer
     Private Sub LoadThumbnailImagesThread()
 
         'On Error Resume Next
+        IsCurrentlyLoading = True
         For Each c As Thumbnail In tnailList
+            If _cancelOp Then
+                RaiseEvent Message("Cancel requested...")
+                IsCurrentlyLoading = False
+                Exit Sub
+            End If
             If c.ImageLoaded Then Continue For
             If c.IsExisting Then
                 c.LoadThumb()
+
             Else
                 c.MakeThumb()
                 ArchHelper.AddEntry(c)
             End If
         Next
         Me.Invalidate()
+
         IsCurrentlyLoading = False
 
     End Sub
@@ -743,7 +906,7 @@ Friend Class ThumbnailContainer
             Return tnailList.Count
         End Get
     End Property
-    Public Sub Rearrange()
+    Public Sub Rearrange(Optional approx As Boolean = False)
         Dim row, col As Integer
         row = 0
         col = 0
@@ -755,6 +918,12 @@ Friend Class ThumbnailContainer
         End If
         Dim cnt As Integer
         For Each c As Thumbnail In tnailList
+            If Showtypes <> "all" And Not c.FileType Is Nothing Then 'This happens during initial phase of loading
+
+                If Showtypes.ToLower <> c.FileType.ToLower Then
+                    Continue For
+                End If
+            End If
             c.Location = New Point(col * (res.Width + 1), row * (res.Height + 1))
             cnt += 1
             Debug.Print("Item " & cnt & " at col: " & col & " row: " & row)
@@ -804,7 +973,7 @@ Friend Class ThumbnailContainer
 
         If e.Button = MouseButtons.Left Then
             For Each c As Thumbnail In tnailList
-                If c.HitTest(e.Location) Then
+                If c.HitTest(e.Location) And c.Hide = False Then
                     fnd = True
                     If c.Selected = False Then
                         c.Selected = True
@@ -816,7 +985,9 @@ Friend Class ThumbnailContainer
                         Dim endix As Integer = tnailList.IndexOf(c)
                         If begIx > -1 Then
                             For i As Integer = begIx To endix
-                                tnailList(i).Selected = True
+                                If tnailList(i).Hide = False Then
+                                    tnailList(i).Selected = True
+                                End If
                             Next
                             begIx = endix
                         End If

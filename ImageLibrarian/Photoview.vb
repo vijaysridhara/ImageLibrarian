@@ -176,7 +176,6 @@ Public Class Photoview
     Private Sub Photoview_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         If Not RemovePhoto() Then
             e.Cancel = True
-
         End If
     End Sub
 
@@ -251,7 +250,8 @@ Public Class Photoview
 
     Private Sub Photoview_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
-            Photoview_Closing(Nothing, New CancelEventArgs)
+            If Not RemovePhoto() Then Exit Sub
+            Me.Close()
         End If
     End Sub
 End Class

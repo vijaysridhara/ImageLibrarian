@@ -26,12 +26,14 @@ Partial Class MainForm
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
-        Me.pnlThumbnails = New System.Windows.Forms.Panel()
+        Me.pnlThumbnails = New VijaySridhara.Applications.ContainerPanel()
         Me.ThumbnailContainer1 = New VijaySridhara.Applications.ThumbnailContainer()
         Me.txtFocusBox = New System.Windows.Forms.TextBox()
         Me.pnlLEft = New System.Windows.Forms.Panel()
         Me.trvArchives = New System.Windows.Forms.TreeView()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.cboShowtypes = New System.Windows.Forms.ComboBox()
+        Me.Label5 = New System.Windows.Forms.Label()
         Me.butExport = New System.Windows.Forms.Button()
         Me.butImportImages = New System.Windows.Forms.Button()
         Me.butImport = New System.Windows.Forms.Button()
@@ -51,6 +53,7 @@ Partial Class MainForm
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Splitter2 = New System.Windows.Forms.Splitter()
         Me.pnlTop = New System.Windows.Forms.Panel()
+        Me.butCacelOp = New System.Windows.Forms.Button()
         Me.chkPrivate = New System.Windows.Forms.CheckBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.cboArchives = New System.Windows.Forms.ComboBox()
@@ -85,14 +88,17 @@ Partial Class MainForm
         'ThumbnailContainer1
         '
         Me.ThumbnailContainer1.ArchHelper = Nothing
+        Me.ThumbnailContainer1.CancelOperation = False
         Me.ThumbnailContainer1.ControlKey = False
         Me.ThumbnailContainer1.CurrentArchive = Nothing
         Me.ThumbnailContainer1.CurrentCategory = Nothing
         Me.ThumbnailContainer1.CurrentSubCategory = Nothing
+        Me.ThumbnailContainer1.IsCurrentlyLoading = False
         Me.ThumbnailContainer1.IsSearch = False
         Me.ThumbnailContainer1.Location = New System.Drawing.Point(0, 0)
         Me.ThumbnailContainer1.Name = "ThumbnailContainer1"
         Me.ThumbnailContainer1.ShiftKey = False
+        Me.ThumbnailContainer1.Showtypes = "all"
         Me.ThumbnailContainer1.Size = New System.Drawing.Size(0, 0)
         Me.ThumbnailContainer1.TabIndex = 1
         Me.ThumbnailContainer1.Text = "ThumbnailContainer1"
@@ -126,10 +132,10 @@ Partial Class MainForm
         Me.trvArchives.FullRowSelect = True
         Me.trvArchives.HideSelection = False
         Me.trvArchives.LabelEdit = True
-        Me.trvArchives.Location = New System.Drawing.Point(0, 125)
+        Me.trvArchives.Location = New System.Drawing.Point(0, 95)
         Me.trvArchives.Name = "trvArchives"
         Me.trvArchives.ShowRootLines = False
-        Me.trvArchives.Size = New System.Drawing.Size(203, 464)
+        Me.trvArchives.Size = New System.Drawing.Size(203, 494)
         Me.trvArchives.TabIndex = 0
         '
         'PictureBox1
@@ -140,10 +146,30 @@ Partial Class MainForm
         Me.PictureBox1.Image = Global.VijaySridhara.Applications.My.Resources.Resources.piclib_128
         Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(203, 125)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.PictureBox1.Size = New System.Drawing.Size(203, 95)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox1.TabIndex = 1
         Me.PictureBox1.TabStop = False
+        '
+        'cboShowtypes
+        '
+        Me.cboShowtypes.BackColor = System.Drawing.SystemColors.ControlDarkDark
+        Me.cboShowtypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboShowtypes.FormattingEnabled = True
+        Me.cboShowtypes.Items.AddRange(New Object() {"All types", "JPG", "PNG", "BMP", "GIF"})
+        Me.cboShowtypes.Location = New System.Drawing.Point(289, 5)
+        Me.cboShowtypes.Name = "cboShowtypes"
+        Me.cboShowtypes.Size = New System.Drawing.Size(127, 25)
+        Me.cboShowtypes.TabIndex = 1
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(232, 8)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(39, 17)
+        Me.Label5.TabIndex = 0
+        Me.Label5.Text = "Show"
         '
         'butExport
         '
@@ -356,6 +382,9 @@ Partial Class MainForm
         'pnlTop
         '
         Me.pnlTop.BackColor = System.Drawing.SystemColors.ControlDarkDark
+        Me.pnlTop.Controls.Add(Me.butCacelOp)
+        Me.pnlTop.Controls.Add(Me.cboShowtypes)
+        Me.pnlTop.Controls.Add(Me.Label5)
         Me.pnlTop.Controls.Add(Me.chkPrivate)
         Me.pnlTop.Controls.Add(Me.Label4)
         Me.pnlTop.Controls.Add(Me.cboArchives)
@@ -372,6 +401,18 @@ Partial Class MainForm
         Me.pnlTop.Name = "pnlTop"
         Me.pnlTop.Size = New System.Drawing.Size(762, 64)
         Me.pnlTop.TabIndex = 1
+        '
+        'butCacelOp
+        '
+        Me.butCacelOp.BackgroundImage = Global.VijaySridhara.Applications.My.Resources.Resources.cancelops
+        Me.butCacelOp.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.butCacelOp.Location = New System.Drawing.Point(221, 43)
+        Me.butCacelOp.Name = "butCacelOp"
+        Me.butCacelOp.Size = New System.Drawing.Size(18, 18)
+        Me.butCacelOp.TabIndex = 10
+        Me.ToolTip1.SetToolTip(Me.butCacelOp, "Cancel current operation")
+        Me.butCacelOp.UseVisualStyleBackColor = True
+        Me.butCacelOp.Visible = False
         '
         'chkPrivate
         '
@@ -424,10 +465,10 @@ Partial Class MainForm
         Me.txtFile.BackColor = System.Drawing.SystemColors.ControlDark
         Me.txtFile.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtFile.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtFile.Location = New System.Drawing.Point(222, 43)
+        Me.txtFile.Location = New System.Drawing.Point(247, 43)
         Me.txtFile.Name = "txtFile"
         Me.txtFile.ReadOnly = True
-        Me.txtFile.Size = New System.Drawing.Size(278, 15)
+        Me.txtFile.Size = New System.Drawing.Size(253, 15)
         Me.txtFile.TabIndex = 5
         '
         'butAbout
@@ -502,7 +543,6 @@ Partial Class MainForm
         Me.Controls.Add(Me.pnlLEft)
         Me.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.KeyPreview = True
         Me.Name = "MainForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Image Librarian"
@@ -520,7 +560,7 @@ Partial Class MainForm
     End Sub
 
     Friend WithEvents ThumbnailContainer1 As ThumbnailContainer
-    Friend WithEvents pnlThumbnails As Panel
+    Friend WithEvents pnlThumbnails As ContainerPanel
     Friend WithEvents pnlLEft As Panel
     Friend WithEvents Splitter1 As Splitter
     Friend WithEvents plRight As Panel
@@ -555,4 +595,7 @@ Partial Class MainForm
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents ToolTip1 As ToolTip
     Friend WithEvents txtFocusBox As TextBox
+    Friend WithEvents cboShowtypes As ComboBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents butCacelOp As Button
 End Class
