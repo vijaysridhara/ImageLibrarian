@@ -926,8 +926,9 @@ Public Class MainForm
             Case Keys.Left
                 ThumbnailContainer1.MoveLeft()
         End Select
-        e.SuppressKeyPress = True
         e.Handled = True
+        e.SuppressKeyPress = True
+
     End Sub
 
     Private Sub MainForm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
