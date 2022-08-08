@@ -53,4 +53,4 @@ So without wasting any time, where is my download
 
 
 ### Support or Contact
-[contact support](https://support.github.com/vijaysridhara) and we’ll help you sort it out.
+[Raise a issue here](https://github.com/vijaysridhara/ImageLibrarian/issues)
