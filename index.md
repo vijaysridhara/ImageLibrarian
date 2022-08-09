@@ -8,7 +8,7 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 
 ### _Mind you this is still a beta release_
 
-## 08 Aug 2022, Beta 0.1.2 released
+## 08 Aug 2022, Beta 0.2 released
 # Features added
 1. Navigation keys (left, right, up, down)added
 2. Select only a type of images to be displayed(jpg/png/bmp/gif)
