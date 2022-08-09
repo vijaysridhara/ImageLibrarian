@@ -8,6 +8,8 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 
 ### _Mind you this is still a beta release_
 
+![Image librarian performance](https://drive.google.com/uc?export=view&id=18r-0SctAejYaROviXySxpQIgdrTKdPif)
+
 ## 08 Aug 2022, Beta 0.2 released
 # Features added
 1. Navigation keys (left, right, up, down)added
