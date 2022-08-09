@@ -51,7 +51,7 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 
 
 So without wasting any time, where is my download
-## Download Beta 0.1.1 of ImageLibrarian
+## Download Links
 
 ### [Download now Beta 0.2](https://github.com/vijaysridhara/ImageLibrarian/releases/tag/Beta_0.2)
 
