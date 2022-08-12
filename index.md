@@ -10,6 +10,13 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 
 ![Image librarian performance](https://drive.google.com/uc?export=view&id=18r-0SctAejYaROviXySxpQIgdrTKdPif)
 
+## 12 Aug 2022, Beta 0.3 released
+# Features added
+1. Drag drop of subcategories
+2. Background load of loads of imags
+# Defects fixed
+1. Navigation keys fixed
+
 ## 08 Aug 2022, Beta 0.2 released
 # Features added
 1. Navigation keys (left, right, up, down)added
@@ -55,7 +62,7 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 So without wasting any time, where is my download
 ## Download Links
 
-### [Download now Beta 0.2](https://github.com/vijaysridhara/ImageLibrarian/releases/tag/Beta_0.2)
+### [Download now Beta 0.3](https://github.com/vijaysridhara/ImageLibrarian/releases/tag/Beta_V0.3)
 
 
 ### Support or Contact
