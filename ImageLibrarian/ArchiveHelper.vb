@@ -61,7 +61,9 @@ Friend Class ArchiveHelper
                 Dim arch As New Arch(rdr(0), IIf(rdr.IsDBNull(1), False, rdr(1)), IIf(rdr.IsDBNull(2), "", rdr(2)))
                 archives.Add(arch)
             End While
+
             rdr.Close()
+            cmd.Dispose()
             Return True
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)
@@ -98,16 +100,20 @@ Friend Class ArchiveHelper
                 cmd.Parameters("2").Value = a.Password
             End If
             Dim res As Integer = cmd.ExecuteNonQuery
+
             If res > 0 And nameupdate Then
                 cmd.Parameters.Clear()
                 cmd.CommandText = query2
                 cmd.Parameters.Add("@archivename", DbType.String)
                 cmd.Parameters("0").Value = a.newName
                 res = cmd.ExecuteNonQuery
+                cmd.Dispose()
                 Return True
             ElseIf res > 0 Then
+                cmd.Dispose()
                 Return True
             Else
+                cmd.Dispose()
                 Return False
             End If
         Catch ex As Exception
@@ -130,10 +136,13 @@ Friend Class ArchiveHelper
             If res > 0 Then
                 cmd.CommandText = query2
                 res = cmd.ExecuteNonQuery
+                cmd.Dispose()
                 Return True
             ElseIf res > 0 Then
+                cmd.Dispose()
                 Return True
             Else
+                cmd.Dispose()
                 Return False
             End If
         Catch ex As Exception
@@ -160,9 +169,12 @@ Friend Class ArchiveHelper
                 .Parameters(2).Value = a.Password
             End With
             Dim res As Integer = cmd.ExecuteNonQuery
+            cmd.Dispose()
             If res > 0 Then
+
                 Return True
             Else
+
                 Return False
             End If
         Catch ex As Exception
@@ -236,6 +248,7 @@ Friend Class ArchiveHelper
                 nextKey = 0
             End If
             rdr.Close()
+            cmd.Dispose()
             Return True
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)
@@ -255,6 +268,7 @@ Friend Class ArchiveHelper
 
             End If
             RDR.Close()
+            cmd.Dispose()
             Return FND
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)
@@ -271,11 +285,34 @@ Friend Class ArchiveHelper
             Dim cnt As Integer = delCommand.ExecuteNonQuery()
             delCommand.CommandText = "delete from properties where filenumber=" & c.FileNumber
             delCommand.ExecuteNonQuery()
+
             Return True
 
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)
             Return False
+        End Try
+    End Function
+    Public Function RemoveThumbs(cat As String, arch As String, Optional subcat As String = "%") As List(Of String)
+        Try
+            If ConnectionOpen() = False Then Return Nothing
+            Dim delC As New SQLiteCommand
+            delC.Connection = con
+            delC.CommandText = "select cachefilename from archives where category='" & cat & "' and subcat " & IIf(subcat = "%", " like '%'", "='" & subcat & "' ") & " and archivename='" & arch & "'"
+            Dim rdr As SQLiteDataReader
+            rdr = delC.ExecuteReader
+            Dim l As New List(Of String)
+            While rdr.Read
+                l.Add(rdr(0))
+            End While
+            rdr.Close()
+            delC.CommandText = "delete from archives where  category='" & cat & "' and subcat  " & IIf(subcat = "%", " like '%'", "='" & subcat & "' ") & " and archivename='" & arch & "'"
+            delC.ExecuteNonQuery()
+            delC.Dispose()
+            Return l
+        Catch ex As Exception
+            RaiseEvent DatabaseError(ex)
+            Return Nothing
         End Try
     End Function
     Dim metaCommand As New SQLiteCommand
@@ -306,6 +343,21 @@ Friend Class ArchiveHelper
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)
 
+        End Try
+
+    End Function
+    Public Function ChangeCat(oldCat As String, oldSubcat As String, newCat As String, archname As String) As Boolean
+        Try
+            If ConnectionOpen() = False Then Return False
+            Dim updCommand As New SQLiteCommand
+            updCommand.Connection = con
+            updCommand.CommandText = "update archives set category='" & newCat & "' where category='" & oldCat & "' and subcat='" & oldSubcat & "' and archivename='" & archname & "'"
+            updCommand.ExecuteNonQuery()
+            updCommand.Dispose()
+            Return True
+        Catch ex As Exception
+            RaiseEvent DatabaseError(ex)
+            Return False
         End Try
 
     End Function
@@ -515,8 +567,8 @@ Friend Class ArchiveHelper
                 GetMeta(t)
             End While
             rdr.Close()
-
-            RaiseEvent Progress(Int(inc / recCnt * 100))
+            cmd.Dispose()
+            If recCnt = 0 Then RaiseEvent Progress(100) : Else RaiseEvent Progress(Int(inc / recCnt * 100))
             Return ls
 
         Catch ex As Exception
@@ -532,12 +584,14 @@ Friend Class ArchiveHelper
             If labeltype = "Subcat" Then
                 cmd.CommandText = "update archives set subcat='" & newlabel & "' where archivename='" & arch & "' and category='" & parent & "' and subcat='" & oldlabel & "'"
                 If cmd.ExecuteNonQuery > 0 Then
+                    cmd.Dispose()
                     Return True
 
                 End If
             ElseIf labeltype = "Category" Then
                 cmd.CommandText = "update archives set category='" & newlabel & "' where archivename='" & arch & "' and category='" & oldlabel & "'"
                 If cmd.ExecuteNonQuery > 0 Then
+                    cmd.Dispose()
                     Return True
                 End If
             End If
@@ -557,7 +611,9 @@ Friend Class ArchiveHelper
                 Dim prop As New PropItem(rdr(0), rdr(1))
                 t.MetaData.Add(prop.Name, prop)
             End While
+
             rdr.Close()
+            cmd.Dispose()
             Return True
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)
@@ -622,9 +678,11 @@ Friend Class ArchiveHelper
                     t.SubCategory = rdr(12)
                     t.ArchiveName = rdr(13)
                     GetMeta(t)
-                End While
-                rdr.Close()
-                Return ls
+            End While
+
+            rdr.Close()
+            cmd.Dispose()
+            Return ls
 
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)

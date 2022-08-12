@@ -104,15 +104,17 @@ Friend Class ThumbnailContainer
                 tnailList(ix).Selected = True
                 Dim tloc As Integer = tnailList(ix).Location.Y
                 Dim ploc As Integer = CType(Me.Parent, ContainerPanel).VerticalScroll.Value
+                Dim scrollpos As Integer = Math.Min(tloc, ploc)
                 If tloc < ploc Then
                     CType(Me.Parent, ContainerPanel).VerticalScroll.Value = tnailList(ix).Location.Y
+                    CType(Me.Parent, ContainerPanel).PerformLayout()
                 End If
                 selecteDThumb = tnailList(ix)
                 RaiseEvent ThumbnailSelected(selecteDThumb)
                 RaiseEvent ThumbnailsScrolled()
 
                 Exit Sub
-            End If
+                End If
         End While
     End Sub
     Public Sub MoveUp()
@@ -132,8 +134,10 @@ Friend Class ThumbnailContainer
                 tnailList(ix).Selected = True
                 Dim tloc As Integer = tnailList(ix).Location.Y
                 Dim ploc As Integer = CType(Me.Parent, ContainerPanel).VerticalScroll.Value
+                Dim scrollpos As Integer = Math.Min(tloc, ploc)
                 If tloc < ploc Then
                     CType(Me.Parent, ContainerPanel).VerticalScroll.Value = tnailList(ix).Location.Y
+                    CType(Me.Parent, ContainerPanel).PerformLayout()
 
                 End If
                 selecteDThumb = tnailList(ix)
@@ -161,8 +165,12 @@ Friend Class ThumbnailContainer
                 selecteDThumb.Selected = False
 
                 tnailList(ix).Selected = True
-                If (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height) > CType(Me.Parent, ContainerPanel).VerticalScroll.Value Then
+
+                If (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height) > CType(Me.Parent, ContainerPanel).VerticalScroll.Value And
+                    (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height) > CType(Me.Parent, ContainerPanel).Height Then
+
                     CType(Me.Parent, ContainerPanel).VerticalScroll.Value = tnailList(ix).Location.Y
+                    CType(Me.Parent, ContainerPanel).PerformLayout()
                 End If
                 selecteDThumb = tnailList(ix)
                 RaiseEvent ThumbnailSelected(selecteDThumb)
@@ -185,14 +193,19 @@ Friend Class ThumbnailContainer
                 selecteDThumb.Selected = False
 
                 tnailList(ix).Selected = True
-                If (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height) > CType(Me.Parent, ContainerPanel).VerticalScroll.Value Then
+                Dim tloc As Integer = tnailList(ix).Location.Y
+                Dim ploc As Integer = (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height)
+                Dim scrollpos As Integer = Math.Min(tloc, ploc)
+                If (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height) > CType(Me.Parent, ContainerPanel).VerticalScroll.Value And
+                        (tnailList(ix).Location.Y + tnailList(ix).Resolution.Height) > CType(Me.Parent, ContainerPanel).Height Then
                     CType(Me.Parent, ContainerPanel).VerticalScroll.Value = tnailList(ix).Location.Y
+                    CType(Me.Parent, ContainerPanel).PerformLayout()
                 End If
                 selecteDThumb = tnailList(ix)
                 RaiseEvent ThumbnailSelected(selecteDThumb)
-                RaiseEvent ThumbnailsScrolled()
+                If ploc > tloc Then RaiseEvent ThumbnailsScrolled()
                 Exit Sub
-            End If
+                End If
         End While
 
     End Sub
@@ -483,6 +496,7 @@ Friend Class ThumbnailContainer
                     es.ShowDialog()
                 Case "Refresh thumbnail"
                     selecteDThumb.MakeThumb()
+                    selecteDThumb.Draw(Me.CreateGraphics)
             End Select
         Catch ex As Exception
             RaiseEvent Errored(ex)
@@ -654,124 +668,84 @@ Friend Class ThumbnailContainer
             IsCurrentlyLoading = False
         End Try
     End Sub
-    Public Function AddIndividualImages(paths() As String, cat As String, subcat As String) As Boolean
-        Try
-            IsCurrentlyLoading = True
-            CurrentCategory = cat
-            For Each path In paths
-                If tnailList.Count > 0 Then
-                    Dim c1 As Thumbnail = tnailList(0)
-                    If c1.Category <> cat Then
-                        ClearImages()
-                    End If
-                End If
-                If ArchHelper.ContainsFile(path, cat, subcat, CurrentArchive) Then
-                    RaiseEvent Message("The file already exists in cache " & path)
-                    Return False
-                End If
-                Dim c As New Thumbnail(path, GetNextKey, ArchHelper.CachePath & "\CacheImages")
-                c.Category = cat
-                tnailList.Add(c)
-                Addhandlers(c)
-                ArchHelper.AddEntry(c)
-                If Showtypes = "all" Then
-                    c.Hide = False
-                ElseIf Showtypes.ToLower <> c.FileType.ToLower Then
-                    c.Hide = True
-                End If
 
-            Next
-            UnselectAll()
-            Rearrange()
-            tnailList(tnailList.Count - 1).Selected = True
-            RaiseEvent ThumbnailSelected(tnailList(tnailList.Count - 1))
-            RaiseEvent ThumbnailOneAdded(tnailList(tnailList.Count - 1))
-            Me.Parent.Refresh()
-            Dim thd As New Threading.Thread(AddressOf LoadThumbnailImagesThread)
-            thd.Start()
-        Catch ex As Exception
-            RaiseEvent Errored(ex)
-            IsCurrentlyLoading = False
-        End Try
+    'Public Function LoadImages(pth As String, types() As String, cat As String, subcat As String) As Boolean
+    '    Try
+    '        CurrentCategory = cat
+    '        CurrentSubCategory = subcat
+    '        IsCurrentlyLoading = True
+    '        Dim dupes As Boolean = False
+    '        If tnailList.Count > 0 Then
+    '            Dim c As Thumbnail = tnailList(0)
+    '            If c.Category <> cat Then
+    '                ClearImages()
+    '            End If
+    '        End If
+    '        For Each t As String In types
+    '            RaiseEvent Message("Getting files of type " & t)
+    '            Dim files() As String = IO.Directory.GetFiles(pth, t)
+    '            If files.Length = 0 Then Continue For
+    '            Dim row As Integer = 0
+    '            Dim col As Integer = 0
+    '            Dim tt As Integer = files.Count
+    '            Dim ct As Integer = 0
+    '            Dim tenCt As Integer = 0
+    '            RaiseEvent Message("Checking for duplicates...")
+    '            Dim finList As New List(Of String)
 
-    End Function
-    Public Function LoadImages(pth As String, types() As String, cat As String, subcat As String) As Boolean
-        Try
-            CurrentCategory = cat
-            CurrentSubCategory = subcat
-            IsCurrentlyLoading = True
-            Dim dupes As Boolean = False
-            If tnailList.Count > 0 Then
-                Dim c As Thumbnail = tnailList(0)
-                If c.Category <> cat Then
-                    ClearImages()
-                End If
-            End If
-            For Each t As String In types
-                RaiseEvent Message("Getting files of type " & t)
-                Dim files() As String = IO.Directory.GetFiles(pth, t)
-                If files.Length = 0 Then Continue For
-                Dim row As Integer = 0
-                Dim col As Integer = 0
-                Dim tt As Integer = files.Count
-                Dim ct As Integer = 0
-                Dim tenCt As Integer = 0
-                RaiseEvent Message("Checking for duplicates...")
-                Dim finList As New List(Of String)
+    '            For Each f As String In files
+    '                If ArchHelper.ContainsFile(f, cat, subcat, CurrentArchive) Then Continue For
+    '                finList.Add(f)
+    '            Next
+    '            If files.Length > finList.Count Then
+    '                dupes = True
+    '            End If
+    '            RaiseEvent Message("There are " & finList.Count & " images in this folder, moving them To cache")
+    '            For Each f As String In finList
+    '                ct += 1
+    '                If ct Mod 5 = 0 Then
+    '                    tenCt += 1
+    '                    RaiseEvent Progress(Math.Floor(ct / tt * 100))
+    '                End If
+    '                Dim c As New Thumbnail(f, GetNextKey, ArchHelper.CachePath & "\CacheImages")
+    '                c.Category = cat
+    '                c.SubCategory = subcat
+    '                c.ArchiveName = CurrentArchive
+    '                tnailList.Add(c)
+    '                Addhandlers(c)
+    '                If Showtypes = "all" Then
+    '                    c.Hide = False
+    '                ElseIf Showtypes.tolower <> c.FileType.ToLower Then
+    '                    c.Hide = True
+    '                End If
+    '            Next
+    '            RaiseEvent Progress(100)
+    '            Rearrange()
+    '        Next
 
-                For Each f As String In files
-                    If ArchHelper.ContainsFile(f, cat, subcat, CurrentArchive) Then Continue For
-                    finList.Add(f)
-                Next
-                If files.Length > finList.Count Then
-                    dupes = True
-                End If
-                RaiseEvent Message("There are " & finList.Count & " images in this folder, moving them To cache")
-                For Each f As String In finList
-                    ct += 1
-                    If ct Mod 5 = 0 Then
-                        tenCt += 1
-                        RaiseEvent Progress(Math.Floor(ct / tt * 100))
-                    End If
-                    Dim c As New Thumbnail(f, GetNextKey, ArchHelper.CachePath & "\CacheImages")
-                    c.Category = cat
-                    c.SubCategory = subcat
-                    c.ArchiveName = CurrentArchive
-                    tnailList.Add(c)
-                    Addhandlers(c)
-                    If Showtypes = "all" Then
-                        c.Hide = False
-                    ElseIf Showtypes.tolower <> c.FileType.ToLower Then
-                        c.Hide = True
-                    End If
-                Next
-                RaiseEvent Progress(100)
-                Rearrange()
-            Next
+    '        If dupes Then
+    '            MsgBox("There were some files already existing In the cache, so didn't import them", MsgBoxStyle.Exclamation)
 
-            If dupes Then
-                MsgBox("There were some files already existing In the cache, so didn't import them", MsgBoxStyle.Exclamation)
+    '        End If
+    '        If tnailList.Count > 0 Then
+    '            UnselectAll()
+    '            Rearrange()
+    '            'tnailList(tnailList.Count - 1).Selected = True
+    '            'RaiseEvent ThumbnailSelected(tnailList(tnailList.Count - 1))
+    '            'RaiseEvent ThumbnailOneAdded(tnailList(tnailList.Count - 1))
 
-            End If
-            If tnailList.Count > 0 Then
-                UnselectAll()
-                Rearrange()
-                'tnailList(tnailList.Count - 1).Selected = True
-                'RaiseEvent ThumbnailSelected(tnailList(tnailList.Count - 1))
-                'RaiseEvent ThumbnailOneAdded(tnailList(tnailList.Count - 1))
+    '        End If
+    '        Me.Parent.Refresh()
+    '        Dim thd As New Threading.Thread(AddressOf LoadThumbnailImagesThread)
+    '        thd.Start()
+    '        Return True
+    '    Catch ex As Exception
+    '        RaiseEvent Errored(ex)
+    '        IsCurrentlyLoading = False
+    '        Return False
+    '    End Try
 
-            End If
-            Me.Parent.Refresh()
-            Dim thd As New Threading.Thread(AddressOf LoadThumbnailImagesThread)
-            thd.Start()
-            Return True
-        Catch ex As Exception
-            RaiseEvent Errored(ex)
-            IsCurrentlyLoading = False
-            Return False
-        End Try
-
-    End Function
+    'End Function
     Public Sub BeginExport()
         Try
             If selecteDThumb Is Nothing Then Exit Sub
@@ -791,66 +765,7 @@ Friend Class ThumbnailContainer
         End While
         Return st
     End Function
-    Public Function Massload(level As Integer, pth As String, types() As String, cat As String, subcat As String) As Integer
-        Try
-            IsCurrentlyLoading = True
-            Dim filesLoaded As Integer = 0
-            Dim dupes As Boolean = False
-            Dim indent As String = GetIndent(level)
-            ' Dim tempThumbs As New List(Of Thumbnail)
-            RaiseEvent Message(indent & "***Folder: " & pth & "*******")
-            For Each t As String In types
-                RaiseEvent Message(indent & "Getting files of type " & t)
-                Dim files() As String = IO.Directory.GetFiles(pth, t)
-                If files.Length = 0 Then Continue For
-                Dim row As Integer = 0
-                Dim col As Integer = 0
-                Dim tt As Integer = files.Count
-                Dim ct As Integer = 0
-                Dim tenCt As Integer = 0
-                RaiseEvent Message(indent & "Checking for duplicates...")
-                Dim finList As New List(Of String)
 
-                For Each f As String In files
-                    If ArchHelper.ContainsFile(f, cat, subcat, CurrentArchive) Then Continue For
-                    finList.Add(f)
-                Next
-                If files.Length > finList.Count Then
-                    dupes = True
-                End If
-                RaiseEvent Message(indent & "There are " & finList.Count & " images in this folder, moving them To cache")
-                For Each f As String In finList
-                    ct += 1
-                    If ct Mod 5 = 0 Then
-                        tenCt += 1
-                        RaiseEvent Progress(Math.Floor(ct / tt * 100))
-                    End If
-                    Dim c As New Thumbnail(f, GetNextKey, ArchHelper.CachePath & "\CacheImages")
-                    c.Category = cat
-                    c.SubCategory = subcat
-                    c.ArchiveName = CurrentArchive
-                    'tempThumbs.Add(c)
-                    c.MakeThumb()
-                    ArchHelper.AddEntry(c)
-                    c = Nothing
-                Next
-                filesLoaded += finList.Count
-                RaiseEvent Progress(100)
-            Next
-
-            If dupes Then
-                RaiseEvent Message(indent & "There were some files already existing In the cache, so didn't import them, [" & pth & "]")
-
-            End If
-            IsCurrentlyLoading = False
-            Return filesLoaded
-        Catch ex As Exception
-            RaiseEvent Errored(ex)
-            IsCurrentlyLoading = False
-            Return 0
-        End Try
-
-    End Function
 
     Private Sub LoadThumbnailImagesThread()
 
@@ -865,10 +780,6 @@ Friend Class ThumbnailContainer
             If c.ImageLoaded Then Continue For
             If c.IsExisting Then
                 c.LoadThumb()
-
-            Else
-                c.MakeThumb()
-                ArchHelper.AddEntry(c)
             End If
         Next
         Me.Invalidate()
@@ -955,7 +866,7 @@ Friend Class ThumbnailContainer
         For Each c As Thumbnail In tnailList
             cnt += 1
             If ((c.Location.Y + c.Resolution.Height) > paintTop And (c.Location.Y + c.Resolution.Height) < paintBot) Or
-            (c.Location.Y >= paintTop And c.Location.Y <= paintBot) Or (c.Location.Y < paintBot And (c.Location.Y + c.Resolution.Height) >= paintBot) Then
+            ((c.Location.Y + 10) >= paintTop And c.Location.Y <= paintBot) Or (c.Location.Y < paintBot And (c.Location.Y + c.Resolution.Height) >= paintBot) Then
                 ' Debug.Print("TopPos: " & paintTop & " Bot pos " & paintBot & "  Qualified " & cnt & " of " & totCnt)
                 If c.Draw(e.Graphics) Then
 

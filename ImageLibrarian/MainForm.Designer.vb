@@ -31,6 +31,13 @@ Partial Class MainForm
         Me.txtFocusBox = New System.Windows.Forms.TextBox()
         Me.pnlLEft = New System.Windows.Forms.Panel()
         Me.trvArchives = New System.Windows.Forms.TreeView()
+        Me.ctxTree = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.ImportHereToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AddImagesHereToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExportThisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.cboShowtypes = New System.Windows.Forms.ComboBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -67,6 +74,7 @@ Partial Class MainForm
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.pnlThumbnails.SuspendLayout()
         Me.pnlLEft.SuspendLayout()
+        Me.ctxTree.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.plRight.SuspendLayout()
         Me.pnlTop.SuspendLayout()
@@ -76,6 +84,7 @@ Partial Class MainForm
         '
         Me.pnlThumbnails.AutoScroll = True
         Me.pnlThumbnails.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
+        Me.pnlThumbnails.BackColor = System.Drawing.SystemColors.ControlDark
         Me.pnlThumbnails.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.pnlThumbnails.Controls.Add(Me.ThumbnailContainer1)
         Me.pnlThumbnails.Controls.Add(Me.txtFocusBox)
@@ -126,7 +135,9 @@ Partial Class MainForm
         '
         'trvArchives
         '
+        Me.trvArchives.AllowDrop = True
         Me.trvArchives.BackColor = System.Drawing.SystemColors.ControlDarkDark
+        Me.trvArchives.ContextMenuStrip = Me.ctxTree
         Me.trvArchives.Dock = System.Windows.Forms.DockStyle.Fill
         Me.trvArchives.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
         Me.trvArchives.FullRowSelect = True
@@ -137,6 +148,47 @@ Partial Class MainForm
         Me.trvArchives.ShowRootLines = False
         Me.trvArchives.Size = New System.Drawing.Size(203, 494)
         Me.trvArchives.TabIndex = 0
+        '
+        'ctxTree
+        '
+        Me.ctxTree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportHereToolStripMenuItem, Me.AddImagesHereToolStripMenuItem, Me.RenameToolStripMenuItem, Me.ExportThisToolStripMenuItem, Me.ToolStripMenuItem1, Me.DeleteToolStripMenuItem})
+        Me.ctxTree.Name = "ctxTree"
+        Me.ctxTree.Size = New System.Drawing.Size(164, 120)
+        '
+        'ImportHereToolStripMenuItem
+        '
+        Me.ImportHereToolStripMenuItem.Name = "ImportHereToolStripMenuItem"
+        Me.ImportHereToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.ImportHereToolStripMenuItem.Text = "&Import here"
+        '
+        'AddImagesHereToolStripMenuItem
+        '
+        Me.AddImagesHereToolStripMenuItem.Name = "AddImagesHereToolStripMenuItem"
+        Me.AddImagesHereToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.AddImagesHereToolStripMenuItem.Text = "&Add images here"
+        '
+        'RenameToolStripMenuItem
+        '
+        Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
+        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.RenameToolStripMenuItem.Text = "&Rename "
+        '
+        'ExportThisToolStripMenuItem
+        '
+        Me.ExportThisToolStripMenuItem.Name = "ExportThisToolStripMenuItem"
+        Me.ExportThisToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.ExportThisToolStripMenuItem.Text = "E&xport this"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(160, 6)
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
+        Me.DeleteToolStripMenuItem.Text = "&Delete"
         '
         'PictureBox1
         '
@@ -549,6 +601,7 @@ Partial Class MainForm
         Me.pnlThumbnails.ResumeLayout(False)
         Me.pnlThumbnails.PerformLayout()
         Me.pnlLEft.ResumeLayout(False)
+        Me.ctxTree.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.plRight.ResumeLayout(False)
         Me.plRight.PerformLayout()
@@ -598,4 +651,11 @@ Partial Class MainForm
     Friend WithEvents cboShowtypes As ComboBox
     Friend WithEvents Label5 As Label
     Friend WithEvents butCacelOp As Button
+    Friend WithEvents ctxTree As ContextMenuStrip
+    Friend WithEvents ImportHereToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AddImagesHereToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RenameToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
+    Friend WithEvents DeleteToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ExportThisToolStripMenuItem As ToolStripMenuItem
 End Class

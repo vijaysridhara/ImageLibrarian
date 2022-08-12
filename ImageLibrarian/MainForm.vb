@@ -19,7 +19,7 @@ Public Class MainForm
     Private selectedThumbNail As Thumbnail
     Private WithEvents chktmr As New Timer()
     Private CurrentArchive As String = "<Archive name>"
-
+    Private WithEvents thumbProcessor As New ThumbnailProcessor()
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim tn As TreeNode = trvArchives.Nodes.Add("[[ROOT]]", "<Archive name>")
         tn.Tag = "ROOT"
@@ -74,6 +74,7 @@ Public Class MainForm
             If archHelper.ConnectionOpen Then
                 isinitialized = True
                 ThumbnailContainer1.ArchHelper = Me.archHelper
+                thumbProcessor.ArchHelper = archHelper
                 cboArchives.Items.Clear()
                 If archHelper.GetArchiveList Then
                     For Each a As Arch In archives
@@ -151,6 +152,7 @@ Public Class MainForm
     End Sub
     Private Sub ThumbnailContainer1_Progress(pct As Integer) Handles ThumbnailContainer1.Progress
         ProgressBar1.Value = pct
+
         If pct = 100 Then
             ProgressBar1.Hide()
             butCacelOp.Hide()
@@ -164,13 +166,25 @@ Public Class MainForm
     Dim progSelect As Boolean = False
     Private _cancelOp As Boolean
     Private Sub butImport_Click(sender As Object, e As EventArgs) Handles butImport.Click
-        Dim self As New SelectType()
+        Dim selcat As String = "", selsubcat As String = ""
+        If Not trvArchives.SelectedNode Is Nothing Then
+            If Not trvArchives.SelectedNode Is trvArchives.Nodes("[[ROOT]]") Then
+                If Not trvArchives.SelectedNode.Parent Is trvArchives.Nodes("[[ROOT]]") Then
+                    selcat = trvArchives.SelectedNode.Parent.Text
+                    selsubcat = trvArchives.SelectedNode.Text
+                Else
+                    selcat = trvArchives.SelectedNode.Text
+                End If
+            End If
+        End If
+        Dim self As New SelectType(selcat, selsubcat)
 
         Dim fd As New FolderBrowserDialog
         With fd
             .SelectedPath = My.Settings.ImportFrom
 
             If .ShowDialog = DialogResult.OK Then
+
                 If self.ShowDialog = DialogResult.OK Then
                     IMPFROM = .SelectedPath
                     My.Settings.ImportFrom = .SelectedPath
@@ -196,71 +210,71 @@ Public Class MainForm
                     Dim wid As Integer = pnlThumbnails.Width
                     Dim maxNos As Integer = Math.Round(wid / ThumbnailContainer1.MaxThumbWidth) 'The wid-10 is for scrollbar
                     ThumbnailContainer1.maxColCount = maxNos
-                    If self.chkSubfolders.Checked Then
-                        ThumbnailContainer1.ClearImages()
-                        subcatList.Clear()
-                        If LoadImagesSilent(0, .SelectedPath, self.cboCat.Text, self.cboSubCat.Text, types) Then
-                            If Not trvArchives.Nodes("[[ROOT]]").Nodes.ContainsKey(self.cboCat.Text) Then
-                                trvArchives.Nodes("[[ROOT]]").Nodes.Add(self.cboCat.Text, self.cboCat.Text).Tag = self.cboCat.Text
-                                classifications.Add(self.cboCat.Text, New Classification(self.cboCat.Text))
-                            End If
-                            For Each s As String In subcatList
-                                If trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.ContainsKey(s) Then Continue For
-                                trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.Add(s, s).Tag = s
-                                classifications(self.cboCat.Text).AddSubCat(s)
-                            Next
+                    'If self.chkSubfolders.Checked Then
+                    ThumbnailContainer1.ClearImages()
+                    subcatList.Clear()
+                    If LoadImagesSilent(0, .SelectedPath, self.cboCat.Text, self.cboSubCat.Text, types, self.chkSubfolders.Checked) Then
+                        If Not trvArchives.Nodes("[[ROOT]]").Nodes.ContainsKey(self.cboCat.Text) Then
+                            trvArchives.Nodes("[[ROOT]]").Nodes.Add(self.cboCat.Text, self.cboCat.Text).Tag = self.cboCat.Text
+                            classifications.Add(self.cboCat.Text, New Classification(self.cboCat.Text))
                         End If
-                        trvArchives.SelectedNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text)
-                        Exit Sub
+                        For Each s As String In subcatList
+                            If trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.ContainsKey(s) Then Continue For
+                            trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.Add(s, s).Tag = s
+                            classifications(self.cboCat.Text).AddSubCat(s)
+                        Next
                     End If
+                    trvArchives.SelectedNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text)
+                    Exit Sub
+                    'End If
 
 
-                    If ThumbnailContainer1.CurrentCategory = self.cboCat.Text And ThumbnailContainer1.CurrentSubCategory = self.cboSubCat.Text Then
-                        If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
-                            'Do nothing, it is already a selected one
-                        End If
-                    Else
-                        If trvArchives.Nodes("[[ROOT]]").Nodes.ContainsKey(self.cboCat.Text) Then
-                            If trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.ContainsKey(self.cboSubCat.Text) Then
-                                'Both exist, now just add them 
-                                If Not trvArchives.SelectedNode Is trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes(self.cboSubCat.Text) Then
-                                    ThumbnailContainer1.ClearImages()
-                                    trvArchives.SelectedNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes(self.cboSubCat.Text)
-                                End If
+                    'If ThumbnailContainer1.CurrentCategory = self.cboCat.Text And ThumbnailContainer1.CurrentSubCategory = self.cboSubCat.Text Then
+                    '    If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
+                    '        'Do nothing, it is already a selected one
+                    '    End If
+                    'Else
+                    '    If trvArchives.Nodes("[[ROOT]]").Nodes.ContainsKey(self.cboCat.Text) Then
+                    '        If trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.ContainsKey(self.cboSubCat.Text) Then
+                    '            'Both exist, now just add them 
+                    '            If Not trvArchives.SelectedNode Is trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes(self.cboSubCat.Text) Then
+                    '                ThumbnailContainer1.ClearImages()
+                    '                trvArchives.SelectedNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes(self.cboSubCat.Text)
+                    '            End If
 
-                                If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
-                                    Exit Sub
-                                End If
-                            Else
-                                'Subcategory doesn't exist create it
-                                ThumbnailContainer1.ClearImages()
-                                If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
-                                    classifications(self.cboCat.Text).SubCategories.Add(self.cboSubCat.Text)
-                                    Dim nn As TreeNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.Add(self.cboSubCat.Text, self.cboSubCat.Text)
-                                    nn.Tag = self.cboSubCat.Text
-                                    progSelect = True
-                                    trvArchives.SelectedNode = nn
-                                    progSelect = False
-                                    Exit Sub
-                                End If
-                            End If
-                        Else
-                            'Category itself doesn't exist Create Cat, Subcat, and then add
-                            ThumbnailContainer1.ClearImages()
-                            If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
-                                classifications.Add(self.cboCat.Text, New Classification(self.cboCat.Text))
-                                classifications(self.cboCat.Text).SubCategories.Add(self.cboSubCat.Text)
-                                Dim nn As TreeNode = trvArchives.Nodes("[[ROOT]]").Nodes.Add(self.cboCat.Text, self.cboCat.Text)
-                                nn.Tag = self.cboCat.Text
-                                Dim nn1 As TreeNode = nn.Nodes.Add(self.cboSubCat.Text, self.cboSubCat.Text)
-                                nn1.Tag = self.cboSubCat.Text
-                                progSelect = True
-                                trvArchives.SelectedNode = nn1
-                                progSelect = False
-                                Exit Sub
-                            End If
-                        End If
-                    End If
+                    '            If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
+                    '                Exit Sub
+                    '            End If
+                    '        Else
+                    '            'Subcategory doesn't exist create it
+                    '            ThumbnailContainer1.ClearImages()
+                    '            If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
+                    '                classifications(self.cboCat.Text).SubCategories.Add(self.cboSubCat.Text)
+                    '                Dim nn As TreeNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.Add(self.cboSubCat.Text, self.cboSubCat.Text)
+                    '                nn.Tag = self.cboSubCat.Text
+                    '                progSelect = True
+                    '                trvArchives.SelectedNode = nn
+                    '                progSelect = False
+                    '                Exit Sub
+                    '            End If
+                    '        End If
+                    '    Else
+                    '        'Category itself doesn't exist Create Cat, Subcat, and then add
+                    '        ThumbnailContainer1.ClearImages()
+                    '        If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
+                    '            classifications.Add(self.cboCat.Text, New Classification(self.cboCat.Text))
+                    '            classifications(self.cboCat.Text).SubCategories.Add(self.cboSubCat.Text)
+                    '            Dim nn As TreeNode = trvArchives.Nodes("[[ROOT]]").Nodes.Add(self.cboCat.Text, self.cboCat.Text)
+                    '            nn.Tag = self.cboCat.Text
+                    '            Dim nn1 As TreeNode = nn.Nodes.Add(self.cboSubCat.Text, self.cboSubCat.Text)
+                    '            nn1.Tag = self.cboSubCat.Text
+                    '            progSelect = True
+                    '            trvArchives.SelectedNode = nn1
+                    '            progSelect = False
+                    '            Exit Sub
+                    '        End If
+                    '    End If
+                    'End If
                 End If
             End If
 
@@ -273,11 +287,11 @@ Public Class MainForm
     End Sub
     Private subcatList As New List(Of String)
 
-    Private Function LoadImagesSilent(level As Integer, rootPath As String, cat As String, subcat As String, types As List(Of String)) As Integer
+    Private Function LoadImagesSilent(level As Integer, rootPath As String, cat As String, subcat As String, types As List(Of String), Optional subFolderas As Boolean = False) As Integer
         Try
             If _cancelOp Then Return 0
             Dim rowsFound As Integer = 0
-            rowsFound = ThumbnailContainer1.Massload(level, rootPath, types.ToArray, cat, subcat)
+            rowsFound = thumbProcessor.Massload(level, rootPath, types.ToArray, cat, subcat, CurrentArchive)
             Dim dirs() As String = IO.Directory.GetDirectories(rootPath)
             For Each d As String In dirs
                 Dim newsubcat As String = ""
@@ -286,8 +300,12 @@ Public Class MainForm
                 ElseIf level >= 1 Then
                     newsubcat = subcat
                 End If
+                If subFolderas Then
+                    rowsFound += LoadImagesSilent(level + 1, d, cat, newsubcat, types)
+                Else
 
-                rowsFound += LoadImagesSilent(level + 1, d, cat, newsubcat, types)
+                End If
+
             Next
             If level = 0 And rowsFound > 0 Then AddNodes(cat, subcat)
             If level = 1 And rowsFound > 0 Then AddNodes(cat, subcat)
@@ -334,8 +352,10 @@ Public Class MainForm
 
     Private Sub trvArchives_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles trvArchives.AfterSelect
         Try
+            If draggingBegan Then Exit Sub
             If progSelect Then Exit Sub
             If Not ThumbnailContainer1.IsCurrentlyLoading Then
+
                 ThumbnailContainer1.CancelOperation = True
                 While ThumbnailContainer1.IsCurrentlyLoading
                     Threading.Thread.Sleep(100)
@@ -464,7 +484,19 @@ Public Class MainForm
 
     Private Sub butImportImages_Click(sender As Object, e As EventArgs) Handles butImportImages.Click
         Try
-            Dim self As New SelectType()
+            Dim selcat As String = "", selsubcat As String = ""
+            If Not trvArchives.SelectedNode Is Nothing Then
+                If Not trvArchives.SelectedNode Is trvArchives.Nodes("[[ROOT]]") Then
+                    If Not trvArchives.SelectedNode.Parent Is trvArchives.Nodes("[[ROOT]]") Then
+                        selcat = trvArchives.SelectedNode.Parent.Text
+                        selsubcat = trvArchives.SelectedNode.Text
+                    Else
+                        selcat = trvArchives.SelectedNode.Text
+                    End If
+                End If
+            End If
+            Dim self As New SelectType(selcat, selsubcat)
+
 
             Dim fd As New OpenFileDialog
 
@@ -507,9 +539,21 @@ Public Class MainForm
                         Dim maxNos As Integer = Math.Round(wid / ThumbnailContainer1.MaxThumbWidth) 'The wid-10 is for scrollbar
                         ThumbnailContainer1.maxColCount = maxNos
 
-                        ThumbnailContainer1.AddIndividualImages(.FileNames, self.cboCat.Text.Trim, self.cboSubCat.Text.Trim)
+                        If thumbProcessor.AddIndividualImages(.FileNames, self.cboCat.Text.Trim, self.cboSubCat.Text.Trim, CurrentArchive) Then
+                            If Not trvArchives.Nodes("[[ROOT]]").Nodes.ContainsKey(self.cboCat.Text) Then
+                                trvArchives.Nodes("[[ROOT]]").Nodes.Add(self.cboCat.Text, self.cboCat.Text).Tag = self.cboCat.Text
+                                classifications.Add(self.cboCat.Text, New Classification(self.cboCat.Text))
+                            End If
 
-                    End If
+                            If Not trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.ContainsKey(self.cboSubCat.Text) Then
+                                trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.Add(self.cboSubCat.Text, self.cboSubCat.Text).Tag = self.cboSubCat.Text
+                                classifications(self.cboCat.Text).AddSubCat(self.cboSubCat.Text)
+                            End If
+                            ThumbnailContainer1.ClearImages()
+                            trvArchives_AfterSelect(trvArchives, New TreeViewEventArgs(trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes(self.cboSubCat.Text)))
+                        End If
+
+                        End If
                     If .FileNames.Length > 0 Then
                         IMPFROM = IO.Path.GetDirectoryName(.FileNames(0))
                         My.Settings.ImportFrom = IO.Path.GetDirectoryName(.FileNames(0))
@@ -875,6 +919,10 @@ Public Class MainForm
 
     Private Sub butCacelOp_Click(sender As Object, e As EventArgs) Handles butCacelOp.Click
         ThumbnailContainer1.CancelOperation = True
+        If thumbProcessor.IsCurrentlyLoading Then
+            thumbProcessor.CancelOperation = True
+        End If
+        butCacelOp.Hide()
     End Sub
 
     Private Sub txtFocusBox_KeyDown(sender As Object, e As KeyEventArgs) Handles txtFocusBox.KeyDown
@@ -936,6 +984,7 @@ Public Class MainForm
     End Sub
 
     Private Sub ThumbnailContainer1_ThumbnailsScrolled() Handles ThumbnailContainer1.ThumbnailsScrolled
+
         ShowThumbnailsinVisibleArea()
     End Sub
 
@@ -947,5 +996,235 @@ Public Class MainForm
         If e.KeyCode = Keys.Enter Then
             butSearch_Click(Nothing, Nothing)
         End If
+    End Sub
+
+    Private Sub thumbProcessor_Errored(ex As Exception) Handles thumbProcessor.Errored
+        msgQueue.Enqueue("[ERROR]: " + ex.Message)
+    End Sub
+
+    Private Sub thumbProcessor_Message(msg As String) Handles thumbProcessor.Message
+
+        msgQueue.Enqueue("[info]: " + msg)
+    End Sub
+
+    Private Sub thumbProcessor_Loading(running As Boolean) Handles thumbProcessor.Loading
+        isloading = running
+    End Sub
+
+    Private Sub thumbProcessor_Progress(pct As Integer) Handles thumbProcessor.Progress
+        ProgressBar1.Value = pct
+        If pct = 100 Then
+            ProgressBar1.Hide()
+            butCacelOp.Hide()
+        Else
+            ProgressBar1.Show()
+            butCacelOp.Show()
+        End If
+    End Sub
+
+    Private Sub ctxTree_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles ctxTree.Opening
+        If trvArchives.Nodes.ContainsKey("[[ROOT]]") = False Then
+            ImportHereToolStripMenuItem.Enabled = False
+            AddImagesHereToolStripMenuItem.Enabled = False
+            RenameToolStripMenuItem.Enabled = False
+            ExportThisToolStripMenuItem.Enabled = False
+            DeleteToolStripMenuItem.Enabled = False
+        Else
+            If trvArchives.SelectedNode Is Nothing Then
+
+                ImportHereToolStripMenuItem.Enabled = False
+                AddImagesHereToolStripMenuItem.Enabled = False
+                RenameToolStripMenuItem.Enabled = False
+                ExportThisToolStripMenuItem.Enabled = False
+                DeleteToolStripMenuItem.Enabled = False
+
+                Exit Sub
+            ElseIf trvArchives.SelectedNode Is trvArchives.Nodes("[[ROOT]]") Then
+                ImportHereToolStripMenuItem.Enabled = True
+                AddImagesHereToolStripMenuItem.Enabled = True
+                RenameToolStripMenuItem.Enabled = False
+                ExportThisToolStripMenuItem.Enabled = False
+                DeleteToolStripMenuItem.Enabled = False
+
+            ElseIf trvArchives.SelectedNode.Parent Is trvArchives.Nodes("[[ROOT]]") Then
+                ImportHereToolStripMenuItem.Enabled = True
+                AddImagesHereToolStripMenuItem.Enabled = True
+                RenameToolStripMenuItem.Enabled = True
+                ExportThisToolStripMenuItem.Enabled = False
+                DeleteToolStripMenuItem.Enabled = True
+            Else
+                ImportHereToolStripMenuItem.Enabled = True
+                AddImagesHereToolStripMenuItem.Enabled = True
+                RenameToolStripMenuItem.Enabled = True
+                ExportThisToolStripMenuItem.Enabled = True
+                DeleteToolStripMenuItem.Enabled = True
+            End If
+        End If
+    End Sub
+
+    Private Sub ImportHereToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ImportHereToolStripMenuItem.Click
+        butImport_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub AddImagesHereToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AddImagesHereToolStripMenuItem.Click
+        butImportImages_Click(Nothing, Nothing)
+    End Sub
+
+    Private Sub RenameToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RenameToolStripMenuItem.Click
+
+        trvArchives.SelectedNode.BeginEdit()
+    End Sub
+
+    Private Sub ExportThisToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportThisToolStripMenuItem.Click
+        ThumbnailContainer1.BeginExport()
+    End Sub
+
+    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
+        Dim cat As String = ""
+        Dim subcat As String = ""
+
+
+        If trvArchives.SelectedNode.Parent Is trvArchives.Nodes("[[ROOT]]") Then
+            cat = trvArchives.SelectedNode.Text
+        Else
+            cat = trvArchives.SelectedNode.Parent.Text
+            subcat = trvArchives.SelectedNode.Text
+        End If
+        If subcat = "" Then
+            If MsgBox("This would delete the entire category and subcategories from cache. Do you want to proceeed?", MsgBoxStyle.YesNo Or MsgBoxStyle.Question) = MsgBoxResult.Yes Then
+                Dim l As List(Of String) = archHelper.RemoveThumbs(cat, CurrentArchive)
+                LogMessages("[info]: Cleaning cached files...")
+                For Each s As String In l
+                    Try
+                        My.Computer.FileSystem.DeleteFile(ARCHLOC & "\CacheImages\" & s)
+                    Catch ex As Exception
+                        LogMessages("[ERROR]: " & ex.Message & " Cached file: " & s)
+                    End Try
+                Next
+                LogMessages("[info]: Completed cleanup")
+                Dim tn As TreeNode = trvArchives.SelectedNode
+                classifications.Remove(tn.Text)
+                tn.Remove()
+            Else
+                Exit Sub
+
+            End If
+        Else
+            If MsgBox("This would delete the selected subcategory from cache. Do you want to proceeed?", MsgBoxStyle.YesNo Or MsgBoxStyle.Question) = MsgBoxResult.Yes Then
+                Dim l As List(Of String) = archHelper.RemoveThumbs(cat, CurrentArchive, subcat)
+                LogMessages("[info]: Cleaning cached files...")
+                If Not ThumbnailContainer1.IsSearch Then
+                    ThumbnailContainer1.ClearImages()
+                End If
+                For Each s As String In l
+                    Try
+                        My.Computer.FileSystem.DeleteFile(ARCHLOC & "\CacheImages\" & s)
+                    Catch ex As Exception
+                        LogMessages("[ERROR]: " & ex.Message & " Cached file: " & s)
+                    End Try
+                Next
+                LogMessages("[info]: Completed cleanup")
+                Dim tn As TreeNode = trvArchives.SelectedNode
+                Dim pn As TreeNode = tn.Parent
+                classifications(pn.Text).SubCategories.Remove(tn.Text)
+                tn.Remove()
+            Else
+                Exit Sub
+            End If
+        End If
+
+    End Sub
+
+    Private draggingBegan As Boolean
+    Private Sub trvArchives_DragEnter(sender As Object, e As DragEventArgs) Handles trvArchives.DragEnter
+        e.Effect = e.AllowedEffect
+        draggingBegan = True
+        'If e.Data.GetDataPresent("System.Windows.Forms.TreeNode", True) Then
+
+        '    'TreeNode found allow move effect
+        '    e.Effect = DragDropEffects.Move
+        'Else
+        '    'No TreeNode found, prevent move
+        '    e.Effect = DragDropEffects.None
+        'End If
+    End Sub
+
+    Private Sub trvArchives_ItemDrag(sender As Object, e As ItemDragEventArgs) Handles trvArchives.ItemDrag
+        If e.Button = MouseButtons.Left Then
+            If CType(e.Item, TreeNode).Tag = "ROOT" Then
+            ElseIf CType(e.Item, TreeNode).Parent.Tag = "ROOT" Then
+            Else
+                DoDragDrop(e.Item, DragDropEffects.Move)
+                draggingBegan = True
+            End If
+        End If
+
+    End Sub
+
+    Private Sub trvArchives_DragDrop(sender As Object, e As DragEventArgs) Handles trvArchives.DragDrop
+        Dim targPoint As Point = trvArchives.PointToClient(New Point(e.X, e.Y))
+        Dim targNode As TreeNode = trvArchives.GetNodeAt(targPoint)
+        Dim srcNode As TreeNode = CType(e.Data.GetData("System.Windows.Forms.TreeNode"), TreeNode)
+        If Not srcNode Is targNode And ValidNode(targNode, srcNode) Then
+            If e.Effect = DragDropEffects.Move Then
+                If archHelper.ChangeCat(srcNode.Parent.Text, srcNode.Text, targNode.Text, CurrentArchive) Then
+                    classifications(srcNode.Parent.Text).SubCategories.Remove(srcNode.Text)
+                    srcNode.Remove()
+                    If Not targNode.Nodes.ContainsKey(srcNode.Text) Then
+                        targNode.Nodes.Add(srcNode)
+                        classifications(targNode.Text).SubCategories.Add(srcNode.Text)
+                    End If
+                    ThumbnailContainer1.ClearImages()
+                    draggingBegan = False
+                    trvArchives.SelectedNode = srcNode
+                    'trvArchives_AfterSelect(Nothing, New TreeViewEventArgs(targNode.Nodes(srcNode.Text)))
+
+                End If
+            End If
+        End If
+        draggingBegan = False
+    End Sub
+
+    Private Sub trvArchives_DragOver(sender As Object, e As DragEventArgs) Handles trvArchives.DragOver
+        Dim targPoint As Point = trvArchives.PointToClient(New Point(e.X, e.Y))
+        trvArchives.SelectedNode = trvArchives.GetNodeAt(targPoint)
+    End Sub
+    Private Function ValidNode(parNode As TreeNode, childNode As TreeNode) As Boolean
+        If childNode.Parent Is Nothing Then Return False
+        If childNode.Parent Is parNode Then Return False
+        If parNode.Parent Is Nothing Then Return False
+        If parNode.Parent Is trvArchives.Nodes("[[ROOT]]") Then Return True
+        Return False
+    End Function
+
+    Private Sub trvArchives_MouseDown(sender As Object, e As MouseEventArgs) Handles trvArchives.MouseDown
+        draggingBegan = False
+    End Sub
+
+    Private Sub trvArchives_MouseUp(sender As Object, e As MouseEventArgs) Handles trvArchives.MouseUp
+
+    End Sub
+
+    Private Sub txtFocusBox_KeyUp(sender As Object, e As KeyEventArgs) Handles txtFocusBox.KeyUp
+        If e.KeyCode = Keys.ControlKey Then
+            ThumbnailContainer1.ControlKey = False
+
+        End If
+        If e.KeyCode = Keys.ShiftKey Then
+            ThumbnailContainer1.ShiftKey = False
+        End If
+
+    End Sub
+
+    Private Sub archHelper_DatabaseError(ex As Exception) Handles archHelper.DatabaseError
+        msgQueue.Enqueue("[DBERROR]: " & ex.Message)
+    End Sub
+
+    Private Sub txtFocusBox_GotFocus(sender As Object, e As EventArgs) Handles txtFocusBox.GotFocus
+        pnlThumbnails.BackColor = SystemColors.ControlDarkDark
+    End Sub
+
+    Private Sub txtFocusBox_LostFocus(sender As Object, e As EventArgs) Handles txtFocusBox.LostFocus
+        pnlThumbnails.BackColor = SystemColors.ControlDark
     End Sub
 End Class

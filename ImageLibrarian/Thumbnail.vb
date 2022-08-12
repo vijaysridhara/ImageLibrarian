@@ -31,7 +31,7 @@ Friend Class Thumbnail
     Private RESOLHT = 130
     Private _resol As Size = New Size(RESOLWID, RESOLHT)
     Private _tags As String = ""
-    Private _stars As Integer
+    Private _stars As Integer = 0
     Private _category As String = "Default"
     Private _subcategory As String = "Default"
     Private _comment As String = ""
@@ -385,7 +385,7 @@ Friend Class Thumbnail
                     img = New Bitmap(memSt)
                 End Using
             End Using
-            Stars = 0
+
             Dim imgF As ImageFormat = img.RawFormat
             If imgF.Equals(ImageFormat.Jpeg) Then
                 FileType = "jpg"
