@@ -284,7 +284,8 @@ Friend Class ArchiveHelper
 
     Public Function ContainsFile(file As String, cat As String, subcat As String, archname As String) As Boolean
         Try
-            Dim cmd As New SQLiteCommand("select 1 from archives where UPPER(ORIGFILEPATH)='" & UCase(file) & "' and UPPER(category)='" & UCase(cat) & "' and UPPER(subcat)='" & subcat & "' and UPPER(archivename)='" & UCase(archname) & "'")
+            Dim query As String = "select 1 from archives where UPPER(ORIGFILEPATH)='" & file.ToUpper & "' and UPPER(category)='" & cat.ToUpper & "' and UPPER(subcat)='" & subcat.ToUpper & "' and UPPER(archivename)='" & archname.ToUpper & "'"
+            Dim cmd As New SQLiteCommand(query)
             cmd.Connection = con
             Dim RDR As SQLiteDataReader
             RDR = cmd.ExecuteReader

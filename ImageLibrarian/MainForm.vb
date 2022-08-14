@@ -291,6 +291,9 @@ Public Class MainForm
         Try
             If _cancelOp Then Return 0
             Dim rowsFound As Integer = 0
+            If subcat = "A Modern Fairytale" Then
+                MsgBox("Hi")
+            End If
             rowsFound = thumbProcessor.Massload(level, rootPath, types.ToArray, cat, subcat, CurrentArchive)
             Dim dirs() As String = IO.Directory.GetDirectories(rootPath)
             For Each d As String In dirs
@@ -301,7 +304,7 @@ Public Class MainForm
                     newsubcat = subcat
                 End If
                 If subFolderas Then
-                    rowsFound += LoadImagesSilent(level + 1, d, cat, newsubcat, types)
+                    rowsFound += LoadImagesSilent(level + 1, d, cat, newsubcat, types, subFolderas)
                 Else
 
                 End If
@@ -1094,8 +1097,16 @@ Public Class MainForm
             If MsgBox("This would delete the entire category and subcategories from cache. Do you want to proceeed?", MsgBoxStyle.YesNo Or MsgBoxStyle.Question) = MsgBoxResult.Yes Then
                 Dim l As List(Of String) = archHelper.RemoveThumbs(cat, CurrentArchive)
                 LogMessages("[info]: Cleaning cached files...")
+                LogMessages("[info]: There are " & l.Count & " cached images to be deleted.hold on...")
+                Dim cnt As Integer = 0
                 For Each s As String In l
+
                     Try
+                        cnt += 1
+                        If cnt Mod 10 = 0 Then
+                            ProgressBar1.Value = Math.Floor(CInt(cnt / l.Count * 100))
+                            ProgressBar1.Refresh()
+                        End If
                         My.Computer.FileSystem.DeleteFile(ARCHLOC & "\CacheImages\" & s)
                     Catch ex As Exception
                         LogMessages("[ERROR]: " & ex.Message & " Cached file: " & s)
@@ -1116,8 +1127,15 @@ Public Class MainForm
                 If Not ThumbnailContainer1.IsSearch Then
                     ThumbnailContainer1.ClearImages()
                 End If
+                LogMessages("[info]: There are " & l.Count & " cached images to be deleted.hold on...")
+                Dim cnt As Integer = 0
                 For Each s As String In l
                     Try
+                        cnt += 1
+                        If cnt Mod 10 = 0 Then
+                            ProgressBar1.Value = Math.Floor(CInt(cnt / l.Count * 100))
+                            ProgressBar1.Refresh()
+                        End If
                         My.Computer.FileSystem.DeleteFile(ARCHLOC & "\CacheImages\" & s)
                     Catch ex As Exception
                         LogMessages("[ERROR]: " & ex.Message & " Cached file: " & s)

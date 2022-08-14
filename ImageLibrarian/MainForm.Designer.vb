@@ -564,6 +564,7 @@ Partial Class MainForm
         Me.txtLog.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.txtLog.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
         Me.txtLog.Location = New System.Drawing.Point(207, 471)
+        Me.txtLog.MaxLength = 256000000
         Me.txtLog.Multiline = True
         Me.txtLog.Name = "txtLog"
         Me.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
