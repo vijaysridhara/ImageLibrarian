@@ -472,82 +472,83 @@ Friend Class Thumbnail
             Dim count As Integer = 0
             Debug.Print("____" & Origfilename)
             Dim proDirecs As IEnumerable(Of Directory) = ImageMetadataReader.ReadMetadata(FullPath)
+            Dim seq As Integer = 0
             For Each direc As Directory In proDirecs
                 For Each tag As Tag In direc.Tags
                     ' Debug.Print(direc.Name & "-" & tag.Name & "=" & tag.Description)
                     If direc.Name = "JPEG" Then
                         If tag.Name = "Image Height" Then
-                            Dim p As New PropItem("Height", Int(tag.Description.Split(" ")(0)))
+                            Dim p As New PropItem("Height", Int(tag.Description.Split(" ")(0)), ++seq)
                             MetaData.Add("Height", p)
                         End If
                         If tag.Name = "Image Width" Then
-                            Dim p As New PropItem("Width", Int(tag.Description.Split(" ")(0)))
+                            Dim p As New PropItem("Width", Int(tag.Description.Split(" ")(0)), ++seq)
                             MetaData.Add("Width", p)
                         End If
                         If tag.Name = "Data Precision" Then
-                            Dim p As New PropItem("Depth", tag.Description)
+                            Dim p As New PropItem("Depth", tag.Description, ++seq)
                             MetaData.Add("Depth", p)
                         End If
                     ElseIf direc.Name = "Exif IFD0" Then
                         If tag.Name = "X Resolution" Then
-                            Dim p As New PropItem("Resolution", Int(tag.Description.Split(" ")(0)) & " dpi")
+                            Dim p As New PropItem("Resolution", Int(tag.Description.Split(" ")(0)) & " dpi", ++seq)
                             MetaData.Add("Resolution", p)
                         End If
                         If tag.Name = "Software" Then
-                            Dim p As New PropItem("Software", tag.Description)
+                            Dim p As New PropItem("Software", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Date/Time" Then
-                            Dim p As New PropItem("Date/Time", tag.Description)
+                            Dim p As New PropItem("Date/Time", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Make" Then
-                            Dim p As New PropItem("Device Make", tag.Description)
+                            Dim p As New PropItem("Device Make", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Model" Then
-                            Dim p As New PropItem("Device Model", tag.Description)
+                            Dim p As New PropItem("Device Model", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Artist" Then
-                            Dim p As New PropItem("Artist", tag.Description)
+                            Dim p As New PropItem("Artist", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                     ElseIf direc.Name = "Exif SubIFD" Then
                         If tag.Name = "Exposure" Then
-                            Dim p As New PropItem("Exposure", tag.Description)
+                            Dim p As New PropItem("Exposure", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "F-Number" Then
-                            Dim p As New PropItem("F-Number", tag.Description)
+                            Dim p As New PropItem("F-Number", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "ISO Speed Ratings" Then
-                            Dim p As New PropItem("ISO", tag.Description)
+                            Dim p As New PropItem("ISO", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Shuter Speed Value" Then
-                            Dim p As New PropItem("Shutter Speed", tag.Description)
+                            Dim p As New PropItem("Shutter Speed", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Aperture Value" Then
-                            Dim p As New PropItem("Aperture", tag.Description)
+                            Dim p As New PropItem("Aperture", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Flash" Then
-                            Dim p As New PropItem("Flash", tag.Description)
+                            Dim p As New PropItem("Flash", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Focal Length" Then
-                            Dim p As New PropItem("Focal Length", tag.Description)
+                            Dim p As New PropItem("Focal Length", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "Color Space" Then
-                            Dim p As New PropItem("Color Space", tag.Description)
+                            Dim p As New PropItem("Color Space", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                         If tag.Name = "White Balance" Then
-                            Dim p As New PropItem("White Balance", tag.Description)
+                            Dim p As New PropItem("White Balance", tag.Description, ++seq)
                             MetaData.Add(p.Name, p)
                         End If
                     End If

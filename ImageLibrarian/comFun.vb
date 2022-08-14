@@ -41,14 +41,17 @@ End Class
 Friend Class PropItem
     Public Name As String
     Public Value As String
-    Public Sub New(name, value)
+    Public Sequence As Integer = 0
+    Public Sub New(name, value, seq)
         Me.Name = name
         Me.Value = value
+        Me.Sequence = seq
     End Sub
     Public Function Clone() As PropItem
-        Dim p1 As New PropItem(Me.Name, Me.Value)
+        Dim p1 As New PropItem(Me.Name, Me.Value, Me.Sequence)
         Return p1
     End Function
+
 End Class
 Module comFun
     Public ARCHLOC As String

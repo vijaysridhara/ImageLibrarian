@@ -21,7 +21,30 @@ Friend Class ArchiveHelper
     Dim CONN_STR As String = "Data Source=" + FILE_PATH + ";Version=3"
 
     Private _cache_path As String
+    Dim colChecksDone As Boolean = False
+    Private Sub ColumnChecks()
+        If colChecksDone = False Then
+            Dim chkCmd As New SQLiteCommand
+            Dim chk1 As String = "Select COUNT(*) As CNTREC FROM pragma_table_info('properties') WHERE name='sequence'"
+            chkCmd.Connection = con
+            chkCmd.CommandText = chk1
+            Dim rdr As SQLiteDataReader = chkCmd.ExecuteReader
+            Dim colExists As Boolean = False
+            If rdr.Read Then
+                If rdr(0) > 0 Then
+                    colExists = True
+                End If
 
+            End If
+            rdr.Close()
+            If Not colExists Then
+                chkCmd.CommandText = "alter table properties add column sequence integer default 0"
+                chkCmd.ExecuteNonQuery()
+            End If
+            colChecksDone = True
+            chkCmd.Dispose()
+        End If
+    End Sub
     Public Sub Cleanup()
         If Not con Is Nothing Then
             ConnectionOpen()
@@ -51,7 +74,7 @@ Friend Class ArchiveHelper
 
     Public Function GetArchiveList() As Boolean
         Try
-            Dim query = "select distinct archname,isprivate,password from archivenames  order by 1"
+            Dim query = "Select distinct archname,isprivate,password from archivenames  order by 1"
             If Not ConnectionOpen() Then Return Nothing
             Dim cmd As New SQLiteCommand(query)
             cmd.Connection = con
@@ -77,7 +100,7 @@ Friend Class ArchiveHelper
             Dim nameupdate As Boolean = False
             If Not (String.IsNullOrEmpty(a.newName) Or a.newName = a.Name) Then
                 nameupdate = True
-                query = "update archivenames set archname=@archname,isprivate=@isprivate,password=@password where archname='" & a.Name & "'"
+                query = "update archivenames Set archname=@archname,isprivate=@isprivate,password=@password where archname='" & a.Name & "'"
                 query2 = "update archives set archivename=@archivename where archivename='" & a.Name & "'"
             Else
                 query = "update archivenames set  isprivate=@isprivate,password=@password where archname='" & a.Name & "'"
@@ -207,6 +230,9 @@ Friend Class ArchiveHelper
             If con.State = ConnectionState.Closed Then
                 con.Open()
             End If
+            If Not colChecksDone Then
+                ColumnChecks()
+            End If
             Return True
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)
@@ -298,17 +324,40 @@ Friend Class ArchiveHelper
             If ConnectionOpen() = False Then Return Nothing
             Dim delC As New SQLiteCommand
             delC.Connection = con
-            delC.CommandText = "select cachefilename from archives where category='" & cat & "' and subcat " & IIf(subcat = "%", " like '%'", "='" & subcat & "' ") & " and archivename='" & arch & "'"
+            delC.CommandText = "select cachefilename,filenumber from archives where category='" & cat & "' and subcat " & IIf(subcat = "%", " like '%'", "='" & subcat & "' ") & " and archivename='" & arch & "'"
             Dim rdr As SQLiteDataReader
             rdr = delC.ExecuteReader
             Dim l As New List(Of String)
+            Dim filenums As New ArrayList
+            Dim cnt As Integer = 0
+            Dim delProps As String = "delete from  properties where filenumber in ({0})"
+            Dim delC1 As New SQLiteCommand()
+            delC1.Connection = con
             While rdr.Read
                 l.Add(rdr(0))
+                cnt += 1
+                If cnt Mod 100 = 0 Then
+                    delC1.CommandText = String.Format(delProps, String.Join(",", filenums.ToArray))
+                    delC1.ExecuteNonQuery()
+                    cnt = 0
+                    filenums.Clear()
+                Else
+
+                    filenums.Add(rdr(1))
+                End If
             End While
+            If filenums.Count > 0 Then
+                delC1.CommandText = String.Format(delProps, String.Join(",", filenums.ToArray))
+                delC1.ExecuteNonQuery()
+                filenums.Clear()
+            End If
             rdr.Close()
+
             delC.CommandText = "delete from archives where  category='" & cat & "' and subcat  " & IIf(subcat = "%", " like '%'", "='" & subcat & "' ") & " and archivename='" & arch & "'"
             delC.ExecuteNonQuery()
+
             delC.Dispose()
+            delC1.Dispose()
             Return l
         Catch ex As Exception
             RaiseEvent DatabaseError(ex)
@@ -325,14 +374,16 @@ Friend Class ArchiveHelper
             metaCommand.Connection = con
             metaCommand.CommandText = "delete from properties where filenumber=" & filenum
             metaCommand.ExecuteNonQuery()
-            metaCommand.CommandText = "insert into properties (filenumber,propertyname,propertyval) values " &
-                    "(@filenumber,@propertyname,@propertyval)"
+            metaCommand.CommandText = "insert into properties (filenumber,propertyname,propertyval,sequence) values " &
+                    "(@filenumber,@propertyname,@propertyval,@sequence)"
             metaCommand.Parameters.Add("@filenumber", DbType.Int64)
             metaCommand.Parameters.Add("@propertyname", DbType.String)
             metaCommand.Parameters.Add("@propertyval", DbType.String)
+            metaCommand.Parameters.Add("@sequence", DbType.Int32)
             For Each prop As PropItem In metadata.Values
                 metaCommand.Parameters(0).Value = filenum
                 metaCommand.Parameters(1).Value = prop.Name
+                metaCommand.Parameters(3).Value = prop.Sequence
                 metaCommand.Parameters(2).Value = IIf(prop.Value Is Nothing, "", prop.Value)
                 metaCommand.ExecuteNonQuery()
                 Application.DoEvents()
@@ -603,12 +654,12 @@ Friend Class ArchiveHelper
     End Function
     Private Function GetMeta(t As Thumbnail) As Boolean
         Try
-            Dim cmd As New SQLiteCommand("select propertyname,propertyval from properties where filenumber=" & t.FileNumber)
+            Dim cmd As New SQLiteCommand("select propertyname,propertyval,sequence from properties where filenumber=" & t.FileNumber & " order by sequence")
             cmd.Connection = con
             Dim rdr As SQLiteDataReader
             rdr = cmd.ExecuteReader
             While rdr.Read
-                Dim prop As New PropItem(rdr(0), rdr(1))
+                Dim prop As New PropItem(rdr(0), rdr(1), rdr(2))
                 t.MetaData.Add(prop.Name, prop)
             End While
 
