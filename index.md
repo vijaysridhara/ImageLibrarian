@@ -10,6 +10,11 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 
 ![Image librarian performance](https://drive.google.com/uc?export=view&id=18r-0SctAejYaROviXySxpQIgdrTKdPif)
 
+## 14 Aug 2022, Beta 0.3.1 released
+# Defects fixed
+1. Categories and Subcat deletion doesn't delete properties
+2. Properties ORDER is set with new column sequence.
+
 ## 12 Aug 2022, Beta 0.3 released
 # Features added
 1. Drag drop of subcategories
@@ -62,7 +67,7 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 So without wasting any time, where is my download
 ## Download Links
 
-### [Download now Beta 0.3](https://github.com/vijaysridhara/ImageLibrarian/releases/tag/Beta_V0.3)
+### [Download now Beta 0.3.1](https://app.box.com/s/weoiwv6cdxx6pfcvi49fy3rqsjydclom)
 
 
 ### Support or Contact
