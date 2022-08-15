@@ -71,8 +71,7 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 So without wasting any time, where is my download
 ## Download Links
 
-### [Download now Beta 0.3.2](https://app.box.com/s/b0i1ycglv4tavsvqg5fxhhdqqxmbu3wb
-))
+### [Download now Beta 0.3.2](https://app.box.com/s/b0i1ycglv4tavsvqg5fxhhdqqxmbu3wb)
 
 ### Support or Contact
 [Raise a issue here](https://github.com/vijaysridhara/ImageLibrarian/issues)
