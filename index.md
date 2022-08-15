@@ -10,7 +10,7 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 
 ![Image librarian performance](https://drive.google.com/uc?export=view&id=18r-0SctAejYaROviXySxpQIgdrTKdPif)
 
-## 15 Aug 2022, Beta 0.3.1 released
+## 15 Aug 2022, Beta 0.3.2 released
 #Defect fixed
 1. Duplicate check failing, so inducing duplicates.
 
