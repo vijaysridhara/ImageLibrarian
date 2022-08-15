@@ -10,6 +10,10 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 
 ![Image librarian performance](https://drive.google.com/uc?export=view&id=18r-0SctAejYaROviXySxpQIgdrTKdPif)
 
+## 15 Aug 2022, Beta 0.3.1 released
+#Defect fixed
+1. Duplicate check failing, so inducing duplicates.
+
 ## 14 Aug 2022, Beta 0.3.1 released
 # Defects fixed
 1. Categories and Subcat deletion doesn't delete properties
@@ -67,8 +71,8 @@ The [Documentation](documentation.md) page for documentation, and finally the [D
 So without wasting any time, where is my download
 ## Download Links
 
-### [Download now Beta 0.3.1](https://app.box.com/s/weoiwv6cdxx6pfcvi49fy3rqsjydclom)
-
+### [Download now Beta 0.3.2](https://app.box.com/s/b0i1ycglv4tavsvqg5fxhhdqqxmbu3wb
+))
 
 ### Support or Contact
 [Raise a issue here](https://github.com/vijaysridhara/ImageLibrarian/issues)
