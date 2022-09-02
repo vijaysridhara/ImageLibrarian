@@ -5,7 +5,17 @@ Image librarian is a photo manager for windows users. It is custom built and use
 
 ### _Mind you this is still a beta release_
 
-![Image librarian performance](https://drive.google.com/uc?export=view&id=18r-0SctAejYaROviXySxpQIgdrTKdPif)
+![Image librarian performance](https://drive.google.com/uc?export=view&id=1dQgzYhZjMlgrsE1cxxE9PXJ-8cX2_mmV)
+
+## 02 Sep 2022, 0.4 Production ready
+# Features added
+1. Cute yellow border for all images
+2. Add your folder structure as tags to all your images, so that you don't loose the heirarchy and searcheability of already properly set heirarchy
+3. Performance improved for selecting thumbnails (earlier in sequence, now it is calculated based on location)
+
+# Defects fixed
+1. After a height of 32737(max int value), the thumbnails are not selectable, fixed
+
 
 ## 15 Aug 2022, Beta 0.3.2 released
 #Defect fixed
