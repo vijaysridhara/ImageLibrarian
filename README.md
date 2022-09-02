@@ -3,7 +3,7 @@
 
 Image librarian is a photo manager for windows users. It is custom built and uses SQLITE and a Cache folder to index your images from various sources. Go ahead and see the features and binaries.
 
-### _Mind you this is still a beta release_
+### _All set, Production ready_
 
 ![Image librarian performance](https://drive.google.com/uc?export=view&id=1dQgzYhZjMlgrsE1cxxE9PXJ-8cX2_mmV)
 
