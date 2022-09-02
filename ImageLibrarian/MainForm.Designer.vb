@@ -84,7 +84,7 @@ Partial Class MainForm
         '
         Me.pnlThumbnails.AutoScroll = True
         Me.pnlThumbnails.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.pnlThumbnails.BackColor = System.Drawing.SystemColors.ControlDark
+        Me.pnlThumbnails.BackColor = System.Drawing.SystemColors.ControlDarkDark
         Me.pnlThumbnails.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.pnlThumbnails.Controls.Add(Me.ThumbnailContainer1)
         Me.pnlThumbnails.Controls.Add(Me.txtFocusBox)

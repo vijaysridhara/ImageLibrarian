@@ -540,6 +540,7 @@ Friend Class ThumbnailContainer
         SetStyle(ControlStyles.OptimizedDoubleBuffer, True)
         SetStyle(ControlStyles.ResizeRedraw, True)
         SetStyle(ControlStyles.Selectable, True)
+        SetStyle(ControlStyles.SupportsTransparentBackColor, True)
 
         tlstpEditFile.DropDownItems.AddRange({tlstpEditFileWithInternal, tlstpEditFileWithP1, tlstpEditFileWithP2, tlstpEditFileWithP3})
         ctxContext.Items.AddRange({tlstpEditFile, tlstpCut, tlstpCopy, tlstpPaste, tlstpCopyTo, tlstpChangeCategory, tlstpSelectAll, tlstpDeSelectAll, tlstpSep1, tlstpCopyTo, tlstpExportto, tlstpSep2, tlstpRemoveCached, tlspShowFile, tlstpRemoveOriginal, tlstpSep3, tlstpRefreshThumbnail})
@@ -548,6 +549,7 @@ Friend Class ThumbnailContainer
         tlstpEditFileWithP1.Tag = "Edit with prog1"
         tlstpEditFileWithP2.Tag = "Edit with prog2"
         tlstpEditFileWithP3.Tag = "Edit with prog3"
+        Me.BackColor = Color.Transparent
     End Sub
     Dim paintTop As Integer = 0
     Dim paintBot As Integer = 0
@@ -883,56 +885,143 @@ Friend Class ThumbnailContainer
         Dim fnd As Boolean = False
 
         If e.Button = MouseButtons.Left Then
-            For Each c As Thumbnail In tnailList
-                If c.HitTest(e.Location) And c.Hide = False Then
-                    fnd = True
-                    If c.Selected = False Then
-                        c.Selected = True
-                        RaiseEvent ThumbnailSelected(c)
+            Dim yVal As Integer  'This is needed because as location.y is integer, max value is 32767 after which it starts becoming -ve for unknown reasons
+            If e.Location.Y < 0 Then
+                yVal = 32767 + (32767 + e.Location.Y) 'Add the difference to the max value
+            Else
+                yVal = e.Location.Y
+            End If
+            Dim clickLoc As Point = New Point(e.X, yVal)
+            Dim calCRow As Integer, calcCol As Integer
+            Dim ct As Integer = 0
+            calCRow = 1
 
-                    End If
+            While (ct + THUMB_HEIGHT) < clickLoc.Y
 
-                    If ShiftKey Then
-                        Dim endix As Integer = tnailList.IndexOf(c)
-                        If begIx > -1 Then
-                            For i As Integer = begIx To endix
-                                If tnailList(i).Hide = False Then
-                                    tnailList(i).Selected = True
-                                End If
-                            Next
-                            begIx = endix
-                        End If
-                    End If
-                    If Not ControlKey And Not ShiftKey Then
-                        Dim x As Integer = c.GetStarLoc(e.Location)
-                        If x > -1 Then
-                            If x = 1 And c.Stars = 1 Then
-                                c.Stars = 0
-                                c.Draw(Me.CreateGraphics)
-                                ArchHelper.UpdateThumb("stars", c)
-                            ElseIf x <> c.Stars Then
-                                c.Stars = x
-                                c.Draw(Me.CreateGraphics)
-                                ArchHelper.UpdateThumb("stars", c)
-                            End If
-                        Else
-                            For Each c1 As Thumbnail In tnailList
-                                If c1 Is c Then Continue For
-                                c1.Selected = False
-                            Next
-                        End If
+                ct += (THUMB_HEIGHT + 1)
+                calCRow += 1
+            End While
+            ct = 0
+            Dim fndCtr As Integer = -1
+            For I As Integer = 1 To maxColCount
 
-                    End If
-                    begIx = tnailList.IndexOf(c)
+                If (ct + THUMB_WIDTH) >= clickLoc.X And ct < clickLoc.X Then
+                    fndCtr = I
                     Exit For
                 End If
+                ct += (THUMB_WIDTH + 1)
             Next
+            If fndCtr = -1 Then Exit Sub
+            Dim itemIx As Integer = (calCRow - 1) * maxColCount + fndCtr - 1
+            If itemIx = -1 Or itemIx > (tnailList.Count - 1) Then
+                UnselectAll()
+                Exit Sub
+            End If
+            Dim c As Thumbnail = tnailList(itemIx)
+            If c.HitTest(clickLoc) And c.Hide = False Then
+                fnd = True
+                If c.Selected = False Then
+                    c.Selected = True
+                    RaiseEvent ThumbnailSelected(c)
+
+                End If
+
+                If ShiftKey Then
+                    Dim endix As Integer = itemIx
+                    If begIx > -1 Then
+                        For i As Integer = begIx To endix
+                            If tnailList(i).Hide = False Then
+                                tnailList(i).Selected = True
+                            End If
+                        Next
+                        begIx = endix
+                    End If
+                End If
+                If Not ControlKey And Not ShiftKey Then
+                    Dim x As Integer = c.GetStarLoc(e.Location)
+                    If x > -1 Then
+                        If x = 1 And c.Stars = 1 Then
+                            c.Stars = 0
+                            c.Draw(Me.CreateGraphics)
+                            ArchHelper.UpdateThumb("stars", c)
+                        ElseIf x <> c.Stars Then
+                            c.Stars = x
+                            c.Draw(Me.CreateGraphics)
+                            ArchHelper.UpdateThumb("stars", c)
+                        End If
+                    Else
+                        For Each c1 As Thumbnail In tnailList
+                            If c1 Is c Then Continue For
+                            c1.Selected = False
+                        Next
+                    End If
+
+                End If
+                begIx = itemIx
+            End If
+
             If fnd = False Then
                 UnselectAll()
             End If
         End If
         Me.Invalidate()
     End Sub
+    'Old code searching thumbnaill in sequence, taking too long for few thousands of thumbnails
+    'Private Sub ThumbnailContainer_MouseDown(sender As Object, e As MouseEventArgs) Handles Me.MouseDown
+    '    Dim fnd As Boolean = False
+
+    '    If e.Button = MouseButtons.Left Then
+
+    '        For Each c As Thumbnail In tnailList
+    '            If c.HitTest(e.Location) And c.Hide = False Then
+    '                fnd = True
+    '                If c.Selected = False Then
+    '                    c.Selected = True
+    '                    RaiseEvent ThumbnailSelected(c)
+
+    '                End If
+
+    '                If ShiftKey Then
+    '                    Dim endix As Integer = tnailList.IndexOf(c)
+    '                    If begIx > -1 Then
+    '                        For i As Integer = begIx To endix
+    '                            If tnailList(i).Hide = False Then
+    '                                tnailList(i).Selected = True
+    '                            End If
+    '                        Next
+    '                        begIx = endix
+    '                    End If
+    '                End If
+    '                If Not ControlKey And Not ShiftKey Then
+    '                    Dim x As Integer = c.GetStarLoc(e.Location)
+    '                    If x > -1 Then
+    '                        If x = 1 And c.Stars = 1 Then
+    '                            c.Stars = 0
+    '                            c.Draw(Me.CreateGraphics)
+    '                            ArchHelper.UpdateThumb("stars", c)
+    '                        ElseIf x <> c.Stars Then
+    '                            c.Stars = x
+    '                            c.Draw(Me.CreateGraphics)
+    '                            ArchHelper.UpdateThumb("stars", c)
+    '                        End If
+    '                    Else
+    '                        For Each c1 As Thumbnail In tnailList
+    '                            If c1 Is c Then Continue For
+    '                            c1.Selected = False
+    '                        Next
+    '                    End If
+
+    '                End If
+    '                begIx = tnailList.IndexOf(c)
+    '                Exit For
+    '            End If
+    '        Next
+    '        If fnd = False Then
+    '            UnselectAll()
+    '        End If
+    '    End If
+    '    Me.Invalidate()
+    'End Sub
     Private Sub UnselectAll()
         For Each c1 As Thumbnail In tnailList
             c1.Selected = False

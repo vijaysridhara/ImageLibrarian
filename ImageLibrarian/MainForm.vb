@@ -1238,11 +1238,5 @@ Public Class MainForm
         msgQueue.Enqueue("[DBERROR]: " & ex.Message)
     End Sub
 
-    Private Sub txtFocusBox_GotFocus(sender As Object, e As EventArgs) Handles txtFocusBox.GotFocus
-        pnlThumbnails.BackColor = SystemColors.ControlDarkDark
-    End Sub
 
-    Private Sub txtFocusBox_LostFocus(sender As Object, e As EventArgs) Handles txtFocusBox.LostFocus
-        pnlThumbnails.BackColor = SystemColors.ControlDark
-    End Sub
 End Class

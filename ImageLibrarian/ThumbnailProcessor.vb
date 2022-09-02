@@ -72,6 +72,7 @@ Friend Class ThumbnailProcessor
                 End If
                 Dim c As New Thumbnail(path, GetNextKey, ArchHelper.CachePath & "\CacheImages")
                 c.Category = cat
+                c.Tags = c.FullPath.Substring(3, c.FullPath.Length - c.Origfilename.Length - 4).Replace("\", ",")
                 tnailList.Add(c)
                 c.MakeThumb()
                 ArchHelper.AddEntry(c)
@@ -143,6 +144,8 @@ Friend Class ThumbnailProcessor
                     c.Category = cat
                     c.SubCategory = subcat
                     c.ArchiveName = currentArchive
+                    c.Tags = c.FullPath.Substring(3, c.FullPath.Length - c.Origfilename.Length - 4).Replace("\", ",")
+                    'just split the folder structure to tags, remove the drive and the file information
                     'tempThumbs.Add(c)
                     c.MakeThumb()
                     ArchHelper.AddEntry(c)

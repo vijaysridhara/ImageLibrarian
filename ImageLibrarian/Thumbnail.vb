@@ -44,6 +44,8 @@ Friend Class Thumbnail
     Private _metadata As New Dictionary(Of String, PropItem)
     Private _archname As String
     Private _hide As Boolean
+    Private _shortFileName As String = ""
+    Private stringSize As SizeF
     Public Property Hide As Boolean
         Get
             Return _hide
@@ -56,6 +58,28 @@ Friend Class Thumbnail
 
         End Set
     End Property
+
+    Public ReadOnly Property ShortFilename As String
+
+        Get
+            Return _shortFileName
+        End Get
+    End Property
+
+    Private Sub SetShoftFileName()
+        'If _origfiename.Length > 30 Then
+        '    _shortFileName = _origfiename.Substring(0, 30) & "..."
+        'Else
+        '    _shortFileName = _origfiename
+        'End If
+        Dim maxLength As Integer = RESOLWID - 10
+        _shortFileName = _origfiename
+        stringSize = GetLengthofString(_shortFileName, nameFont)
+        While stringSize.Width > maxLength
+            _shortFileName = _shortFileName.Substring(0, _shortFileName.Length - 1)
+            stringSize = GetLengthofString(_shortFileName, nameFont)
+        End While
+    End Sub
     Public Property ArchiveName As String
         Get
             Return _archname
@@ -193,6 +217,7 @@ Friend Class Thumbnail
         End Get
         Set(value As String)
             _origfiename = value
+            SetShoftFileName()
         End Set
     End Property
     Public Property FileType As String
@@ -373,6 +398,7 @@ Friend Class Thumbnail
         _fileno = fileno
         _cachepath = cachepath
         _origfiename = System.IO.Path.GetFileName(imgpth)
+        SetShoftFileName()
         _cachefile = fileno & System.IO.Path.GetExtension(imgpth).ToLower
         'MakeThumb() 'Call this in a different thread after loading
     End Sub
@@ -575,6 +601,7 @@ Friend Class Thumbnail
         'If _img Is Nothing Then Exit Sub
         If Hide Then Exit Function
         On Error Resume Next
+        g.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
         If ImageLoaded Then
             g.FillRectangle(clearBrush, New Rectangle(Location, Resolution))
             g.DrawImage(Me._img, New Rectangle(Location.X + (Resolution.Width / 2 - Me._img.Width / 2), Location.Y + Resolution.Height / 2 - Me._img.Height / 2, _img.Width, _img.Height))
@@ -585,9 +612,11 @@ Friend Class Thumbnail
             g.DrawImage(My.Resources.loading, New Rectangle(Location, Resolution))
         End If
         If Me.Selected Then
-            g.DrawRectangle(selPen, New Rectangle(Location + New Point(1, 1), Resolution + New Size(0, 20) - New Size(2, 2)))
+            'g.DrawRectangle(selPen, New Rectangle(Location + New Point(1, 1), Resolution + New Size(0, 20) - New Size(2, 2)))
+            DrawRoundedRectangle(g, New Rectangle(Location + New Point(1, 1), Resolution + New Size(0, 20) - New Size(2, 2)), 20, selPen)
         Else
-            g.DrawRectangle(bordPen, New Rectangle(Location, Resolution + New Size(0, 20)))
+            ' g.DrawRectangle(bordPen, New Rectangle(Location, Resolution + New Size(0, 20)))
+            DrawRoundedRectangle(g, New Rectangle(Location + New Point(1, 1), Resolution + New Size(0, 20) - New Size(2, 2)), 20, yellowpen)
         End If
         If Me.StarImage Is Nothing Then Return True
         g.DrawImage(Me.StarImage, New Rectangle(Location.X + Resolution.Width - 25, Location.Y + 5, StarImage.Width, StarImage.Height))
@@ -597,9 +626,58 @@ Friend Class Thumbnail
         If Not String.IsNullOrEmpty(Comment) Then
             g.DrawImage(My.Resources.comments, New Rectangle(Location + New Point(2, Resolution.Height + 20 - 22), New Size(24, 24)))
         End If
-        g.DrawString(Origfilename, nameFont, nameBrush, New Rectangle(New Point(Location + New Point(30, Resolution.Height + 20 - 18)), New Size(Resolution.Width - 20, 15)))
+
+        g.DrawString(_shortFileName, nameFont, nameBrush, New Rectangle(New Point(Location + New Point(RESOLWID / 2 - stringSize.Width / 2, RESOLHT + (20 / 2 - stringSize.Height / 2))), New Size(Math.Ceiling(stringSize.Width), stringSize.Height)))
+
         Return True
     End Function
+    Dim yellowpen As New Pen(Color.Yellow, 1.8)
+
+    Public Sub DrawRoundedRectangle(ByVal objGraphics As Graphics, ByVal baserect As RectangleF,
+                                ByVal m_diameter As Integer, passedpen As Pen)
+
+
+
+        'Dim g As Graphics
+        Dim m_intxaxis = baserect.X
+        Dim m_intyaxis = baserect.Y
+        Dim m_intwidth = baserect.Width
+        Dim m_intheight = baserect.Height
+
+        Dim ArcRect As New RectangleF(baserect.Location,
+                              New SizeF(m_diameter, m_diameter))
+        'top left Arc
+        objGraphics.DrawArc(passedpen, ArcRect, 180, 90)
+        objGraphics.DrawLine(passedpen, m_intxaxis + CInt(m_diameter / 2),
+                         m_intyaxis,
+                         m_intxaxis + m_intwidth - CInt(m_diameter / 2),
+                         m_intyaxis)
+
+        ' top right arc
+        ArcRect.X = baserect.Right - m_diameter
+        objGraphics.DrawArc(passedpen, ArcRect, 270, 90)
+        objGraphics.DrawLine(passedpen, m_intxaxis + m_intwidth,
+                         m_intyaxis + CInt(m_diameter / 2),
+                         m_intxaxis + m_intwidth,
+                         m_intyaxis + m_intheight - CInt(m_diameter / 2))
+
+        ' bottom right arc
+        ArcRect.Y = baserect.Bottom - m_diameter
+        objGraphics.DrawArc(passedpen, ArcRect, 0, 90)
+        objGraphics.DrawLine(passedpen, m_intxaxis + CInt(m_diameter / 2),
+                         m_intyaxis + m_intheight,
+                         m_intxaxis + m_intwidth - CInt(m_diameter / 2),
+                         m_intyaxis + m_intheight)
+
+        ' bottom left arc
+        ArcRect.X = baserect.Left
+        objGraphics.DrawArc(passedpen, ArcRect, 90, 90)
+        objGraphics.DrawLine(passedpen,
+                         m_intxaxis, m_intyaxis + CInt(m_diameter / 2),
+                         m_intxaxis,
+                         m_intyaxis + m_intheight - CInt(m_diameter / 2))
+
+    End Sub
     Public Sub Unlink()
         _img.Dispose()
     End Sub

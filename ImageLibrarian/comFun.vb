@@ -62,6 +62,16 @@ Module comFun
     Public LASTARCH As String
     Public classifications As New Dictionary(Of String, Classification)
     Public archives As New List(Of Arch)
+    Public StringLengthCalcImage As Image = New Bitmap(150, 50)
+    Public StringLegthCalcGraphis As Graphics
+
+    Public Function GetLengthofString(st As String, f As Font) As SizeF
+        If StringLegthCalcGraphis Is Nothing Then
+            StringLegthCalcGraphis = Graphics.FromImage(StringLengthCalcImage)
+
+        End If
+        Return StringLegthCalcGraphis.MeasureString(st, f)
+    End Function
     Public Function GetNextKey() As Long
         Try
             nextKey += 1
