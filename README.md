@@ -76,9 +76,9 @@ Image librarian is a photo manager for windows users. It is custom built and use
 
 
 So without wasting any time, where is my download
-## Download Links
+## Download Binary for Windows
 
-### [Download now Beta 0.3.2](https://vijaysridhara.gumroad.com/l/imagelibrarian)
+### [Download now 0.4 ](https://vijaysridhara.gumroad.com/l/imagelibrarian)
 
 ### Support or Contact
 [Raise a issue here](https://github.com/vijaysridhara/ImageLibrarian/issues)
