@@ -72,6 +72,8 @@ Friend Class ThumbnailProcessor
                 End If
                 Dim c As New Thumbnail(path, GetNextKey, ArchHelper.CachePath & "\CacheImages")
                 c.Category = cat
+                c.ArchiveName = archive
+                c.SubCategory = subcat
                 c.Tags = c.FullPath.Substring(3, c.FullPath.Length - c.Origfilename.Length - 4).Replace("\", ",")
                 tnailList.Add(c)
                 c.MakeThumb()
@@ -84,9 +86,11 @@ Friend Class ThumbnailProcessor
                 End If
             Next
             IsCurrentlyLoading = False
+            Return True
         Catch ex As Exception
             RaiseEvent Errored(ex)
             IsCurrentlyLoading = False
+            Return False
         End Try
 
     End Function
