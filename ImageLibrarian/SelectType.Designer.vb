@@ -52,8 +52,6 @@ Partial Class SelectType
         'chkPNG
         '
         Me.chkPNG.AutoSize = True
-        Me.chkPNG.Checked = True
-        Me.chkPNG.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkPNG.Location = New System.Drawing.Point(97, 18)
         Me.chkPNG.Name = "chkPNG"
         Me.chkPNG.Size = New System.Drawing.Size(50, 19)
@@ -64,8 +62,6 @@ Partial Class SelectType
         'chkBMP
         '
         Me.chkBMP.AutoSize = True
-        Me.chkBMP.Checked = True
-        Me.chkBMP.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkBMP.Location = New System.Drawing.Point(188, 18)
         Me.chkBMP.Name = "chkBMP"
         Me.chkBMP.Size = New System.Drawing.Size(51, 19)

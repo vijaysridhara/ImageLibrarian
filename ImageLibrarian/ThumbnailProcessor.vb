@@ -95,7 +95,7 @@ Friend Class ThumbnailProcessor
 
     End Function
 
-    Public Function Massload(level As Integer, pth As String, types() As String, cat As String, subcat As String, currentArchive As String) As Integer
+    Public Function Massload(level As Integer, pth As String, types As List(Of String), cat As String, subcat As String, currentArchive As String) As Integer
         Try
             IsCurrentlyLoading = True
             Dim filesLoaded As Integer = 0
@@ -103,6 +103,18 @@ Friend Class ThumbnailProcessor
             Dim indent As String = GetIndent(level)
             ' Dim tempThumbs As New List(Of Thumbnail)
             RaiseEvent Message(indent & "***Folder: " & pth & "*******")
+            Dim catExists As Boolean
+            Dim subCatExists As Boolean
+            Dim dupCheckDone As Boolean
+            'Added as per 0.4.2 to improve performance
+            If dupCheckDone = False Then
+                catExists = ArchHelper.ContainsCat(cat, currentArchive)
+                If catExists Then
+                    subCatExists = ArchHelper.ContainsSubcat(cat, subcat, currentArchive)
+                End If
+                dupCheckDone = True
+            End If
+            'End added as per 0.4.2 to improve performance
             For Each t As String In types
                 RaiseEvent Message(indent & "Getting files of type " & t)
                 Dim files() As String = IO.Directory.GetFiles(pth, t)
@@ -112,24 +124,33 @@ Friend Class ThumbnailProcessor
                 Dim tt As Integer = files.Count
                 Dim ct As Integer = 0
                 Dim tenCt As Integer = 0
-                RaiseEvent Message(indent & "Checking for duplicates...")
+
                 Dim finList As New List(Of String)
                 If CancelOperation Then
                     RaiseEvent Message("Cancel requested, so cancelling...")
                     Return 0
                 End If
-                For Each f As String In files
-                    Application.DoEvents()
-                    If ArchHelper.ContainsFile(f, cat, subcat, currentArchive) Then Continue For
-                    finList.Add(f)
-                    If CancelOperation Then
-                        RaiseEvent Message("Cancel requested, so cancelling...")
-                        Return 0
+                If catExists And subCatExists Then
+                    RaiseEvent Message(indent & "Checking for duplicates...")
+                    For Each f As String In files
+                        Application.DoEvents()
+                        If ArchHelper.ContainsFile(f, cat, subcat, currentArchive) Then Continue For
+                        finList.Add(f)
+                        If CancelOperation Then
+                            RaiseEvent Message("Cancel requested, so cancelling...")
+                            Return 0
+                        End If
+                    Next
+                    If files.Length > finList.Count Then
+                        dupes = True
                     End If
-                Next
-                If files.Length > finList.Count Then
-                    dupes = True
+                Else
+                    RaiseEvent Message(indent & "Inserting  all files...")
+                    finList.AddRange(files.ToArray)
                 End If
+
+
+
                 RaiseEvent Message(indent & "There are " & finList.Count & " images in this folder, moving them To cache")
                 For Each f As String In finList
                     Application.DoEvents()

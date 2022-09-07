@@ -281,6 +281,46 @@ Friend Class ArchiveHelper
             Return False
         End Try
     End Function
+    Public Function ContainsSubcat(cat As String, subcat As String, archname As String) As Boolean
+        Try
+            Dim query As String = "select 1 from archives where UPPER(category)='" & cat.ToUpper & "' and UPPER(subcat)='" & subcat.ToUpper & "' and UPPER(archivename)='" & archname.ToUpper & "'"
+            Dim cmd As New SQLiteCommand(query)
+            cmd.Connection = con
+            Dim RDR As SQLiteDataReader
+            RDR = cmd.ExecuteReader
+            Dim FND As Boolean = False
+            If RDR.Read Then
+                FND = IIf(RDR.IsDBNull(0), False, True)
+
+            End If
+            RDR.Close()
+            cmd.Dispose()
+            Return FND
+        Catch ex As Exception
+            RaiseEvent DatabaseError(ex)
+            Return False
+        End Try
+    End Function
+    Public Function ContainsCat(cat As String, archname As String) As Boolean
+        Try
+            Dim query As String = "select 1 from archives where UPPER(category)='" & cat.ToUpper & "' and UPPER(archivename)='" & archname.ToUpper & "'"
+            Dim cmd As New SQLiteCommand(query)
+            cmd.Connection = con
+            Dim RDR As SQLiteDataReader
+            RDR = cmd.ExecuteReader
+            Dim FND As Boolean = False
+            If RDR.Read Then
+                FND = IIf(RDR.IsDBNull(0), False, True)
+
+            End If
+            RDR.Close()
+            cmd.Dispose()
+            Return FND
+        Catch ex As Exception
+            RaiseEvent DatabaseError(ex)
+            Return False
+        End Try
+    End Function
 
     Public Function ContainsFile(file As String, cat As String, subcat As String, archname As String) As Boolean
         Try

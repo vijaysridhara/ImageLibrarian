@@ -225,56 +225,9 @@ Public Class MainForm
                         Next
                     End If
                     trvArchives.SelectedNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text)
+                    LogMessages("[info]: Completed loading folders *************************")
                     Exit Sub
-                    'End If
 
-
-                    'If ThumbnailContainer1.CurrentCategory = self.cboCat.Text And ThumbnailContainer1.CurrentSubCategory = self.cboSubCat.Text Then
-                    '    If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
-                    '        'Do nothing, it is already a selected one
-                    '    End If
-                    'Else
-                    '    If trvArchives.Nodes("[[ROOT]]").Nodes.ContainsKey(self.cboCat.Text) Then
-                    '        If trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.ContainsKey(self.cboSubCat.Text) Then
-                    '            'Both exist, now just add them 
-                    '            If Not trvArchives.SelectedNode Is trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes(self.cboSubCat.Text) Then
-                    '                ThumbnailContainer1.ClearImages()
-                    '                trvArchives.SelectedNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes(self.cboSubCat.Text)
-                    '            End If
-
-                    '            If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
-                    '                Exit Sub
-                    '            End If
-                    '        Else
-                    '            'Subcategory doesn't exist create it
-                    '            ThumbnailContainer1.ClearImages()
-                    '            If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
-                    '                classifications(self.cboCat.Text).SubCategories.Add(self.cboSubCat.Text)
-                    '                Dim nn As TreeNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes.Add(self.cboSubCat.Text, self.cboSubCat.Text)
-                    '                nn.Tag = self.cboSubCat.Text
-                    '                progSelect = True
-                    '                trvArchives.SelectedNode = nn
-                    '                progSelect = False
-                    '                Exit Sub
-                    '            End If
-                    '        End If
-                    '    Else
-                    '        'Category itself doesn't exist Create Cat, Subcat, and then add
-                    '        ThumbnailContainer1.ClearImages()
-                    '        If ThumbnailContainer1.LoadImages(.SelectedPath, types.ToArray, self.cboCat.Text, self.cboSubCat.Text) Then
-                    '            classifications.Add(self.cboCat.Text, New Classification(self.cboCat.Text))
-                    '            classifications(self.cboCat.Text).SubCategories.Add(self.cboSubCat.Text)
-                    '            Dim nn As TreeNode = trvArchives.Nodes("[[ROOT]]").Nodes.Add(self.cboCat.Text, self.cboCat.Text)
-                    '            nn.Tag = self.cboCat.Text
-                    '            Dim nn1 As TreeNode = nn.Nodes.Add(self.cboSubCat.Text, self.cboSubCat.Text)
-                    '            nn1.Tag = self.cboSubCat.Text
-                    '            progSelect = True
-                    '            trvArchives.SelectedNode = nn1
-                    '            progSelect = False
-                    '            Exit Sub
-                    '        End If
-                    '    End If
-                    'End If
                 End If
             End If
 
@@ -294,7 +247,7 @@ Public Class MainForm
             If subcat = "A Modern Fairytale" Then
                 MsgBox("Hi")
             End If
-            rowsFound = thumbProcessor.Massload(level, rootPath, types.ToArray, cat, subcat, CurrentArchive)
+            rowsFound = thumbProcessor.Massload(level, rootPath, types, cat, subcat, CurrentArchive)
             Dim dirs() As String = IO.Directory.GetDirectories(rootPath)
             For Each d As String In dirs
                 Dim newsubcat As String = ""

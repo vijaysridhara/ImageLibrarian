@@ -9,12 +9,12 @@
     <RootNamespace>VijaySridhara.Applications</RootNamespace>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
     <Authors>Vijay Sridhara</Authors>
-    <Version>0.4.1</Version>
+    <Version>0.4.2</Version>
     <Copyright>Copyright (c) 2022, Vijay Sridhara</Copyright>
     <ApplicationIcon>piclibicon.ico</ApplicationIcon>
     <Description>Image Librarian is a image management software with a non-destructive nature of maintaining searchable tags, ratings and comments about a image.Wherever your images are on the disk, or network drive or USB, just feed the images once to the software. As long as your images reside where they were identified initially, you can tag, rate,comment, and search through your images quickly. You can do a quick edit or edit with an external program also. It uses icons from</Description>
     <SignAssembly>false</SignAssembly>
-    <AssemblyVersion>0.4.0.0</AssemblyVersion>
+    <AssemblyVersion>0.4.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

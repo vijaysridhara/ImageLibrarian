@@ -20,9 +20,9 @@ Imports System.IO
 Public Class Photo
     Inherits Control
     Private FilePath As String
-    Private origImage As Image
-    Private modImage As Image
-    Private zoomedImage As Image
+    Private origImage As Bitmap
+    Private modImage As Bitmap
+    Private zoomedImage As Bitmap
     Private defzoompct As Integer = 100
     Private curZoomPct As Integer = 100
     Dim resizerects As New List(Of Rectangle)
@@ -47,12 +47,15 @@ Public Class Photo
     End Property
     Public Sub CopyImage()
         Try
-            Dim b As Image = New Bitmap(modImage.Width, modImage.Height)
+            Dim b As Bitmap = New Bitmap(modImage.Width, modImage.Height, PixelFormat.Format32bppArgb)
             Dim g As Graphics = Graphics.FromImage(b)
+
             g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
             g.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
             g.CompositingQuality = Drawing2D.CompositingQuality.HighQuality
+
             g.DrawImage(modImage, New Rectangle(0, 0, modImage.Width, modImage.Height))
+
             Clipboard.SetImage(b)
             g.Dispose()
         Catch ex As Exception
@@ -75,7 +78,9 @@ Public Class Photo
             Using br As IO.BinaryReader = New BinaryReader(stream)
                 Dim memSt As IO.MemoryStream = New IO.MemoryStream(br.ReadBytes(stream.Length))
                 origImage = New Bitmap(memSt)
+                origImage.MakeTransparent()
                 modImage = origImage.Clone
+                modImage.MakeTransparent()
                 Me.BackgroundImageLayout = ImageLayout.Zoom
 
                 Zoom(defzoompct)
@@ -190,6 +195,7 @@ Public Class Photo
         Try
 
             Dim b As New Bitmap(CInt(Int(cropSize.Width * 100 / curZoomPct)), CInt(Int(cropSize.Height * 100 / curZoomPct))) '4/3 is point to pixel ratio
+
             Dim g As Graphics = Graphics.FromImage(b)
             g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
             g.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality
@@ -281,6 +287,7 @@ Public Class Photo
     Private Sub PreviewImage()
         If EnableCrop And drewCrop And cropSize.Width > 0 And cropSize.Height > 0 Then
             Dim b As New Bitmap(CInt(Int(cropSize.Width * 100 / curZoomPct)), CInt(Int(cropSize.Height * 100 / curZoomPct)))
+            b.MakeTransparent()
             Dim g As Graphics = Graphics.FromImage(b)
             g.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
             g.PixelOffsetMode = Drawing2D.PixelOffsetMode.HighQuality

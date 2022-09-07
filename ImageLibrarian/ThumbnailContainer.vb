@@ -14,6 +14,8 @@
 'limitations under the License.
 '***********************************************************************
 Imports System.ComponentModel
+Imports System.Drawing.Imaging
+Imports System.IO
 Imports VijaySridhara.Applications
 
 Friend Class ThumbnailContainer
@@ -114,7 +116,7 @@ Friend Class ThumbnailContainer
                 RaiseEvent ThumbnailsScrolled()
 
                 Exit Sub
-                End If
+            End If
         End While
     End Sub
     Public Sub MoveUp()
@@ -205,7 +207,7 @@ Friend Class ThumbnailContainer
                 RaiseEvent ThumbnailSelected(selecteDThumb)
                 If ploc > tloc Then RaiseEvent ThumbnailsScrolled()
                 Exit Sub
-                End If
+            End If
         End While
 
     End Sub
@@ -314,49 +316,49 @@ Friend Class ThumbnailContainer
 
         Select Case CType(sender, ToolStripMenuItem).Text
 
-                Case "Select all"
-                    For Each c As Thumbnail In tnailList
-                        c.Selected = True
-                    Next
-                    Me.Invalidate()
-                Case "Unselect all"
-                    For Each c As Thumbnail In tnailList
-                        c.Selected = False
-                    Next
-                    Me.Invalidate()
+            Case "Select all"
+                For Each c As Thumbnail In tnailList
+                    c.Selected = True
+                Next
+                Me.Invalidate()
+            Case "Unselect all"
+                For Each c As Thumbnail In tnailList
+                    c.Selected = False
+                Next
+                Me.Invalidate()
 
-                Case "Show file"
-                    If selecteDThumb Is Nothing Then Exit Sub
-                    Process.Start("explorer.exe", "/select," & selecteDThumb.FullPath)
-                Case "Paste"
+            Case "Show file"
+                If selecteDThumb Is Nothing Then Exit Sub
+                Process.Start("explorer.exe", "/select," & selecteDThumb.FullPath)
+            Case "Paste"
                 If String.IsNullOrEmpty(CurrentSubCategory) Then Exit Select
                 If IsSearch Then
                     MsgBox("You cannot paste into search output", MsgBoxStyle.Exclamation)
                     Exit Sub
                 End If
                 Dim clipList As List(Of Thumbnail) = tnaiClipboard.GetClippedElements
-                    If tnaiClipboard.Operation = "CUT" Then
-                        Dim cnt As Integer = 0
-                        If clipList Is Nothing Then Exit Select
-                        Dim totcount As Integer = clipList.Count
-                        For Each c As Thumbnail In clipList
-                            cnt += 1
-                            If Not ArchHelper.ContainsFile(c.FullPath, CurrentCategory, CurrentSubCategory, CurrentArchive) Then
-                                c.Category = CurrentCategory
-                                c.SubCategory = CurrentSubCategory
-                                c.ArchiveName = CurrentArchive
-                                ArchHelper.UpdateThumb("category", c, True)
-                                AddThumb(c)
-                            End If
-                            RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
-                        Next
-                        Rearrange()
-                        Invalidate()
-                        tnaiClipboard.ClearLip()
-                    ElseIf tnaiClipboard.Operation = "COPY" Then
-                        Dim cnt As Integer = 0
-                        If clipList Is Nothing Then Exit Select
-                        Dim totcount As Integer = clipList.Count
+                If tnaiClipboard.Operation = "CUT" Then
+                    Dim cnt As Integer = 0
+                    If clipList Is Nothing Then Exit Select
+                    Dim totcount As Integer = clipList.Count
+                    For Each c As Thumbnail In clipList
+                        cnt += 1
+                        If Not ArchHelper.ContainsFile(c.FullPath, CurrentCategory, CurrentSubCategory, CurrentArchive) Then
+                            c.Category = CurrentCategory
+                            c.SubCategory = CurrentSubCategory
+                            c.ArchiveName = CurrentArchive
+                            ArchHelper.UpdateThumb("category", c, True)
+                            AddThumb(c)
+                        End If
+                        RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
+                    Next
+                    Rearrange()
+                    Invalidate()
+                    tnaiClipboard.ClearLip()
+                ElseIf tnaiClipboard.Operation = "COPY" Then
+                    Dim cnt As Integer = 0
+                    If clipList Is Nothing Then Exit Select
+                    Dim totcount As Integer = clipList.Count
                     For Each c As Thumbnail In clipList
                         cnt += 1
                         If Not ArchHelper.ContainsFile(c.FullPath, CurrentCategory, CurrentSubCategory, CurrentArchive) Then
@@ -375,9 +377,9 @@ Friend Class ThumbnailContainer
                     Rearrange()
                     Invalidate()
                 End If
-                Case Else
-                    ExecuteMenuFunc(CType(sender, ToolStripMenuItem).Text)
-            End Select
+            Case Else
+                ExecuteMenuFunc(CType(sender, ToolStripMenuItem).Text)
+        End Select
     End Sub
     Public Sub Cut()
         menuItemClicked(tlstpCut, Nothing)
@@ -461,7 +463,7 @@ Friend Class ThumbnailContainer
 
                         If ArchHelper.RemoveThumb(C) Then
                             RaiseEvent Progress(Math.Floor(cnt / totcount * 100))
-                           RemoveHandlers(c)
+                            RemoveHandlers(C)
                             My.Computer.FileSystem.DeleteFile(C.CachePath & "\" & C.CacheFilename)
                             tnailList.Remove(C)
                         End If
@@ -485,9 +487,11 @@ Friend Class ThumbnailContainer
                     Rearrange()
                     Me.Invalidate()
                 Case "Cut"
+                    SetImagetoClipBoard()
                     tnaiClipboard.SetClippedElements(GetSelThumbs)
                     tnaiClipboard.Operation = "CUT"
                 Case "Copy"
+                    SetImagetoClipBoard()
                     tnaiClipboard.SetClippedElements(selThumbs)
                     tnaiClipboard.Operation = "COPY"
                 Case "Export resized"
@@ -501,6 +505,21 @@ Friend Class ThumbnailContainer
         Catch ex As Exception
             RaiseEvent Errored(ex)
         End Try
+    End Sub
+    Private Sub SetImagetoClipBoard()
+        Dim fname As String = selecteDThumb.FullPath
+        Dim img As Bitmap
+        Using stream As System.IO.FileStream = New System.IO.FileStream(fname, FileMode.Open, System.IO.FileAccess.Read)
+            Using br As System.IO.BinaryReader = New BinaryReader(stream)
+                Dim memSt As System.IO.MemoryStream = New System.IO.MemoryStream(br.ReadBytes(stream.Length))
+                img = New Bitmap(memSt)
+
+                img.MakeTransparent()
+
+            End Using
+        End Using
+        Clipboard.SetImage(img)
+
     End Sub
     Public Sub SearchText(st As String)
         Try
