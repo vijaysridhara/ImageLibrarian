@@ -25,7 +25,8 @@ Public Class SelectType
         Me.subcat = subcat
         cboCat.Items.AddRange(classifications.Keys.ToArray)
         If cboCat.Items.Count > 0 Then cboCat.SelectedIndex = 0
-        If cboCat.Items.Contains(cat) Then cboCat.SelectedIndex = cboCat.Items.IndexOf(cat)
+        If String.IsNullOrEmpty(cat) = False Then cboCat.Text = cat
+        If String.IsNullOrEmpty(subcat) = False Then cboSubCat.SelectedIndex = -1 : cboSubCat.Text = subcat
     End Sub
     Private Sub butOK_Click(sender As Object, e As EventArgs) Handles butOK.Click
         If chkBMP.Checked = False And chkGIF.Checked = False And chkJPEG.Checked = False And chkPNG.Checked = False Then

@@ -256,6 +256,18 @@ Namespace My
                 Me("Border2") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property WorkFolder() As String
+            Get
+                Return CType(Me("WorkFolder"),String)
+            End Get
+            Set
+                Me("WorkFolder") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

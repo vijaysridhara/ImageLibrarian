@@ -216,4 +216,16 @@ Friend Class Settings
             End If
         End With
     End Sub
+
+    Private Sub butBrowseWorkFolder_Click(sender As Object, e As EventArgs) Handles butBrowseWorkFolder.Click
+        Dim fdb As New FolderBrowserDialog
+        With fdb
+            .SelectedPath = My.Settings.WorkFolder
+            If .ShowDialog = DialogResult.OK Then
+                My.Settings.WorkFolder = .SelectedPath
+                txtWorkfolder.Text = .SelectedPath
+                My.Settings.Save()
+            End If
+        End With
+    End Sub
 End Class

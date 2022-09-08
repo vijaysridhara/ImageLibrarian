@@ -37,6 +37,7 @@ Friend Class ThumbnailContainer
     Event ThumbnailsScrolled()
     Event ThumbnailOneAdded(c As Thumbnail)
     Private WithEvents ctxContext As New ContextMenuStrip
+    Private WithEvents tlstpCopyToWorkfolder As New ToolStripMenuItem("Copy to workfolder", Nothing, AddressOf menuItemClicked)
     Private WithEvents tlstpCopyTo As New ToolStripMenuItem("Copy to", Nothing, AddressOf menuItemClicked)
     Private WithEvents tlstpChangeCategory As New ToolStripMenuItem("Change category", Nothing, AddressOf menuItemClicked)
     Private WithEvents tlstpRemoveOriginal As New ToolStripMenuItem("Delete from disk", Nothing, AddressOf menuItemClicked)
@@ -429,6 +430,19 @@ Friend Class ThumbnailContainer
                         Next
                         RaiseEvent Message(selThumbs.Count & " files copied to" & fdb.SelectedPath)
                     End If
+                Case "Copy to workfolder"
+
+                    If Not IO.Directory.Exists(My.Settings.WorkFolder) Then
+                        RaiseEvent Errored(New Exception("The work folder is either missing or not set. Go to Settings and set work folder"))
+                        Exit Sub
+                    End If
+                    For Each c As Thumbnail In selThumbs
+                        If IO.File.Exists(My.Settings.WorkFolder & "\" & c.Origfilename) Then
+                            My.Computer.FileSystem.DeleteFile(My.Settings.WorkFolder & "\" & c.Origfilename)
+                        End If
+                        IO.File.Copy(c.FullPath, My.Settings.WorkFolder & "\" & c.Origfilename)
+                    Next
+                    RaiseEvent Message(selThumbs.Count & " files copied to" & My.Settings.WorkFolder)
 
                 Case "Change category"
                     Dim cc As New Category(selThumbs(0).Category, selThumbs(0).SubCategory)
@@ -562,7 +576,7 @@ Friend Class ThumbnailContainer
         SetStyle(ControlStyles.SupportsTransparentBackColor, True)
 
         tlstpEditFile.DropDownItems.AddRange({tlstpEditFileWithInternal, tlstpEditFileWithP1, tlstpEditFileWithP2, tlstpEditFileWithP3})
-        ctxContext.Items.AddRange({tlstpEditFile, tlstpCut, tlstpCopy, tlstpPaste, tlstpCopyTo, tlstpChangeCategory, tlstpSelectAll, tlstpDeSelectAll, tlstpSep1, tlstpCopyTo, tlstpExportto, tlstpSep2, tlstpRemoveCached, tlspShowFile, tlstpRemoveOriginal, tlstpSep3, tlstpRefreshThumbnail})
+        ctxContext.Items.AddRange({tlstpEditFile, tlstpCut, tlstpCopy, tlstpPaste, tlstpCopyToWorkfolder, tlstpCopyTo, tlstpChangeCategory, tlstpSelectAll, tlstpDeSelectAll, tlstpSep1, tlstpCopyTo, tlstpExportto, tlstpSep2, tlstpRemoveCached, tlspShowFile, tlstpRemoveOriginal, tlstpSep3, tlstpRefreshThumbnail})
         Me.ContextMenuStrip = ctxContext
         tlstpEditFileWithInternal.Tag = "Simple edit"
         tlstpEditFileWithP1.Tag = "Edit with prog1"
@@ -1063,6 +1077,7 @@ Friend Class ThumbnailContainer
         tlspShowFile.Enabled = False
         tlstpEditFile.Enabled = False
         tlstpCopyTo.Enabled = False
+        tlstpCopyToWorkfolder.Enabled = False
         If Not selecteDThumb Is Nothing Then
             tlstpCut.Enabled = True
             tlstpCopy.Enabled = True
@@ -1075,6 +1090,7 @@ Friend Class ThumbnailContainer
             tlspShowFile.Enabled = True
             tlstpEditFile.Enabled = True
             tlstpCopyTo.Enabled = True
+            If IO.Directory.Exists(My.Settings.WorkFolder) Then tlstpCopyToWorkfolder.Enabled = True
         End If
         If tnailList.Count > 0 Then
             tlstpSelectAll.Enabled = True

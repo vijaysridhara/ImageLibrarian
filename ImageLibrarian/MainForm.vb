@@ -177,14 +177,17 @@ Public Class MainForm
                 End If
             End If
         End If
-        Dim self As New SelectType(selcat, selsubcat)
+
 
         Dim fd As New FolderBrowserDialog
         With fd
             .SelectedPath = My.Settings.ImportFrom
 
             If .ShowDialog = DialogResult.OK Then
-
+                If String.IsNullOrEmpty(selsubcat) Then
+                    selsubcat = IO.Path.GetFileName(.SelectedPath)
+                End If
+                Dim self As New SelectType(selcat, selsubcat)
                 If self.ShowDialog = DialogResult.OK Then
                     IMPFROM = .SelectedPath
                     My.Settings.ImportFrom = .SelectedPath
@@ -225,7 +228,9 @@ Public Class MainForm
                         Next
                     End If
                     trvArchives.SelectedNode = trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text)
-                    LogMessages("[info]: Completed loading folders *************************")
+
+
+                    msgQueue.Enqueue("Completed loading folders *************************")
                     Exit Sub
 
                 End If

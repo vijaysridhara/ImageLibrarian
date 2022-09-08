@@ -44,6 +44,9 @@ Partial Class Settings
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txtImageEditor3 = New System.Windows.Forms.TextBox()
         Me.butImageEditor3 = New System.Windows.Forms.Button()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.txtWorkfolder = New System.Windows.Forms.TextBox()
+        Me.butBrowseWorkFolder = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'Label1
@@ -140,19 +143,19 @@ Partial Class Settings
         '
         'butCancel
         '
-        Me.butCancel.Location = New System.Drawing.Point(380, 346)
+        Me.butCancel.Location = New System.Drawing.Point(380, 375)
         Me.butCancel.Name = "butCancel"
         Me.butCancel.Size = New System.Drawing.Size(77, 35)
-        Me.butCancel.TabIndex = 19
+        Me.butCancel.TabIndex = 22
         Me.butCancel.Text = "&Cancel"
         Me.butCancel.UseVisualStyleBackColor = True
         '
         'butOK
         '
-        Me.butOK.Location = New System.Drawing.Point(288, 346)
+        Me.butOK.Location = New System.Drawing.Point(288, 375)
         Me.butOK.Name = "butOK"
         Me.butOK.Size = New System.Drawing.Size(77, 35)
-        Me.butOK.TabIndex = 18
+        Me.butOK.TabIndex = 21
         Me.butOK.Text = "O&K"
         Me.butOK.UseVisualStyleBackColor = True
         '
@@ -234,13 +237,39 @@ Partial Class Settings
         Me.butImageEditor3.Text = "..."
         Me.butImageEditor3.UseVisualStyleBackColor = True
         '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(11, 347)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(77, 17)
+        Me.Label5.TabIndex = 18
+        Me.Label5.Text = "Work folder"
+        '
+        'txtWorkfolder
+        '
+        Me.txtWorkfolder.Location = New System.Drawing.Point(115, 344)
+        Me.txtWorkfolder.Name = "txtWorkfolder"
+        Me.txtWorkfolder.ReadOnly = True
+        Me.txtWorkfolder.Size = New System.Drawing.Size(308, 25)
+        Me.txtWorkfolder.TabIndex = 19
+        '
+        'butBrowseWorkFolder
+        '
+        Me.butBrowseWorkFolder.Location = New System.Drawing.Point(429, 344)
+        Me.butBrowseWorkFolder.Name = "butBrowseWorkFolder"
+        Me.butBrowseWorkFolder.Size = New System.Drawing.Size(28, 26)
+        Me.butBrowseWorkFolder.TabIndex = 20
+        Me.butBrowseWorkFolder.Text = "..."
+        Me.butBrowseWorkFolder.UseVisualStyleBackColor = True
+        '
         'Settings
         '
         Me.AcceptButton = Me.butOK
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.butCancel
-        Me.ClientSize = New System.Drawing.Size(469, 394)
+        Me.ClientSize = New System.Drawing.Size(469, 410)
         Me.Controls.Add(Me.butCancel)
         Me.Controls.Add(Me.butOK)
         Me.Controls.Add(Me.chkPrivate)
@@ -248,11 +277,14 @@ Partial Class Settings
         Me.Controls.Add(Me.butModify)
         Me.Controls.Add(Me.butAdd)
         Me.Controls.Add(Me.ListView1)
+        Me.Controls.Add(Me.butBrowseWorkFolder)
         Me.Controls.Add(Me.butImageEditor3)
         Me.Controls.Add(Me.butImageEditor2)
         Me.Controls.Add(Me.butImgEditor1)
         Me.Controls.Add(Me.butBrowse)
         Me.Controls.Add(Me.txtArchName)
+        Me.Controls.Add(Me.txtWorkfolder)
+        Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.txtImageEditor3)
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.txtImageEditor2)
@@ -295,4 +327,7 @@ Partial Class Settings
     Friend WithEvents Label4 As Label
     Friend WithEvents txtImageEditor3 As TextBox
     Friend WithEvents butImageEditor3 As Button
+    Friend WithEvents Label5 As Label
+    Friend WithEvents txtWorkfolder As TextBox
+    Friend WithEvents butBrowseWorkFolder As Button
 End Class
