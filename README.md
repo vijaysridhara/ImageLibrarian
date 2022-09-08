@@ -7,6 +7,14 @@ Image librarian is a photo manager for windows users. It is custom built and use
 
 ![Image librarian performance](https://drive.google.com/uc?export=view&id=1dQgzYhZjMlgrsE1cxxE9PXJ-8cX2_mmV)
 
+## 0.4.3 08 Sep 2022
+# Features added
+1. Performance improved (0.4.2, and 0.4.3)
+2. Added a new menu option, Copy to Workfolder, which without asking where, copies to your set work folderr, to accelerate your work. 
+(If the menu is disabled, either the folder is not set in Settings, or is not existing any more, just be aware)
+3. Now copy/cut menu also copies single image(Not all selected thumbnails, but one last) to Global Clipboard to make image available for other applications (The PNGs somehow are losing transparency, not sure how to fix it at this point)
+
+
 ## 02 Sep 2022, 0.4 Production ready
 # Features added
 1. Cute yellow border for all images
