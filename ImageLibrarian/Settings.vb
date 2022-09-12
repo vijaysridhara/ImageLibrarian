@@ -65,7 +65,7 @@ Friend Class Settings
         txtLocation.Text = ARCHLOC
         txtImageEditor2.Text = My.Settings.IME2
         txtimgEditor1.Text = My.Settings.IME1
-
+        chkOtherDrives.Checked = My.Settings.CheckOtherDrives
         If Not archH Is Nothing Then
             For Each a As Arch In archives
                 Dim lv As New ListViewItem(a.Name)
@@ -227,5 +227,10 @@ Friend Class Settings
                 My.Settings.Save()
             End If
         End With
+    End Sub
+
+    Private Sub chkOtherDrives_CheckedChanged(sender As Object, e As EventArgs) Handles chkOtherDrives.CheckedChanged
+        My.Settings.CheckOtherDrives = chkOtherDrives.Checked
+        My.Settings.Save()
     End Sub
 End Class

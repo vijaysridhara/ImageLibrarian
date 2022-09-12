@@ -20,9 +20,9 @@ Imports System.IO
 Public Class Photo
     Inherits Control
     Private FilePath As String
-    Private origImage As Bitmap
-    Private modImage As Bitmap
-    Private zoomedImage As Bitmap
+    Private origImage As Image
+    Private modImage As Image
+    Private zoomedImage As Image
     Private defzoompct As Integer = 100
     Private curZoomPct As Integer = 100
     Dim resizerects As New List(Of Rectangle)
@@ -78,9 +78,7 @@ Public Class Photo
             Using br As IO.BinaryReader = New BinaryReader(stream)
                 Dim memSt As IO.MemoryStream = New IO.MemoryStream(br.ReadBytes(stream.Length))
                 origImage = New Bitmap(memSt)
-                origImage.MakeTransparent()
                 modImage = origImage.Clone
-                modImage.MakeTransparent()
                 Me.BackgroundImageLayout = ImageLayout.Zoom
 
                 Zoom(defzoompct)

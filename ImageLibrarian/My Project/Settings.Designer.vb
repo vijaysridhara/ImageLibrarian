@@ -268,6 +268,18 @@ Namespace My
                 Me("WorkFolder") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+        Public Property CheckOtherDrives() As Boolean
+            Get
+                Return CType(Me("CheckOtherDrives"),Boolean)
+            End Get
+            Set
+                Me("CheckOtherDrives") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

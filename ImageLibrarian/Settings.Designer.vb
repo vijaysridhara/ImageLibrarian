@@ -47,6 +47,7 @@ Partial Class Settings
         Me.Label5 = New System.Windows.Forms.Label()
         Me.txtWorkfolder = New System.Windows.Forms.TextBox()
         Me.butBrowseWorkFolder = New System.Windows.Forms.Button()
+        Me.chkOtherDrives = New System.Windows.Forms.CheckBox()
         Me.SuspendLayout()
         '
         'Label1
@@ -146,7 +147,7 @@ Partial Class Settings
         Me.butCancel.Location = New System.Drawing.Point(380, 375)
         Me.butCancel.Name = "butCancel"
         Me.butCancel.Size = New System.Drawing.Size(77, 35)
-        Me.butCancel.TabIndex = 22
+        Me.butCancel.TabIndex = 23
         Me.butCancel.Text = "&Cancel"
         Me.butCancel.UseVisualStyleBackColor = True
         '
@@ -155,7 +156,7 @@ Partial Class Settings
         Me.butOK.Location = New System.Drawing.Point(288, 375)
         Me.butOK.Name = "butOK"
         Me.butOK.Size = New System.Drawing.Size(77, 35)
-        Me.butOK.TabIndex = 21
+        Me.butOK.TabIndex = 22
         Me.butOK.Text = "O&K"
         Me.butOK.UseVisualStyleBackColor = True
         '
@@ -165,7 +166,7 @@ Partial Class Settings
         Me.Label2.Location = New System.Drawing.Point(11, 252)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(90, 17)
-        Me.Label2.TabIndex = 9
+        Me.Label2.TabIndex = 10
         Me.Label2.Text = "Image editor1"
         '
         'txtimgEditor1
@@ -174,14 +175,14 @@ Partial Class Settings
         Me.txtimgEditor1.Name = "txtimgEditor1"
         Me.txtimgEditor1.ReadOnly = True
         Me.txtimgEditor1.Size = New System.Drawing.Size(308, 25)
-        Me.txtimgEditor1.TabIndex = 10
+        Me.txtimgEditor1.TabIndex = 11
         '
         'butImgEditor1
         '
         Me.butImgEditor1.Location = New System.Drawing.Point(429, 248)
         Me.butImgEditor1.Name = "butImgEditor1"
         Me.butImgEditor1.Size = New System.Drawing.Size(28, 26)
-        Me.butImgEditor1.TabIndex = 11
+        Me.butImgEditor1.TabIndex = 12
         Me.butImgEditor1.Text = "..."
         Me.butImgEditor1.UseVisualStyleBackColor = True
         '
@@ -191,7 +192,7 @@ Partial Class Settings
         Me.Label3.Location = New System.Drawing.Point(11, 284)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(90, 17)
-        Me.Label3.TabIndex = 12
+        Me.Label3.TabIndex = 13
         Me.Label3.Text = "Image editor2"
         '
         'txtImageEditor2
@@ -200,14 +201,14 @@ Partial Class Settings
         Me.txtImageEditor2.Name = "txtImageEditor2"
         Me.txtImageEditor2.ReadOnly = True
         Me.txtImageEditor2.Size = New System.Drawing.Size(308, 25)
-        Me.txtImageEditor2.TabIndex = 13
+        Me.txtImageEditor2.TabIndex = 14
         '
         'butImageEditor2
         '
         Me.butImageEditor2.Location = New System.Drawing.Point(429, 281)
         Me.butImageEditor2.Name = "butImageEditor2"
         Me.butImageEditor2.Size = New System.Drawing.Size(28, 26)
-        Me.butImageEditor2.TabIndex = 14
+        Me.butImageEditor2.TabIndex = 15
         Me.butImageEditor2.Text = "..."
         Me.butImageEditor2.UseVisualStyleBackColor = True
         '
@@ -217,7 +218,7 @@ Partial Class Settings
         Me.Label4.Location = New System.Drawing.Point(11, 317)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(90, 17)
-        Me.Label4.TabIndex = 15
+        Me.Label4.TabIndex = 16
         Me.Label4.Text = "Image editor3"
         '
         'txtImageEditor3
@@ -226,14 +227,14 @@ Partial Class Settings
         Me.txtImageEditor3.Name = "txtImageEditor3"
         Me.txtImageEditor3.ReadOnly = True
         Me.txtImageEditor3.Size = New System.Drawing.Size(308, 25)
-        Me.txtImageEditor3.TabIndex = 16
+        Me.txtImageEditor3.TabIndex = 17
         '
         'butImageEditor3
         '
         Me.butImageEditor3.Location = New System.Drawing.Point(429, 314)
         Me.butImageEditor3.Name = "butImageEditor3"
         Me.butImageEditor3.Size = New System.Drawing.Size(28, 26)
-        Me.butImageEditor3.TabIndex = 17
+        Me.butImageEditor3.TabIndex = 18
         Me.butImageEditor3.Text = "..."
         Me.butImageEditor3.UseVisualStyleBackColor = True
         '
@@ -243,7 +244,7 @@ Partial Class Settings
         Me.Label5.Location = New System.Drawing.Point(11, 347)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(77, 17)
-        Me.Label5.TabIndex = 18
+        Me.Label5.TabIndex = 19
         Me.Label5.Text = "Work folder"
         '
         'txtWorkfolder
@@ -252,16 +253,25 @@ Partial Class Settings
         Me.txtWorkfolder.Name = "txtWorkfolder"
         Me.txtWorkfolder.ReadOnly = True
         Me.txtWorkfolder.Size = New System.Drawing.Size(308, 25)
-        Me.txtWorkfolder.TabIndex = 19
+        Me.txtWorkfolder.TabIndex = 20
         '
         'butBrowseWorkFolder
         '
         Me.butBrowseWorkFolder.Location = New System.Drawing.Point(429, 344)
         Me.butBrowseWorkFolder.Name = "butBrowseWorkFolder"
         Me.butBrowseWorkFolder.Size = New System.Drawing.Size(28, 26)
-        Me.butBrowseWorkFolder.TabIndex = 20
+        Me.butBrowseWorkFolder.TabIndex = 21
         Me.butBrowseWorkFolder.Text = "..."
         Me.butBrowseWorkFolder.UseVisualStyleBackColor = True
+        '
+        'chkOtherDrives
+        '
+        Me.chkOtherDrives.Location = New System.Drawing.Point(288, 196)
+        Me.chkOtherDrives.Name = "chkOtherDrives"
+        Me.chkOtherDrives.Size = New System.Drawing.Size(169, 46)
+        Me.chkOtherDrives.TabIndex = 9
+        Me.chkOtherDrives.Text = "Check other drives for a missing file"
+        Me.chkOtherDrives.UseVisualStyleBackColor = True
         '
         'Settings
         '
@@ -272,6 +282,7 @@ Partial Class Settings
         Me.ClientSize = New System.Drawing.Size(469, 410)
         Me.Controls.Add(Me.butCancel)
         Me.Controls.Add(Me.butOK)
+        Me.Controls.Add(Me.chkOtherDrives)
         Me.Controls.Add(Me.chkPrivate)
         Me.Controls.Add(Me.butDelete)
         Me.Controls.Add(Me.butModify)
@@ -330,4 +341,5 @@ Partial Class Settings
     Friend WithEvents Label5 As Label
     Friend WithEvents txtWorkfolder As TextBox
     Friend WithEvents butBrowseWorkFolder As Button
+    Friend WithEvents chkOtherDrives As CheckBox
 End Class

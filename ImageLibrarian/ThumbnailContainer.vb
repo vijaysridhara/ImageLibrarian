@@ -426,7 +426,19 @@ Friend Class ThumbnailContainer
                             If IO.File.Exists(fdb.SelectedPath & "\" & c.Origfilename) Then
                                 My.Computer.FileSystem.DeleteFile(fdb.SelectedPath & "\" & c.Origfilename)
                             End If
-                            IO.File.Copy(c.FullPath, fdb.SelectedPath & "\" & c.Origfilename)
+                            If IO.File.Exists(c.FullPath) Then
+                                IO.File.Copy(c.FullPath, fdb.SelectedPath & "\" & c.Origfilename)
+                            Else
+                                Dim drives As List(Of String) = getDrives()
+                                For Each dr As String In drives
+                                    Dim newPath As String = dr & c.FullPath.Substring(4)
+                                    If IO.File.Exists(newPath) Then
+                                        IO.File.Copy(newPath, fdb.SelectedPath & "\" & c.Origfilename)
+                                        Exit For
+                                    End If
+                                Next
+                            End If
+
                         Next
                         RaiseEvent Message(selThumbs.Count & " files copied to" & fdb.SelectedPath)
                     End If
@@ -440,7 +452,18 @@ Friend Class ThumbnailContainer
                         If IO.File.Exists(My.Settings.WorkFolder & "\" & c.Origfilename) Then
                             My.Computer.FileSystem.DeleteFile(My.Settings.WorkFolder & "\" & c.Origfilename)
                         End If
-                        IO.File.Copy(c.FullPath, My.Settings.WorkFolder & "\" & c.Origfilename)
+                        If IO.File.Exists(c.FullPath) Then
+                            IO.File.Copy(c.FullPath, My.Settings.WorkFolder & "\" & c.Origfilename)
+                        Else
+                            Dim drives As List(Of String) = getDrives()
+                            For Each dr As String In drives
+                                Dim newPath As String = dr & c.FullPath.Substring(4)
+                                If IO.File.Exists(newPath) Then
+                                    IO.File.Copy(newPath, My.Settings.WorkFolder & "\" & c.Origfilename)
+                                    Exit For
+                                End If
+                            Next
+                        End If
                     Next
                     RaiseEvent Message(selThumbs.Count & " files copied to" & My.Settings.WorkFolder)
 
@@ -1107,6 +1130,24 @@ Friend Class ThumbnailContainer
 
     Private Sub ThumbnailContainer_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles Me.MouseDoubleClick
         If selecteDThumb Is Nothing Then Exit Sub
+        Dim fnd As Boolean = False
+        If IO.File.Exists(selecteDThumb.FullPath) = False Then
+            Dim drList As List(Of String) = getDrives()
+
+            For Each dr As String In drList
+                Dim newPath As String = dr & selecteDThumb.FullPath.Substring(3)
+                If IO.File.Exists(newPath) Then
+                    fnd = True
+                    selecteDThumb.FullPath = newPath
+                    Exit For
+                End If
+            Next
+        Else
+            fnd = True
+        End If
+        If fnd = False Then
+            RaiseEvent Errored(New Exception("File not found, " & selecteDThumb.FullPath))
+        End If
         Dim pv As New Photoview(selecteDThumb.FullPath)
         If pv.ShowDialog Then
             If pv.CoreImageChanged Then
@@ -1114,7 +1155,11 @@ Friend Class ThumbnailContainer
             End If
         End If
     End Sub
-
+    Private Function getDrives() As List(Of String)
+        Dim x As New List(Of String)
+        x.AddRange(System.IO.Directory.GetLogicalDrives())
+        Return x
+    End Function
     Private Sub tlstpEditFile_DropDownOpening(sender As Object, e As EventArgs) Handles tlstpEditFile.DropDownOpening
         If IO.File.Exists(My.Settings.IME1) Then
             tlstpEditFileWithP1.Text = IO.Path.GetFileNameWithoutExtension(My.Settings.IME1)
