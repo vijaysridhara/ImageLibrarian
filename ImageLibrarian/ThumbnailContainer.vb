@@ -422,25 +422,30 @@ Friend Class ThumbnailContainer
                         COPYLOC = fdb.SelectedPath
                         My.Settings.CopyLocation = COPYLOC
                         My.Settings.Save()
+                        Dim cnt As Integer
                         For Each c As Thumbnail In selThumbs
                             If IO.File.Exists(fdb.SelectedPath & "\" & c.Origfilename) Then
                                 My.Computer.FileSystem.DeleteFile(fdb.SelectedPath & "\" & c.Origfilename)
                             End If
                             If IO.File.Exists(c.FullPath) Then
+                                cnt += 1
                                 IO.File.Copy(c.FullPath, fdb.SelectedPath & "\" & c.Origfilename)
-                            Else
+                            ElseIf My.Settings.CheckOtherDrives Then
                                 Dim drives As List(Of String) = getDrives()
                                 For Each dr As String In drives
                                     Dim newPath As String = dr & c.FullPath.Substring(4)
                                     If IO.File.Exists(newPath) Then
+                                        cnt += 1
                                         IO.File.Copy(newPath, fdb.SelectedPath & "\" & c.Origfilename)
                                         Exit For
                                     End If
                                 Next
+                            Else
+                                RaiseEvent Errored(New Exception("File not found " & c.FullPath))
                             End If
 
                         Next
-                        RaiseEvent Message(selThumbs.Count & " files copied to" & fdb.SelectedPath)
+                        RaiseEvent Message(cnt & " of " & selThumbs.Count & " files copied to" & fdb.SelectedPath)
                     End If
                 Case "Copy to workfolder"
 
@@ -448,24 +453,30 @@ Friend Class ThumbnailContainer
                         RaiseEvent Errored(New Exception("The work folder is either missing or not set. Go to Settings and set work folder"))
                         Exit Sub
                     End If
+                    Dim cnt As Integer
                     For Each c As Thumbnail In selThumbs
                         If IO.File.Exists(My.Settings.WorkFolder & "\" & c.Origfilename) Then
                             My.Computer.FileSystem.DeleteFile(My.Settings.WorkFolder & "\" & c.Origfilename)
                         End If
                         If IO.File.Exists(c.FullPath) Then
+                            cnt += 1
                             IO.File.Copy(c.FullPath, My.Settings.WorkFolder & "\" & c.Origfilename)
-                        Else
+                        ElseIf My.Settings.CheckOtherDrives Then
                             Dim drives As List(Of String) = getDrives()
                             For Each dr As String In drives
                                 Dim newPath As String = dr & c.FullPath.Substring(4)
                                 If IO.File.Exists(newPath) Then
+                                    cnt += 1
                                     IO.File.Copy(newPath, My.Settings.WorkFolder & "\" & c.Origfilename)
                                     Exit For
                                 End If
                             Next
+                        Else
+
+                            RaiseEvent Errored(New Exception("File not found " & c.FullPath))
                         End If
                     Next
-                    RaiseEvent Message(selThumbs.Count & " files copied to" & My.Settings.WorkFolder)
+                    RaiseEvent Message(cnt & " of " & selThumbs.Count & " files copied to" & My.Settings.WorkFolder)
 
                 Case "Change category"
                     Dim cc As New Category(selThumbs(0).Category, selThumbs(0).SubCategory)
@@ -1132,16 +1143,18 @@ Friend Class ThumbnailContainer
         If selecteDThumb Is Nothing Then Exit Sub
         Dim fnd As Boolean = False
         If IO.File.Exists(selecteDThumb.FullPath) = False Then
-            Dim drList As List(Of String) = getDrives()
+            If My.Settings.CheckOtherDrives Then
+                Dim drList As List(Of String) = getDrives()
 
-            For Each dr As String In drList
-                Dim newPath As String = dr & selecteDThumb.FullPath.Substring(3)
-                If IO.File.Exists(newPath) Then
-                    fnd = True
-                    selecteDThumb.FullPath = newPath
-                    Exit For
-                End If
-            Next
+                For Each dr As String In drList
+                    Dim newPath As String = dr & selecteDThumb.FullPath.Substring(3)
+                    If IO.File.Exists(newPath) Then
+                        fnd = True
+                        selecteDThumb.FullPath = newPath
+                        Exit For
+                    End If
+                Next
+            End If
         Else
             fnd = True
         End If
