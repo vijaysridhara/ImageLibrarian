@@ -1160,6 +1160,7 @@ Friend Class ThumbnailContainer
         End If
         If fnd = False Then
             RaiseEvent Errored(New Exception("File not found, " & selecteDThumb.FullPath))
+            Exit Sub
         End If
         Dim pv As New Photoview(selecteDThumb.FullPath)
         If pv.ShowDialog Then
