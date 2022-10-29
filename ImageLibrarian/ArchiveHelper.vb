@@ -757,13 +757,13 @@ Friend Class ArchiveHelper
                     End If
                     Application.DoEvents()
                 Dim t As Thumbnail = ls(inc - 1)
-                For i As Integer = 0 To rdr.FieldCount - 1
-                    If rdr.IsDBNull(i) Then
-                        MsgBox("Hi")
+                'For i As Integer = 0 To rdr.FieldCount - 1
+                '    If rdr.IsDBNull(i) Then
+                '        MsgBox("Hi")
 
-                    End If
+                '    End If
 
-                Next
+                'Next
                 t.InitializeCacheImage(rdr(0), rdr(6), _cache_path & "\CacheImages", rdr(3))
                     ' t.CacheFilename = rdr(1)
                     t.Origfilename = rdr(2)
