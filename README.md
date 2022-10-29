@@ -7,6 +7,10 @@ Image librarian is a photo manager for windows users. It is custom built and use
 
 ![Image librarian performance](https://drive.google.com/uc?export=view&id=1dQgzYhZjMlgrsE1cxxE9PXJ-8cX2_mmV)
 
+## 0.4.3 29 Oct 2022
+# Defects fixed
+1. DBNull appearing in searches, making thumbnail not visible
+
 ## 0.4.3 08 Sep 2022
 # Features added
 1. Performance improved (0.4.2, and 0.4.3)
