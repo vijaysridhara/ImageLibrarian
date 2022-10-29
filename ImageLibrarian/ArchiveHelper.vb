@@ -756,15 +756,22 @@ Friend Class ArchiveHelper
                         RaiseEvent Progress(Int(inc / recCnt * 100))
                     End If
                     Application.DoEvents()
-                    Dim t As Thumbnail = ls(inc - 1)
-                    t.InitializeCacheImage(rdr(0), rdr(6), _cache_path & "\CacheImages", rdr(3))
+                Dim t As Thumbnail = ls(inc - 1)
+                For i As Integer = 0 To rdr.FieldCount - 1
+                    If rdr.IsDBNull(i) Then
+                        MsgBox("Hi")
+
+                    End If
+
+                Next
+                t.InitializeCacheImage(rdr(0), rdr(6), _cache_path & "\CacheImages", rdr(3))
                     ' t.CacheFilename = rdr(1)
                     t.Origfilename = rdr(2)
                     t.OrigResolution = New Size(rdr(4).split(",")(0), rdr(4).split(",")(1))
                     t.FileSize = rdr(5)
-                    t.LastModTime = rdr(7)
-                    t.Comment = rdr(8)
-                    t.Stars = rdr(9)
+                t.LastModTime = IIf(rdr.IsDBNull(7), "", rdr(7)) '0.4.5, to fix null issue
+                t.Comment = rdr(8)
+                t.Stars = rdr(9)
                     t.Tags = rdr(10)
                     t.Category = rdr(11)
                     t.SubCategory = rdr(12)
