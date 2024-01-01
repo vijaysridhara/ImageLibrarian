@@ -6,6 +6,9 @@ Image librarian is a photo manager for windows users. It is custom built and use
 ### _All set, Production ready_
 
 ![Image librarian performance](https://drive.google.com/uc?export=view&id=1dQgzYhZjMlgrsE1cxxE9PXJ-8cX2_mmV)
+## 0.4.7 01 Jan 2024
+# Small feature added
+1. Ignore folders added in settings(This is required for my other product Graphicart, which can share libraries, but creates a _thumbnail folder, which may become duplicate in IL.
 
 ## 0.4.3 29 Oct 2022
 # Defects fixed
