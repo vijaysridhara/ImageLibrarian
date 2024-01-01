@@ -83,7 +83,6 @@ Partial Class Settings
         ListView1.Columns.AddRange(New ColumnHeader() {colHArchName, colHIsPrivate})
         ListView1.FullRowSelect = True
         ListView1.GridLines = True
-        ListView1.HideSelection = True
         ListView1.Location = New Point(12, 54)
         ListView1.Name = "ListView1"
         ListView1.Size = New Size(270, 174)

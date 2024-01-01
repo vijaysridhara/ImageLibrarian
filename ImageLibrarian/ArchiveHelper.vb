@@ -112,15 +112,15 @@ Friend Class ArchiveHelper
                 cmd.Parameters.Add("@archname", DbType.String)
                 cmd.Parameters.Add("@isprivate", DbType.Boolean)
                 cmd.Parameters.Add("@password", DbType.String)
-                cmd.Parameters("0").Value = a.newName
-                cmd.Parameters("1").Value = a.IsPrivate
-                cmd.Parameters("2").Value = a.Password
+                cmd.Parameters(0).Value = a.newName
+                cmd.Parameters(1).Value = a.IsPrivate
+                cmd.Parameters(2).Value = a.Password
 
             Else
                 cmd.Parameters.Add("@isprivate", DbType.Boolean)
                 cmd.Parameters.Add("@password", DbType.String)
-                cmd.Parameters("1").Value = a.IsPrivate
-                cmd.Parameters("2").Value = a.Password
+                cmd.Parameters(0).Value = a.IsPrivate
+                cmd.Parameters(1).Value = a.Password
             End If
             Dim res As Integer = cmd.ExecuteNonQuery
 
@@ -128,7 +128,7 @@ Friend Class ArchiveHelper
                 cmd.Parameters.Clear()
                 cmd.CommandText = query2
                 cmd.Parameters.Add("@archivename", DbType.String)
-                cmd.Parameters("0").Value = a.newName
+                cmd.Parameters(0).Value = a.newName
                 res = cmd.ExecuteNonQuery
                 cmd.Dispose()
                 Return True
@@ -151,7 +151,7 @@ Friend Class ArchiveHelper
             Dim query As String = ""
             Dim query2 As String = ""
             query = "delete from archivenames  where archname='" & a.Name & "'"
-            query2 = "delete from archives  where archivename='" & a.Name & "'"
+                query2 = "delete from archives  where archivename='" & a.Name & "'"
             If Not ConnectionOpen() Then Return Nothing
             Dim cmd As New SQLiteCommand(query)
             cmd.Connection = con

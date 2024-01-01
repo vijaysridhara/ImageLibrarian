@@ -68,6 +68,7 @@ Friend Class Settings
         txtImageEditor2.Text = My.Settings.IME2
         txtimgEditor1.Text = My.Settings.IME1
         chkOtherDrives.Checked = My.Settings.CheckOtherDrives
+        txtWorkfolder.Text = My.Settings.WorkFolder
         For Each s As String In My.Settings.IgnoreFolders
             txtIgnoreFolders.Text = s & vbCrLf
         Next
@@ -123,7 +124,7 @@ Friend Class Settings
         End If
         If archH.UpdateArchive(arch) Then
             lv.Text = arch.Name
-            lv.SubItems(0).Text = CStr(arch.IsPrivate)
+            lv.SubItems(1).Text = CStr(arch.IsPrivate)
         End If
     End Sub
 
@@ -240,5 +241,9 @@ Friend Class Settings
     Private Sub chkOtherDrives_CheckedChanged(sender As Object, e As EventArgs) Handles chkOtherDrives.CheckedChanged
         My.Settings.CheckOtherDrives = chkOtherDrives.Checked
         My.Settings.Save()
+    End Sub
+
+    Private Sub chkPrivate_CheckedChanged(sender As Object, e As EventArgs) Handles chkPrivate.CheckedChanged
+
     End Sub
 End Class
