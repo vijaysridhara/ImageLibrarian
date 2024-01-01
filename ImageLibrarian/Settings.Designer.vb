@@ -22,298 +22,318 @@ Partial Class Settings
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtLocation = New System.Windows.Forms.TextBox()
-        Me.butBrowse = New System.Windows.Forms.Button()
-        Me.ListView1 = New System.Windows.Forms.ListView()
-        Me.colHArchName = New System.Windows.Forms.ColumnHeader()
-        Me.colHIsPrivate = New System.Windows.Forms.ColumnHeader()
-        Me.butAdd = New System.Windows.Forms.Button()
-        Me.txtArchName = New System.Windows.Forms.TextBox()
-        Me.butModify = New System.Windows.Forms.Button()
-        Me.butDelete = New System.Windows.Forms.Button()
-        Me.chkPrivate = New System.Windows.Forms.CheckBox()
-        Me.butCancel = New System.Windows.Forms.Button()
-        Me.butOK = New System.Windows.Forms.Button()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.txtimgEditor1 = New System.Windows.Forms.TextBox()
-        Me.butImgEditor1 = New System.Windows.Forms.Button()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtImageEditor2 = New System.Windows.Forms.TextBox()
-        Me.butImageEditor2 = New System.Windows.Forms.Button()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.txtImageEditor3 = New System.Windows.Forms.TextBox()
-        Me.butImageEditor3 = New System.Windows.Forms.Button()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.txtWorkfolder = New System.Windows.Forms.TextBox()
-        Me.butBrowseWorkFolder = New System.Windows.Forms.Button()
-        Me.chkOtherDrives = New System.Windows.Forms.CheckBox()
-        Me.SuspendLayout()
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 27)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(106, 17)
-        Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Archives location"
-        '
-        'txtLocation
-        '
-        Me.txtLocation.Location = New System.Drawing.Point(124, 22)
-        Me.txtLocation.Name = "txtLocation"
-        Me.txtLocation.ReadOnly = True
-        Me.txtLocation.Size = New System.Drawing.Size(299, 25)
-        Me.txtLocation.TabIndex = 1
-        '
-        'butBrowse
-        '
-        Me.butBrowse.Location = New System.Drawing.Point(429, 23)
-        Me.butBrowse.Name = "butBrowse"
-        Me.butBrowse.Size = New System.Drawing.Size(28, 26)
-        Me.butBrowse.TabIndex = 2
-        Me.butBrowse.Text = "..."
-        Me.butBrowse.UseVisualStyleBackColor = True
-        '
-        'ListView1
-        '
-        Me.ListView1.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.colHArchName, Me.colHIsPrivate})
-        Me.ListView1.FullRowSelect = True
-        Me.ListView1.GridLines = True
-        Me.ListView1.HideSelection = True
-        Me.ListView1.Location = New System.Drawing.Point(12, 54)
-        Me.ListView1.Name = "ListView1"
-        Me.ListView1.Size = New System.Drawing.Size(270, 174)
-        Me.ListView1.TabIndex = 3
-        Me.ListView1.UseCompatibleStateImageBehavior = False
-        Me.ListView1.View = System.Windows.Forms.View.Details
-        '
-        'colHArchName
-        '
-        Me.colHArchName.Text = "Archive name"
-        Me.colHArchName.Width = 200
-        '
-        'colHIsPrivate
-        '
-        Me.colHIsPrivate.Text = "Private"
-        '
-        'butAdd
-        '
-        Me.butAdd.Location = New System.Drawing.Point(380, 87)
-        Me.butAdd.Name = "butAdd"
-        Me.butAdd.Size = New System.Drawing.Size(77, 36)
-        Me.butAdd.TabIndex = 6
-        Me.butAdd.Text = "&Add"
-        Me.butAdd.UseVisualStyleBackColor = True
-        '
-        'txtArchName
-        '
-        Me.txtArchName.Location = New System.Drawing.Point(284, 56)
-        Me.txtArchName.Name = "txtArchName"
-        Me.txtArchName.Size = New System.Drawing.Size(173, 25)
-        Me.txtArchName.TabIndex = 4
-        '
-        'butModify
-        '
-        Me.butModify.Location = New System.Drawing.Point(284, 131)
-        Me.butModify.Name = "butModify"
-        Me.butModify.Size = New System.Drawing.Size(77, 36)
-        Me.butModify.TabIndex = 7
-        Me.butModify.Text = "&Modify"
-        Me.butModify.UseVisualStyleBackColor = True
-        '
-        'butDelete
-        '
-        Me.butDelete.Location = New System.Drawing.Point(380, 131)
-        Me.butDelete.Name = "butDelete"
-        Me.butDelete.Size = New System.Drawing.Size(77, 36)
-        Me.butDelete.TabIndex = 8
-        Me.butDelete.Text = "&Delete"
-        Me.butDelete.UseVisualStyleBackColor = True
-        '
-        'chkPrivate
-        '
-        Me.chkPrivate.AutoSize = True
-        Me.chkPrivate.Location = New System.Drawing.Point(288, 94)
-        Me.chkPrivate.Name = "chkPrivate"
-        Me.chkPrivate.Size = New System.Drawing.Size(66, 21)
-        Me.chkPrivate.TabIndex = 5
-        Me.chkPrivate.Text = "Private"
-        Me.chkPrivate.UseVisualStyleBackColor = True
-        '
-        'butCancel
-        '
-        Me.butCancel.Location = New System.Drawing.Point(380, 375)
-        Me.butCancel.Name = "butCancel"
-        Me.butCancel.Size = New System.Drawing.Size(77, 35)
-        Me.butCancel.TabIndex = 23
-        Me.butCancel.Text = "&Cancel"
-        Me.butCancel.UseVisualStyleBackColor = True
-        '
-        'butOK
-        '
-        Me.butOK.Location = New System.Drawing.Point(288, 375)
-        Me.butOK.Name = "butOK"
-        Me.butOK.Size = New System.Drawing.Size(77, 35)
-        Me.butOK.TabIndex = 22
-        Me.butOK.Text = "O&K"
-        Me.butOK.UseVisualStyleBackColor = True
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(11, 252)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(90, 17)
-        Me.Label2.TabIndex = 10
-        Me.Label2.Text = "Image editor1"
-        '
-        'txtimgEditor1
-        '
-        Me.txtimgEditor1.Location = New System.Drawing.Point(115, 248)
-        Me.txtimgEditor1.Name = "txtimgEditor1"
-        Me.txtimgEditor1.ReadOnly = True
-        Me.txtimgEditor1.Size = New System.Drawing.Size(308, 25)
-        Me.txtimgEditor1.TabIndex = 11
-        '
-        'butImgEditor1
-        '
-        Me.butImgEditor1.Location = New System.Drawing.Point(429, 248)
-        Me.butImgEditor1.Name = "butImgEditor1"
-        Me.butImgEditor1.Size = New System.Drawing.Size(28, 26)
-        Me.butImgEditor1.TabIndex = 12
-        Me.butImgEditor1.Text = "..."
-        Me.butImgEditor1.UseVisualStyleBackColor = True
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(11, 284)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(90, 17)
-        Me.Label3.TabIndex = 13
-        Me.Label3.Text = "Image editor2"
-        '
-        'txtImageEditor2
-        '
-        Me.txtImageEditor2.Location = New System.Drawing.Point(115, 281)
-        Me.txtImageEditor2.Name = "txtImageEditor2"
-        Me.txtImageEditor2.ReadOnly = True
-        Me.txtImageEditor2.Size = New System.Drawing.Size(308, 25)
-        Me.txtImageEditor2.TabIndex = 14
-        '
-        'butImageEditor2
-        '
-        Me.butImageEditor2.Location = New System.Drawing.Point(429, 281)
-        Me.butImageEditor2.Name = "butImageEditor2"
-        Me.butImageEditor2.Size = New System.Drawing.Size(28, 26)
-        Me.butImageEditor2.TabIndex = 15
-        Me.butImageEditor2.Text = "..."
-        Me.butImageEditor2.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(11, 317)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(90, 17)
-        Me.Label4.TabIndex = 16
-        Me.Label4.Text = "Image editor3"
-        '
-        'txtImageEditor3
-        '
-        Me.txtImageEditor3.Location = New System.Drawing.Point(115, 314)
-        Me.txtImageEditor3.Name = "txtImageEditor3"
-        Me.txtImageEditor3.ReadOnly = True
-        Me.txtImageEditor3.Size = New System.Drawing.Size(308, 25)
-        Me.txtImageEditor3.TabIndex = 17
-        '
-        'butImageEditor3
-        '
-        Me.butImageEditor3.Location = New System.Drawing.Point(429, 314)
-        Me.butImageEditor3.Name = "butImageEditor3"
-        Me.butImageEditor3.Size = New System.Drawing.Size(28, 26)
-        Me.butImageEditor3.TabIndex = 18
-        Me.butImageEditor3.Text = "..."
-        Me.butImageEditor3.UseVisualStyleBackColor = True
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(11, 347)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(77, 17)
-        Me.Label5.TabIndex = 19
-        Me.Label5.Text = "Work folder"
-        '
-        'txtWorkfolder
-        '
-        Me.txtWorkfolder.Location = New System.Drawing.Point(115, 344)
-        Me.txtWorkfolder.Name = "txtWorkfolder"
-        Me.txtWorkfolder.ReadOnly = True
-        Me.txtWorkfolder.Size = New System.Drawing.Size(308, 25)
-        Me.txtWorkfolder.TabIndex = 20
-        '
-        'butBrowseWorkFolder
-        '
-        Me.butBrowseWorkFolder.Location = New System.Drawing.Point(429, 344)
-        Me.butBrowseWorkFolder.Name = "butBrowseWorkFolder"
-        Me.butBrowseWorkFolder.Size = New System.Drawing.Size(28, 26)
-        Me.butBrowseWorkFolder.TabIndex = 21
-        Me.butBrowseWorkFolder.Text = "..."
-        Me.butBrowseWorkFolder.UseVisualStyleBackColor = True
-        '
-        'chkOtherDrives
-        '
-        Me.chkOtherDrives.Location = New System.Drawing.Point(288, 196)
-        Me.chkOtherDrives.Name = "chkOtherDrives"
-        Me.chkOtherDrives.Size = New System.Drawing.Size(169, 46)
-        Me.chkOtherDrives.TabIndex = 9
-        Me.chkOtherDrives.Text = "Check other drives for a missing file"
-        Me.chkOtherDrives.UseVisualStyleBackColor = True
-        '
-        'Settings
-        '
-        Me.AcceptButton = Me.butOK
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.CancelButton = Me.butCancel
-        Me.ClientSize = New System.Drawing.Size(469, 410)
-        Me.Controls.Add(Me.butCancel)
-        Me.Controls.Add(Me.butOK)
-        Me.Controls.Add(Me.chkOtherDrives)
-        Me.Controls.Add(Me.chkPrivate)
-        Me.Controls.Add(Me.butDelete)
-        Me.Controls.Add(Me.butModify)
-        Me.Controls.Add(Me.butAdd)
-        Me.Controls.Add(Me.ListView1)
-        Me.Controls.Add(Me.butBrowseWorkFolder)
-        Me.Controls.Add(Me.butImageEditor3)
-        Me.Controls.Add(Me.butImageEditor2)
-        Me.Controls.Add(Me.butImgEditor1)
-        Me.Controls.Add(Me.butBrowse)
-        Me.Controls.Add(Me.txtArchName)
-        Me.Controls.Add(Me.txtWorkfolder)
-        Me.Controls.Add(Me.Label5)
-        Me.Controls.Add(Me.txtImageEditor3)
-        Me.Controls.Add(Me.Label4)
-        Me.Controls.Add(Me.txtImageEditor2)
-        Me.Controls.Add(Me.Label3)
-        Me.Controls.Add(Me.txtimgEditor1)
-        Me.Controls.Add(Me.Label2)
-        Me.Controls.Add(Me.txtLocation)
-        Me.Controls.Add(Me.Label1)
-        Me.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
-        Me.Name = "Settings"
-        Me.ShowIcon = False
-        Me.ShowInTaskbar = False
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Settings"
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
-
+        Label1 = New Label()
+        txtLocation = New TextBox()
+        butBrowse = New Button()
+        ListView1 = New ListView()
+        colHArchName = New ColumnHeader()
+        colHIsPrivate = New ColumnHeader()
+        butAdd = New Button()
+        txtArchName = New TextBox()
+        butModify = New Button()
+        butDelete = New Button()
+        chkPrivate = New CheckBox()
+        butCancel = New Button()
+        butOK = New Button()
+        Label2 = New Label()
+        txtimgEditor1 = New TextBox()
+        butImgEditor1 = New Button()
+        Label3 = New Label()
+        txtImageEditor2 = New TextBox()
+        butImageEditor2 = New Button()
+        Label4 = New Label()
+        txtImageEditor3 = New TextBox()
+        butImageEditor3 = New Button()
+        Label5 = New Label()
+        txtWorkfolder = New TextBox()
+        butBrowseWorkFolder = New Button()
+        chkOtherDrives = New CheckBox()
+        Label6 = New Label()
+        txtIgnoreFolders = New TextBox()
+        SuspendLayout()
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New Point(12, 27)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(106, 17)
+        Label1.TabIndex = 0
+        Label1.Text = "Archives location"
+        ' 
+        ' txtLocation
+        ' 
+        txtLocation.Location = New Point(124, 22)
+        txtLocation.Name = "txtLocation"
+        txtLocation.ReadOnly = True
+        txtLocation.Size = New Size(299, 25)
+        txtLocation.TabIndex = 1
+        ' 
+        ' butBrowse
+        ' 
+        butBrowse.Location = New Point(429, 23)
+        butBrowse.Name = "butBrowse"
+        butBrowse.Size = New Size(28, 26)
+        butBrowse.TabIndex = 2
+        butBrowse.Text = "..."
+        butBrowse.UseVisualStyleBackColor = True
+        ' 
+        ' ListView1
+        ' 
+        ListView1.Columns.AddRange(New ColumnHeader() {colHArchName, colHIsPrivate})
+        ListView1.FullRowSelect = True
+        ListView1.GridLines = True
+        ListView1.HideSelection = True
+        ListView1.Location = New Point(12, 54)
+        ListView1.Name = "ListView1"
+        ListView1.Size = New Size(270, 174)
+        ListView1.TabIndex = 3
+        ListView1.UseCompatibleStateImageBehavior = False
+        ListView1.View = View.Details
+        ' 
+        ' colHArchName
+        ' 
+        colHArchName.Text = "Archive name"
+        colHArchName.Width = 200
+        ' 
+        ' colHIsPrivate
+        ' 
+        colHIsPrivate.Text = "Private"
+        ' 
+        ' butAdd
+        ' 
+        butAdd.Location = New Point(380, 87)
+        butAdd.Name = "butAdd"
+        butAdd.Size = New Size(77, 36)
+        butAdd.TabIndex = 6
+        butAdd.Text = "&Add"
+        butAdd.UseVisualStyleBackColor = True
+        ' 
+        ' txtArchName
+        ' 
+        txtArchName.Location = New Point(284, 56)
+        txtArchName.Name = "txtArchName"
+        txtArchName.Size = New Size(173, 25)
+        txtArchName.TabIndex = 4
+        ' 
+        ' butModify
+        ' 
+        butModify.Location = New Point(284, 131)
+        butModify.Name = "butModify"
+        butModify.Size = New Size(77, 36)
+        butModify.TabIndex = 7
+        butModify.Text = "&Modify"
+        butModify.UseVisualStyleBackColor = True
+        ' 
+        ' butDelete
+        ' 
+        butDelete.Location = New Point(380, 131)
+        butDelete.Name = "butDelete"
+        butDelete.Size = New Size(77, 36)
+        butDelete.TabIndex = 8
+        butDelete.Text = "&Delete"
+        butDelete.UseVisualStyleBackColor = True
+        ' 
+        ' chkPrivate
+        ' 
+        chkPrivate.AutoSize = True
+        chkPrivate.Location = New Point(288, 94)
+        chkPrivate.Name = "chkPrivate"
+        chkPrivate.Size = New Size(66, 21)
+        chkPrivate.TabIndex = 5
+        chkPrivate.Text = "Private"
+        chkPrivate.UseVisualStyleBackColor = True
+        ' 
+        ' butCancel
+        ' 
+        butCancel.Location = New Point(380, 445)
+        butCancel.Name = "butCancel"
+        butCancel.Size = New Size(77, 35)
+        butCancel.TabIndex = 25
+        butCancel.Text = "&Cancel"
+        butCancel.UseVisualStyleBackColor = True
+        ' 
+        ' butOK
+        ' 
+        butOK.Location = New Point(288, 445)
+        butOK.Name = "butOK"
+        butOK.Size = New Size(77, 35)
+        butOK.TabIndex = 24
+        butOK.Text = "O&K"
+        butOK.UseVisualStyleBackColor = True
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(11, 322)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(90, 17)
+        Label2.TabIndex = 12
+        Label2.Text = "Image editor1"
+        ' 
+        ' txtimgEditor1
+        ' 
+        txtimgEditor1.Location = New Point(115, 318)
+        txtimgEditor1.Name = "txtimgEditor1"
+        txtimgEditor1.ReadOnly = True
+        txtimgEditor1.Size = New Size(308, 25)
+        txtimgEditor1.TabIndex = 13
+        ' 
+        ' butImgEditor1
+        ' 
+        butImgEditor1.Location = New Point(429, 318)
+        butImgEditor1.Name = "butImgEditor1"
+        butImgEditor1.Size = New Size(28, 26)
+        butImgEditor1.TabIndex = 14
+        butImgEditor1.Text = "..."
+        butImgEditor1.UseVisualStyleBackColor = True
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(11, 354)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(90, 17)
+        Label3.TabIndex = 15
+        Label3.Text = "Image editor2"
+        ' 
+        ' txtImageEditor2
+        ' 
+        txtImageEditor2.Location = New Point(115, 351)
+        txtImageEditor2.Name = "txtImageEditor2"
+        txtImageEditor2.ReadOnly = True
+        txtImageEditor2.Size = New Size(308, 25)
+        txtImageEditor2.TabIndex = 16
+        ' 
+        ' butImageEditor2
+        ' 
+        butImageEditor2.Location = New Point(429, 351)
+        butImageEditor2.Name = "butImageEditor2"
+        butImageEditor2.Size = New Size(28, 26)
+        butImageEditor2.TabIndex = 17
+        butImageEditor2.Text = "..."
+        butImageEditor2.UseVisualStyleBackColor = True
+        ' 
+        ' Label4
+        ' 
+        Label4.AutoSize = True
+        Label4.Location = New Point(11, 387)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(90, 17)
+        Label4.TabIndex = 18
+        Label4.Text = "Image editor3"
+        ' 
+        ' txtImageEditor3
+        ' 
+        txtImageEditor3.Location = New Point(115, 384)
+        txtImageEditor3.Name = "txtImageEditor3"
+        txtImageEditor3.ReadOnly = True
+        txtImageEditor3.Size = New Size(308, 25)
+        txtImageEditor3.TabIndex = 19
+        ' 
+        ' butImageEditor3
+        ' 
+        butImageEditor3.Location = New Point(429, 384)
+        butImageEditor3.Name = "butImageEditor3"
+        butImageEditor3.Size = New Size(28, 26)
+        butImageEditor3.TabIndex = 20
+        butImageEditor3.Text = "..."
+        butImageEditor3.UseVisualStyleBackColor = True
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(11, 417)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(77, 17)
+        Label5.TabIndex = 21
+        Label5.Text = "Work folder"
+        ' 
+        ' txtWorkfolder
+        ' 
+        txtWorkfolder.Location = New Point(115, 414)
+        txtWorkfolder.Name = "txtWorkfolder"
+        txtWorkfolder.ReadOnly = True
+        txtWorkfolder.Size = New Size(308, 25)
+        txtWorkfolder.TabIndex = 22
+        ' 
+        ' butBrowseWorkFolder
+        ' 
+        butBrowseWorkFolder.Location = New Point(429, 414)
+        butBrowseWorkFolder.Name = "butBrowseWorkFolder"
+        butBrowseWorkFolder.Size = New Size(28, 26)
+        butBrowseWorkFolder.TabIndex = 23
+        butBrowseWorkFolder.Text = "..."
+        butBrowseWorkFolder.UseVisualStyleBackColor = True
+        ' 
+        ' chkOtherDrives
+        ' 
+        chkOtherDrives.Location = New Point(288, 196)
+        chkOtherDrives.Name = "chkOtherDrives"
+        chkOtherDrives.Size = New Size(169, 46)
+        chkOtherDrives.TabIndex = 9
+        chkOtherDrives.Text = "Check other drives for a missing file"
+        chkOtherDrives.UseVisualStyleBackColor = True
+        ' 
+        ' Label6
+        ' 
+        Label6.AutoSize = True
+        Label6.Location = New Point(12, 231)
+        Label6.Name = "Label6"
+        Label6.Size = New Size(91, 17)
+        Label6.TabIndex = 10
+        Label6.Text = "&Ignore folders"
+        ' 
+        ' txtIgnoreFolders
+        ' 
+        txtIgnoreFolders.Location = New Point(12, 251)
+        txtIgnoreFolders.Multiline = True
+        txtIgnoreFolders.Name = "txtIgnoreFolders"
+        txtIgnoreFolders.Size = New Size(445, 61)
+        txtIgnoreFolders.TabIndex = 11
+        ' 
+        ' Settings
+        ' 
+        AcceptButton = butOK
+        AutoScaleDimensions = New SizeF(7F, 17F)
+        AutoScaleMode = AutoScaleMode.Font
+        CancelButton = butCancel
+        ClientSize = New Size(469, 509)
+        Controls.Add(txtIgnoreFolders)
+        Controls.Add(butCancel)
+        Controls.Add(butOK)
+        Controls.Add(chkOtherDrives)
+        Controls.Add(chkPrivate)
+        Controls.Add(butDelete)
+        Controls.Add(butModify)
+        Controls.Add(butAdd)
+        Controls.Add(ListView1)
+        Controls.Add(butBrowseWorkFolder)
+        Controls.Add(butImageEditor3)
+        Controls.Add(butImageEditor2)
+        Controls.Add(butImgEditor1)
+        Controls.Add(butBrowse)
+        Controls.Add(txtArchName)
+        Controls.Add(txtWorkfolder)
+        Controls.Add(Label5)
+        Controls.Add(txtImageEditor3)
+        Controls.Add(Label4)
+        Controls.Add(txtImageEditor2)
+        Controls.Add(Label3)
+        Controls.Add(txtimgEditor1)
+        Controls.Add(Label2)
+        Controls.Add(txtLocation)
+        Controls.Add(Label6)
+        Controls.Add(Label1)
+        Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point)
+        FormBorderStyle = FormBorderStyle.FixedToolWindow
+        Name = "Settings"
+        ShowIcon = False
+        ShowInTaskbar = False
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Settings"
+        ResumeLayout(False)
+        PerformLayout()
     End Sub
 
     Friend WithEvents Label1 As Label
@@ -342,4 +362,6 @@ Partial Class Settings
     Friend WithEvents txtWorkfolder As TextBox
     Friend WithEvents butBrowseWorkFolder As Button
     Friend WithEvents chkOtherDrives As CheckBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents txtIgnoreFolders As TextBox
 End Class

@@ -324,7 +324,7 @@ Friend Class ArchiveHelper
 
     Public Function ContainsFile(file As String, cat As String, subcat As String, archname As String) As Boolean
         Try
-            Dim query As String = "select 1 from archives where UPPER(ORIGFILEPATH)='" & file.ToUpper & "' and UPPER(category)='" & cat.ToUpper & "' and UPPER(subcat)='" & subcat.ToUpper & "' and UPPER(archivename)='" & archname.ToUpper & "'"
+            Dim query As String = "select 1 from archives where UPPER(ORIGFILEPATH)='" & file.ToUpper.Replace("`", "'") & "' and UPPER(category)='" & cat.ToUpper & "' and UPPER(subcat)='" & subcat.ToUpper & "' and UPPER(archivename)='" & archname.ToUpper & "'"
             Dim cmd As New SQLiteCommand(query)
             cmd.Connection = con
             Dim RDR As SQLiteDataReader
@@ -485,7 +485,7 @@ Friend Class ArchiveHelper
                     End With
                 Case "origfilename"
                     updCommand.Parameters.Add("@origfilename", DbType.String)
-                    updCommand.Parameters(0).Value = c.Origfilename
+                    updCommand.Parameters(0).Value = IIf(c.Origfilename.Contains("'"), c.Origfilename.Replace("'", "`"), c.Origfilename)
                 Case "resolution"
                     updCommand.Parameters.Add("@resolution", DbType.String)
                     updCommand.Parameters(0).Value = c.OrigResolution.Width & "," & c.OrigResolution.Height
@@ -575,8 +575,8 @@ Friend Class ArchiveHelper
                 '.Parameters("@category").Value = c.Category
                 .Parameters(0).Value = c.FileNumber
                 .Parameters(1).Value = c.CacheFilename
-                .Parameters(2).Value = c.Origfilename
-                .Parameters(3).Value = c.FullPath
+                .Parameters(2).Value = IIf(c.Origfilename.Contains("'"), c.Origfilename.Replace("'", "`"), c.Origfilename)
+                .Parameters(3).Value = IIf(c.FullPath.Contains("'"), c.FullPath.Replace("'", "`"), c.FullPath)
                 .Parameters(4).Value = c.OrigResolution.Width & "," & c.OrigResolution.Height
                 .Parameters(5).Value = c.FileSize
                 .Parameters(6).Value = c.FileType
@@ -642,10 +642,10 @@ Friend Class ArchiveHelper
                     RaiseEvent Progress(Int(inc / recCnt * 100))
                 End If
                 Dim t As Thumbnail = ls(inc - 1)
-                t.InitializeCacheImage(rdr(0), rdr(6), _cache_path & "\CacheImages", rdr(3))
+                t.InitializeCacheImage(rdr(0), rdr(6), _cache_path & "\CacheImages", IIf(rdr(3).ToString.Contains("`"), rdr(3).ToString.Replace("`", "'"), rdr(3)))
                 ' Dim t As New Thumbnail(rdr(0), rdr(6), _cache_path & "\CacheImages", rdr(3))
                 ' t.CacheFilename = rdr(1)
-                t.Origfilename = rdr(2)
+                t.Origfilename = IIf(rdr(2).ToString.Contains("`"), rdr(2).ToString.Replace("`", "'"), rdr(2))
                 t.OrigResolution = New Size(rdr(4).split(",")(0), rdr(4).split(",")(1))
                 t.FileSize = rdr(5)
                 t.LastModTime = IIf(rdr.IsDBNull(7), "", rdr(7))
@@ -764,10 +764,10 @@ Friend Class ArchiveHelper
                 '    End If
 
                 'Next
-                t.InitializeCacheImage(rdr(0), rdr(6), _cache_path & "\CacheImages", rdr(3))
-                    ' t.CacheFilename = rdr(1)
-                    t.Origfilename = rdr(2)
-                    t.OrigResolution = New Size(rdr(4).split(",")(0), rdr(4).split(",")(1))
+                t.InitializeCacheImage(rdr(0), rdr(6), _cache_path & "\CacheImages", IIf(rdr(3).ToString.Contains("`"), rdr(3).ToString.Replace("`", "'"), rdr(3)))
+                ' t.CacheFilename = rdr(1)
+                t.Origfilename = IIf(rdr(2).ToString.Contains("`"), rdr(2).ToString.Replace("`", "'"), rdr(2))
+                t.OrigResolution = New Size(rdr(4).split(",")(0), rdr(4).split(",")(1))
                     t.FileSize = rdr(5)
                 t.LastModTime = IIf(rdr.IsDBNull(7), "", rdr(7)) '0.4.5, to fix null issue
                 t.Comment = rdr(8)

@@ -249,9 +249,9 @@ Public Class MainForm
         Try
             If _cancelOp Then Return 0
             Dim rowsFound As Integer = 0
-            If subcat = "A Modern Fairytale" Then
-                MsgBox("Hi")
-            End If
+            'If subcat = "A Modern Fairytale" Then
+            '    MsgBox("Hi")
+            'End If
             rowsFound = thumbProcessor.Massload(level, rootPath, types, cat, subcat, CurrentArchive)
             Dim dirs() As String = IO.Directory.GetDirectories(rootPath)
             For Each d As String In dirs

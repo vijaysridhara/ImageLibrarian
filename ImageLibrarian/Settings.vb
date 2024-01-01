@@ -13,6 +13,8 @@
 'See the License for the specific language governing permissions and
 'limitations under the License.
 '***********************************************************************
+Imports VijaySridhara.Applications.My
+
 Friend Class Settings
     Dim archH As ArchiveHelper
     Public Sub New(archHelper As ArchiveHelper)
@@ -66,6 +68,9 @@ Friend Class Settings
         txtImageEditor2.Text = My.Settings.IME2
         txtimgEditor1.Text = My.Settings.IME1
         chkOtherDrives.Checked = My.Settings.CheckOtherDrives
+        For Each s As String In My.Settings.IgnoreFolders
+            txtIgnoreFolders.Text = s & vbCrLf
+        Next
         If Not archH Is Nothing Then
             For Each a As Arch In archives
                 Dim lv As New ListViewItem(a.Name)
@@ -169,6 +174,9 @@ Friend Class Settings
     End Sub
 
     Private Sub butOK_Click(sender As Object, e As EventArgs) Handles butOK.Click
+        My.Settings.IgnoreFolders.Clear()
+        My.Settings.IgnoreFolders.AddRange(txtIgnoreFolders.Text.Split(vbCrLf))
+        My.Settings.Save()
         Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub

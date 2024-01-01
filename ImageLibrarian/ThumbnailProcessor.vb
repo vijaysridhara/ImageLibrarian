@@ -14,6 +14,9 @@
 'See the License for the specific language governing permissions and
 'limitations under the License.
 '***********************************************************************
+Imports System.IO
+Imports System.Text.RegularExpressions
+
 Friend Class ThumbnailProcessor
     Private _archHelper As ArchiveHelper
     Event Loading(running As Boolean)
@@ -94,7 +97,7 @@ Friend Class ThumbnailProcessor
         End Try
 
     End Function
-
+    Dim mtch As Match
     Public Function Massload(level As Integer, pth As String, types As List(Of String), cat As String, subcat As String, currentArchive As String) As Integer
         Try
             IsCurrentlyLoading = True
@@ -103,6 +106,14 @@ Friend Class ThumbnailProcessor
             Dim indent As String = GetIndent(level)
             ' Dim tempThumbs As New List(Of Thumbnail)
             RaiseEvent Message(indent & "***Folder: " & pth & "*******")
+            '0.4.7 To ignore folders of format given
+            For Each s As String In My.Settings.IgnoreFolders
+                mtch = Regex.Match(pth, s, RegexOptions.IgnoreCase Or RegexOptions.CultureInvariant)
+                If mtch.Success Then
+                    RaiseEvent Message(indent & "Ignoring folder as it qualifies for pattern " & s)
+                    Return -1
+                End If
+            Next
             Dim catExists As Boolean
             Dim subCatExists As Boolean
             Dim dupCheckDone As Boolean
