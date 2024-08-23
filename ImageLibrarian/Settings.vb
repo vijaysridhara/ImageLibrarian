@@ -70,6 +70,8 @@ Friend Class Settings
         chkOtherDrives.Checked = My.Settings.CheckOtherDrives
         txtWorkfolder.Text = My.Settings.WorkFolder
         For Each s As String In My.Settings.IgnoreFolders
+            If s.Trim.Length = 0 Then Continue For
+            If String.IsNullOrEmpty(s) Then Continue For
             txtIgnoreFolders.Text = s & vbCrLf
         Next
         If Not archH Is Nothing Then

@@ -279,9 +279,9 @@ Partial Class Settings
         Label6.AutoSize = True
         Label6.Location = New Point(12, 231)
         Label6.Name = "Label6"
-        Label6.Size = New Size(91, 17)
+        Label6.Size = New Size(223, 17)
         Label6.TabIndex = 10
-        Label6.Text = "&Ignore folders"
+        Label6.Text = "&Ignore folders (Use regular patterns)"
         ' 
         ' txtIgnoreFolders
         ' 

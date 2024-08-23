@@ -173,8 +173,8 @@ Public Class Photoview
         ph.FlipVertical()
     End Sub
 
-    Private Sub Photoview_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        If Not RemovePhoto() Then
+    Private Sub Photoview_Closing(sender As Object, e As CancelEventArgs) Handles MyBase.Closing
+        If Not RemovePhoto Then
             e.Cancel = True
         End If
     End Sub
@@ -191,8 +191,8 @@ Public Class Photoview
 
     End Sub
 
-    Private Sub Photoview_Load(sender As Object, e As EventArgs) Handles Me.Load
-        For i As Integer = 100 To 5 Step -5
+    Private Sub Photoview_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        For i = 100 To 5 Step -5
             tlstpZoom.Items.Add(i)
         Next
 
@@ -248,10 +248,10 @@ Public Class Photoview
 
     End Sub
 
-    Private Sub Photoview_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+    Private Sub Photoview_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.KeyCode = Keys.Escape Then
-            If Not RemovePhoto() Then Exit Sub
-            Me.Close()
+            If Not RemovePhoto Then Exit Sub
+            Close
         End If
     End Sub
 End Class

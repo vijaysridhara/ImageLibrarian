@@ -24,592 +24,588 @@ Partial Class MainForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container()
+        components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MainForm))
-        Me.pnlThumbnails = New VijaySridhara.Applications.ContainerPanel()
-        Me.ThumbnailContainer1 = New VijaySridhara.Applications.ThumbnailContainer()
-        Me.txtFocusBox = New System.Windows.Forms.TextBox()
-        Me.pnlLEft = New System.Windows.Forms.Panel()
-        Me.trvArchives = New System.Windows.Forms.TreeView()
-        Me.ctxTree = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ImportHereToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.AddImagesHereToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.RenameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExportThisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.cboShowtypes = New System.Windows.Forms.ComboBox()
-        Me.Label5 = New System.Windows.Forms.Label()
-        Me.butExport = New System.Windows.Forms.Button()
-        Me.butImportImages = New System.Windows.Forms.Button()
-        Me.butImport = New System.Windows.Forms.Button()
-        Me.Splitter1 = New System.Windows.Forms.Splitter()
-        Me.plRight = New System.Windows.Forms.Panel()
-        Me.txtSearch = New System.Windows.Forms.TextBox()
-        Me.lblWarn2 = New System.Windows.Forms.Label()
-        Me.lblWarn1 = New System.Windows.Forms.Label()
-        Me.butUpdateComments = New System.Windows.Forms.Button()
-        Me.butSearch = New System.Windows.Forms.Button()
-        Me.butUpdateTags = New System.Windows.Forms.Button()
-        Me.txtExif = New System.Windows.Forms.TextBox()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtComments = New System.Windows.Forms.TextBox()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.txtTags = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.Splitter2 = New System.Windows.Forms.Splitter()
-        Me.pnlTop = New System.Windows.Forms.Panel()
-        Me.butCacelOp = New System.Windows.Forms.Button()
-        Me.chkPrivate = New System.Windows.Forms.CheckBox()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.cboArchives = New System.Windows.Forms.ComboBox()
-        Me.butCopyFilelink = New System.Windows.Forms.Button()
-        Me.txtFile = New System.Windows.Forms.TextBox()
-        Me.butAbout = New System.Windows.Forms.Button()
-        Me.butSettings = New System.Windows.Forms.Button()
-        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
-        Me.txtLog = New System.Windows.Forms.TextBox()
-        Me.Splitter3 = New System.Windows.Forms.Splitter()
-        Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.pnlThumbnails.SuspendLayout()
-        Me.pnlLEft.SuspendLayout()
-        Me.ctxTree.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.plRight.SuspendLayout()
-        Me.pnlTop.SuspendLayout()
-        Me.SuspendLayout()
-        '
-        'pnlThumbnails
-        '
-        Me.pnlThumbnails.AutoScroll = True
-        Me.pnlThumbnails.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
-        Me.pnlThumbnails.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.pnlThumbnails.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.pnlThumbnails.Controls.Add(Me.ThumbnailContainer1)
-        Me.pnlThumbnails.Controls.Add(Me.txtFocusBox)
-        Me.pnlThumbnails.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.pnlThumbnails.Location = New System.Drawing.Point(207, 64)
-        Me.pnlThumbnails.Name = "pnlThumbnails"
-        Me.pnlThumbnails.Size = New System.Drawing.Size(762, 404)
-        Me.pnlThumbnails.TabIndex = 2
-        '
-        'ThumbnailContainer1
-        '
-        Me.ThumbnailContainer1.ArchHelper = Nothing
-        Me.ThumbnailContainer1.CancelOperation = False
-        Me.ThumbnailContainer1.ControlKey = False
-        Me.ThumbnailContainer1.CurrentArchive = Nothing
-        Me.ThumbnailContainer1.CurrentCategory = Nothing
-        Me.ThumbnailContainer1.CurrentSubCategory = Nothing
-        Me.ThumbnailContainer1.IsCurrentlyLoading = False
-        Me.ThumbnailContainer1.IsSearch = False
-        Me.ThumbnailContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.ThumbnailContainer1.Name = "ThumbnailContainer1"
-        Me.ThumbnailContainer1.ShiftKey = False
-        Me.ThumbnailContainer1.Showtypes = "all"
-        Me.ThumbnailContainer1.Size = New System.Drawing.Size(0, 0)
-        Me.ThumbnailContainer1.TabIndex = 1
-        Me.ThumbnailContainer1.Text = "ThumbnailContainer1"
-        Me.ThumbnailContainer1.ThumbSize = New System.Drawing.Size(200, 150)
-        '
-        'txtFocusBox
-        '
-        Me.txtFocusBox.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.txtFocusBox.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtFocusBox.Font = New System.Drawing.Font("Segoe UI", 1.5!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtFocusBox.Location = New System.Drawing.Point(13, 72)
-        Me.txtFocusBox.Name = "txtFocusBox"
-        Me.txtFocusBox.Size = New System.Drawing.Size(0, 3)
-        Me.txtFocusBox.TabIndex = 0
-        '
-        'pnlLEft
-        '
-        Me.pnlLEft.Controls.Add(Me.trvArchives)
-        Me.pnlLEft.Controls.Add(Me.PictureBox1)
-        Me.pnlLEft.Dock = System.Windows.Forms.DockStyle.Left
-        Me.pnlLEft.Location = New System.Drawing.Point(0, 0)
-        Me.pnlLEft.Name = "pnlLEft"
-        Me.pnlLEft.Size = New System.Drawing.Size(203, 589)
-        Me.pnlLEft.TabIndex = 0
-        '
-        'trvArchives
-        '
-        Me.trvArchives.AllowDrop = True
-        Me.trvArchives.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.trvArchives.ContextMenuStrip = Me.ctxTree
-        Me.trvArchives.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.trvArchives.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
-        Me.trvArchives.FullRowSelect = True
-        Me.trvArchives.HideSelection = False
-        Me.trvArchives.LabelEdit = True
-        Me.trvArchives.Location = New System.Drawing.Point(0, 95)
-        Me.trvArchives.Name = "trvArchives"
-        Me.trvArchives.ShowRootLines = False
-        Me.trvArchives.Size = New System.Drawing.Size(203, 494)
-        Me.trvArchives.TabIndex = 0
-        '
-        'ctxTree
-        '
-        Me.ctxTree.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ImportHereToolStripMenuItem, Me.AddImagesHereToolStripMenuItem, Me.RenameToolStripMenuItem, Me.ExportThisToolStripMenuItem, Me.ToolStripMenuItem1, Me.DeleteToolStripMenuItem})
-        Me.ctxTree.Name = "ctxTree"
-        Me.ctxTree.Size = New System.Drawing.Size(164, 120)
-        '
-        'ImportHereToolStripMenuItem
-        '
-        Me.ImportHereToolStripMenuItem.Name = "ImportHereToolStripMenuItem"
-        Me.ImportHereToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.ImportHereToolStripMenuItem.Text = "&Import here"
-        '
-        'AddImagesHereToolStripMenuItem
-        '
-        Me.AddImagesHereToolStripMenuItem.Name = "AddImagesHereToolStripMenuItem"
-        Me.AddImagesHereToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.AddImagesHereToolStripMenuItem.Text = "&Add images here"
-        '
-        'RenameToolStripMenuItem
-        '
-        Me.RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
-        Me.RenameToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.RenameToolStripMenuItem.Text = "&Rename "
-        '
-        'ExportThisToolStripMenuItem
-        '
-        Me.ExportThisToolStripMenuItem.Name = "ExportThisToolStripMenuItem"
-        Me.ExportThisToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.ExportThisToolStripMenuItem.Text = "E&xport this"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(160, 6)
-        '
-        'DeleteToolStripMenuItem
-        '
-        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(163, 22)
-        Me.DeleteToolStripMenuItem.Text = "&Delete"
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.PictureBox1.Image = Global.VijaySridhara.Applications.My.Resources.Resources.piclib_128
-        Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(203, 95)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 1
-        Me.PictureBox1.TabStop = False
-        '
-        'cboShowtypes
-        '
-        Me.cboShowtypes.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.cboShowtypes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboShowtypes.FormattingEnabled = True
-        Me.cboShowtypes.Items.AddRange(New Object() {"All types", "JPG", "PNG", "BMP", "GIF"})
-        Me.cboShowtypes.Location = New System.Drawing.Point(289, 5)
-        Me.cboShowtypes.Name = "cboShowtypes"
-        Me.cboShowtypes.Size = New System.Drawing.Size(127, 25)
-        Me.cboShowtypes.TabIndex = 1
-        '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(232, 8)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(39, 17)
-        Me.Label5.TabIndex = 0
-        Me.Label5.Text = "Show"
-        '
-        'butExport
-        '
-        Me.butExport.BackgroundImage = Global.VijaySridhara.Applications.My.Resources.Resources.export
-        Me.butExport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.butExport.Enabled = False
-        Me.butExport.FlatAppearance.BorderSize = 0
-        Me.butExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.butExport.Location = New System.Drawing.Point(82, 5)
-        Me.butExport.Name = "butExport"
-        Me.butExport.Size = New System.Drawing.Size(32, 32)
-        Me.butExport.TabIndex = 2
-        Me.ToolTip1.SetToolTip(Me.butExport, "Export selected files")
-        Me.butExport.UseVisualStyleBackColor = True
-        '
-        'butImportImages
-        '
-        Me.butImportImages.BackgroundImage = Global.VijaySridhara.Applications.My.Resources.Resources.importimages
-        Me.butImportImages.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.butImportImages.Enabled = False
-        Me.butImportImages.FlatAppearance.BorderSize = 0
-        Me.butImportImages.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.butImportImages.Location = New System.Drawing.Point(44, 5)
-        Me.butImportImages.Name = "butImportImages"
-        Me.butImportImages.Size = New System.Drawing.Size(32, 32)
-        Me.butImportImages.TabIndex = 1
-        Me.ToolTip1.SetToolTip(Me.butImportImages, "Import multiple files")
-        Me.butImportImages.UseVisualStyleBackColor = True
-        '
-        'butImport
-        '
-        Me.butImport.BackgroundImage = Global.VijaySridhara.Applications.My.Resources.Resources.importfolder
-        Me.butImport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.butImport.Enabled = False
-        Me.butImport.FlatAppearance.BorderSize = 0
-        Me.butImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.butImport.Location = New System.Drawing.Point(6, 5)
-        Me.butImport.Name = "butImport"
-        Me.butImport.Size = New System.Drawing.Size(32, 32)
-        Me.butImport.TabIndex = 0
-        Me.ToolTip1.SetToolTip(Me.butImport, "Import a folder")
-        Me.butImport.UseVisualStyleBackColor = True
-        '
-        'Splitter1
-        '
-        Me.Splitter1.Location = New System.Drawing.Point(203, 0)
-        Me.Splitter1.Name = "Splitter1"
-        Me.Splitter1.Size = New System.Drawing.Size(4, 589)
-        Me.Splitter1.TabIndex = 5
-        Me.Splitter1.TabStop = False
-        '
-        'plRight
-        '
-        Me.plRight.Controls.Add(Me.txtSearch)
-        Me.plRight.Controls.Add(Me.lblWarn2)
-        Me.plRight.Controls.Add(Me.lblWarn1)
-        Me.plRight.Controls.Add(Me.butUpdateComments)
-        Me.plRight.Controls.Add(Me.butSearch)
-        Me.plRight.Controls.Add(Me.butUpdateTags)
-        Me.plRight.Controls.Add(Me.txtExif)
-        Me.plRight.Controls.Add(Me.Label3)
-        Me.plRight.Controls.Add(Me.txtComments)
-        Me.plRight.Controls.Add(Me.Label2)
-        Me.plRight.Controls.Add(Me.txtTags)
-        Me.plRight.Controls.Add(Me.Label1)
-        Me.plRight.Dock = System.Windows.Forms.DockStyle.Right
-        Me.plRight.Location = New System.Drawing.Point(973, 0)
-        Me.plRight.Name = "plRight"
-        Me.plRight.Size = New System.Drawing.Size(220, 589)
-        Me.plRight.TabIndex = 4
-        '
-        'txtSearch
-        '
-        Me.txtSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtSearch.BackColor = System.Drawing.SystemColors.ControlDark
-        Me.txtSearch.Location = New System.Drawing.Point(3, 16)
-        Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(184, 25)
-        Me.txtSearch.TabIndex = 0
-        '
-        'lblWarn2
-        '
-        Me.lblWarn2.Image = Global.VijaySridhara.Applications.My.Resources.Resources.excl
-        Me.lblWarn2.Location = New System.Drawing.Point(85, 441)
-        Me.lblWarn2.Name = "lblWarn2"
-        Me.lblWarn2.Size = New System.Drawing.Size(18, 22)
-        Me.lblWarn2.TabIndex = 9
-        Me.lblWarn2.Visible = False
-        '
-        'lblWarn1
-        '
-        Me.lblWarn1.Image = Global.VijaySridhara.Applications.My.Resources.Resources.excl
-        Me.lblWarn1.Location = New System.Drawing.Point(84, 246)
-        Me.lblWarn1.Name = "lblWarn1"
-        Me.lblWarn1.Size = New System.Drawing.Size(18, 22)
-        Me.lblWarn1.TabIndex = 5
-        Me.lblWarn1.Visible = False
-        '
-        'butUpdateComments
-        '
-        Me.butUpdateComments.Enabled = False
-        Me.butUpdateComments.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.butUpdateComments.Location = New System.Drawing.Point(4, 441)
-        Me.butUpdateComments.Name = "butUpdateComments"
-        Me.butUpdateComments.Size = New System.Drawing.Size(75, 26)
-        Me.butUpdateComments.TabIndex = 8
-        Me.butUpdateComments.Text = "Update"
-        Me.butUpdateComments.UseVisualStyleBackColor = True
-        '
-        'butSearch
-        '
-        Me.butSearch.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.butSearch.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.butSearch.Image = Global.VijaySridhara.Applications.My.Resources.Resources.search
-        Me.butSearch.Location = New System.Drawing.Point(193, 16)
-        Me.butSearch.Name = "butSearch"
-        Me.butSearch.Size = New System.Drawing.Size(24, 26)
-        Me.butSearch.TabIndex = 1
-        Me.ToolTip1.SetToolTip(Me.butSearch, "Search within the archive")
-        Me.butSearch.UseVisualStyleBackColor = True
-        '
-        'butUpdateTags
-        '
-        Me.butUpdateTags.Enabled = False
-        Me.butUpdateTags.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.butUpdateTags.Location = New System.Drawing.Point(3, 241)
-        Me.butUpdateTags.Name = "butUpdateTags"
-        Me.butUpdateTags.Size = New System.Drawing.Size(75, 26)
-        Me.butUpdateTags.TabIndex = 4
-        Me.butUpdateTags.Text = "Update"
-        Me.butUpdateTags.UseVisualStyleBackColor = True
-        '
-        'txtExif
-        '
-        Me.txtExif.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtExif.BackColor = System.Drawing.SystemColors.ControlDark
-        Me.txtExif.Enabled = False
-        Me.txtExif.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtExif.Location = New System.Drawing.Point(4, 494)
-        Me.txtExif.Multiline = True
-        Me.txtExif.Name = "txtExif"
-        Me.txtExif.ReadOnly = True
-        Me.txtExif.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtExif.Size = New System.Drawing.Size(211, 78)
-        Me.txtExif.TabIndex = 10
-        '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(4, 474)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(68, 17)
-        Me.Label3.TabIndex = 9
-        Me.Label3.Text = "&Meta data"
-        '
-        'txtComments
-        '
-        Me.txtComments.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtComments.BackColor = System.Drawing.SystemColors.ControlDark
-        Me.txtComments.Enabled = False
-        Me.txtComments.Location = New System.Drawing.Point(4, 292)
-        Me.txtComments.Multiline = True
-        Me.txtComments.Name = "txtComments"
-        Me.txtComments.Size = New System.Drawing.Size(211, 141)
-        Me.txtComments.TabIndex = 7
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(4, 272)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(70, 17)
-        Me.Label2.TabIndex = 6
-        Me.Label2.Text = "Co&mments"
-        '
-        'txtTags
-        '
-        Me.txtTags.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtTags.BackColor = System.Drawing.SystemColors.ControlDark
-        Me.txtTags.Enabled = False
-        Me.txtTags.Location = New System.Drawing.Point(4, 77)
-        Me.txtTags.Multiline = True
-        Me.txtTags.Name = "txtTags"
-        Me.txtTags.Size = New System.Drawing.Size(211, 157)
-        Me.txtTags.TabIndex = 3
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(4, 57)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(35, 17)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "&Tags"
-        '
-        'Splitter2
-        '
-        Me.Splitter2.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Splitter2.Location = New System.Drawing.Point(969, 0)
-        Me.Splitter2.Name = "Splitter2"
-        Me.Splitter2.Size = New System.Drawing.Size(4, 589)
-        Me.Splitter2.TabIndex = 7
-        Me.Splitter2.TabStop = False
-        '
-        'pnlTop
-        '
-        Me.pnlTop.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.pnlTop.Controls.Add(Me.butCacelOp)
-        Me.pnlTop.Controls.Add(Me.cboShowtypes)
-        Me.pnlTop.Controls.Add(Me.Label5)
-        Me.pnlTop.Controls.Add(Me.chkPrivate)
-        Me.pnlTop.Controls.Add(Me.Label4)
-        Me.pnlTop.Controls.Add(Me.cboArchives)
-        Me.pnlTop.Controls.Add(Me.butExport)
-        Me.pnlTop.Controls.Add(Me.butCopyFilelink)
-        Me.pnlTop.Controls.Add(Me.butImportImages)
-        Me.pnlTop.Controls.Add(Me.txtFile)
-        Me.pnlTop.Controls.Add(Me.butAbout)
-        Me.pnlTop.Controls.Add(Me.butSettings)
-        Me.pnlTop.Controls.Add(Me.butImport)
-        Me.pnlTop.Controls.Add(Me.ProgressBar1)
-        Me.pnlTop.Dock = System.Windows.Forms.DockStyle.Top
-        Me.pnlTop.Location = New System.Drawing.Point(207, 0)
-        Me.pnlTop.Name = "pnlTop"
-        Me.pnlTop.Size = New System.Drawing.Size(762, 64)
-        Me.pnlTop.TabIndex = 1
-        '
-        'butCacelOp
-        '
-        Me.butCacelOp.BackgroundImage = Global.VijaySridhara.Applications.My.Resources.Resources.cancelops
-        Me.butCacelOp.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.butCacelOp.Location = New System.Drawing.Point(221, 43)
-        Me.butCacelOp.Name = "butCacelOp"
-        Me.butCacelOp.Size = New System.Drawing.Size(18, 18)
-        Me.butCacelOp.TabIndex = 10
-        Me.ToolTip1.SetToolTip(Me.butCacelOp, "Cancel current operation")
-        Me.butCacelOp.UseVisualStyleBackColor = True
-        Me.butCacelOp.Visible = False
-        '
-        'chkPrivate
-        '
-        Me.chkPrivate.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.chkPrivate.AutoSize = True
-        Me.chkPrivate.Location = New System.Drawing.Point(632, 5)
-        Me.chkPrivate.Name = "chkPrivate"
-        Me.chkPrivate.Size = New System.Drawing.Size(130, 21)
-        Me.chkPrivate.TabIndex = 8
-        Me.chkPrivate.Text = "Show private also"
-        Me.ToolTip1.SetToolTip(Me.chkPrivate, "List private archives")
-        Me.chkPrivate.UseVisualStyleBackColor = True
-        '
-        'Label4
-        '
-        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(539, 5)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(87, 17)
-        Me.Label4.TabIndex = 7
-        Me.Label4.Text = "Select archive"
-        '
-        'cboArchives
-        '
-        Me.cboArchives.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cboArchives.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.cboArchives.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboArchives.FormattingEnabled = True
-        Me.cboArchives.Location = New System.Drawing.Point(542, 31)
-        Me.cboArchives.Name = "cboArchives"
-        Me.cboArchives.Size = New System.Drawing.Size(214, 25)
-        Me.cboArchives.TabIndex = 9
-        '
-        'butCopyFilelink
-        '
-        Me.butCopyFilelink.BackgroundImage = Global.VijaySridhara.Applications.My.Resources.Resources.copy
-        Me.butCopyFilelink.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.butCopyFilelink.Enabled = False
-        Me.butCopyFilelink.FlatStyle = System.Windows.Forms.FlatStyle.Popup
-        Me.butCopyFilelink.Location = New System.Drawing.Point(506, 41)
-        Me.butCopyFilelink.Name = "butCopyFilelink"
-        Me.butCopyFilelink.Size = New System.Drawing.Size(18, 20)
-        Me.butCopyFilelink.TabIndex = 6
-        Me.ToolTip1.SetToolTip(Me.butCopyFilelink, "Copy file path")
-        Me.butCopyFilelink.UseVisualStyleBackColor = True
-        '
-        'txtFile
-        '
-        Me.txtFile.BackColor = System.Drawing.SystemColors.ControlDark
-        Me.txtFile.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.txtFile.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtFile.Location = New System.Drawing.Point(247, 43)
-        Me.txtFile.Name = "txtFile"
-        Me.txtFile.ReadOnly = True
-        Me.txtFile.Size = New System.Drawing.Size(253, 15)
-        Me.txtFile.TabIndex = 5
-        '
-        'butAbout
-        '
-        Me.butAbout.BackgroundImage = Global.VijaySridhara.Applications.My.Resources.Resources.about
-        Me.butAbout.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.butAbout.FlatAppearance.BorderSize = 0
-        Me.butAbout.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.butAbout.Location = New System.Drawing.Point(184, 5)
-        Me.butAbout.Name = "butAbout"
-        Me.butAbout.Size = New System.Drawing.Size(32, 32)
-        Me.butAbout.TabIndex = 4
-        Me.ToolTip1.SetToolTip(Me.butAbout, "About Image librarian")
-        Me.butAbout.UseVisualStyleBackColor = True
-        '
-        'butSettings
-        '
-        Me.butSettings.BackgroundImage = Global.VijaySridhara.Applications.My.Resources.Resources.settings
-        Me.butSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.butSettings.FlatAppearance.BorderSize = 0
-        Me.butSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.butSettings.Location = New System.Drawing.Point(146, 5)
-        Me.butSettings.Name = "butSettings"
-        Me.butSettings.Size = New System.Drawing.Size(32, 32)
-        Me.butSettings.TabIndex = 3
-        Me.ToolTip1.SetToolTip(Me.butSettings, "Show settings")
-        Me.butSettings.UseVisualStyleBackColor = True
-        '
-        'ProgressBar1
-        '
-        Me.ProgressBar1.Location = New System.Drawing.Point(6, 43)
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(210, 17)
-        Me.ProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous
-        Me.ProgressBar1.TabIndex = 6
-        Me.ProgressBar1.Visible = False
-        '
-        'txtLog
-        '
-        Me.txtLog.BackColor = System.Drawing.SystemColors.ControlDark
-        Me.txtLog.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.txtLog.Font = New System.Drawing.Font("Lucida Console", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.txtLog.Location = New System.Drawing.Point(207, 471)
-        Me.txtLog.MaxLength = 256000000
-        Me.txtLog.Multiline = True
-        Me.txtLog.Name = "txtLog"
-        Me.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.txtLog.Size = New System.Drawing.Size(762, 118)
-        Me.txtLog.TabIndex = 3
-        '
-        'Splitter3
-        '
-        Me.Splitter3.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Splitter3.Location = New System.Drawing.Point(207, 468)
-        Me.Splitter3.Name = "Splitter3"
-        Me.Splitter3.Size = New System.Drawing.Size(762, 3)
-        Me.Splitter3.TabIndex = 1
-        Me.Splitter3.TabStop = False
-        '
-        'MainForm
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.SystemColors.ControlDarkDark
-        Me.ClientSize = New System.Drawing.Size(1193, 589)
-        Me.Controls.Add(Me.pnlThumbnails)
-        Me.Controls.Add(Me.pnlTop)
-        Me.Controls.Add(Me.Splitter3)
-        Me.Controls.Add(Me.txtLog)
-        Me.Controls.Add(Me.Splitter2)
-        Me.Controls.Add(Me.plRight)
-        Me.Controls.Add(Me.Splitter1)
-        Me.Controls.Add(Me.pnlLEft)
-        Me.Font = New System.Drawing.Font("Segoe UI", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point)
-        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.Name = "MainForm"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Image Librarian"
-        Me.pnlThumbnails.ResumeLayout(False)
-        Me.pnlThumbnails.PerformLayout()
-        Me.pnlLEft.ResumeLayout(False)
-        Me.ctxTree.ResumeLayout(False)
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.plRight.ResumeLayout(False)
-        Me.plRight.PerformLayout()
-        Me.pnlTop.ResumeLayout(False)
-        Me.pnlTop.PerformLayout()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        pnlThumbnails = New ContainerPanel()
+        ThumbnailContainer1 = New ThumbnailContainer()
+        txtFocusBox = New TextBox()
+        pnlLEft = New Panel()
+        trvArchives = New TreeView()
+        ctxTree = New ContextMenuStrip(components)
+        ImportHereToolStripMenuItem = New ToolStripMenuItem()
+        AddImagesHereToolStripMenuItem = New ToolStripMenuItem()
+        RenameToolStripMenuItem = New ToolStripMenuItem()
+        ExportThisToolStripMenuItem = New ToolStripMenuItem()
+        ToolStripMenuItem1 = New ToolStripSeparator()
+        DeleteToolStripMenuItem = New ToolStripMenuItem()
+        PictureBox1 = New PictureBox()
+        cboShowtypes = New ComboBox()
+        Label5 = New Label()
+        butExport = New Button()
+        butImportImages = New Button()
+        butImport = New Button()
+        Splitter1 = New Splitter()
+        plRight = New Panel()
+        txtSearch = New TextBox()
+        lblWarn2 = New Label()
+        lblWarn1 = New Label()
+        butUpdateComments = New Button()
+        butSearch = New Button()
+        butUpdateTags = New Button()
+        txtExif = New TextBox()
+        Label3 = New Label()
+        txtComments = New TextBox()
+        Label2 = New Label()
+        txtTags = New TextBox()
+        Label1 = New Label()
+        Splitter2 = New Splitter()
+        pnlTop = New Panel()
+        butCacelOp = New Button()
+        chkPrivate = New CheckBox()
+        Label4 = New Label()
+        cboArchives = New ComboBox()
+        butCopyFilelink = New Button()
+        txtFile = New TextBox()
+        butAbout = New Button()
+        butSettings = New Button()
+        ProgressBar1 = New ProgressBar()
+        txtLog = New TextBox()
+        Splitter3 = New Splitter()
+        ToolTip1 = New ToolTip(components)
+        pnlThumbnails.SuspendLayout()
+        pnlLEft.SuspendLayout()
+        ctxTree.SuspendLayout()
+        CType(PictureBox1, ComponentModel.ISupportInitialize).BeginInit()
+        plRight.SuspendLayout()
+        pnlTop.SuspendLayout()
+        SuspendLayout()
+        ' 
+        ' pnlThumbnails
+        ' 
+        pnlThumbnails.AutoScroll = True
+        pnlThumbnails.AutoSizeMode = AutoSizeMode.GrowAndShrink
+        pnlThumbnails.BackColor = SystemColors.ControlDarkDark
+        pnlThumbnails.BorderStyle = BorderStyle.Fixed3D
+        pnlThumbnails.Controls.Add(ThumbnailContainer1)
+        pnlThumbnails.Controls.Add(txtFocusBox)
+        pnlThumbnails.Dock = DockStyle.Fill
+        pnlThumbnails.Location = New Point(207, 64)
+        pnlThumbnails.Name = "pnlThumbnails"
+        pnlThumbnails.Size = New Size(762, 404)
+        pnlThumbnails.TabIndex = 2
+        ' 
+        ' ThumbnailContainer1
+        ' 
+        ThumbnailContainer1.ArchHelper = Nothing
+        ThumbnailContainer1.BackColor = Color.Transparent
+        ThumbnailContainer1.CancelOperation = False
+        ThumbnailContainer1.ControlKey = False
+        ThumbnailContainer1.CurrentArchive = Nothing
+        ThumbnailContainer1.CurrentCategory = Nothing
+        ThumbnailContainer1.CurrentSubCategory = Nothing
+        ThumbnailContainer1.IsCurrentlyLoading = False
+        ThumbnailContainer1.IsSearch = False
+        ThumbnailContainer1.Location = New Point(0, 0)
+        ThumbnailContainer1.Name = "ThumbnailContainer1"
+        ThumbnailContainer1.ShiftKey = False
+        ThumbnailContainer1.Showtypes = "all"
+        ThumbnailContainer1.Size = New Size(0, 0)
+        ThumbnailContainer1.TabIndex = 1
+        ThumbnailContainer1.Text = "ThumbnailContainer1"
+        ThumbnailContainer1.ThumbSize = New Size(200, 150)
+        ' 
+        ' txtFocusBox
+        ' 
+        txtFocusBox.BackColor = SystemColors.ControlDarkDark
+        txtFocusBox.BorderStyle = BorderStyle.None
+        txtFocusBox.Font = New Font("Segoe UI", 1.5F, FontStyle.Regular, GraphicsUnit.Point)
+        txtFocusBox.Location = New Point(13, 72)
+        txtFocusBox.Name = "txtFocusBox"
+        txtFocusBox.Size = New Size(0, 3)
+        txtFocusBox.TabIndex = 0
+        ' 
+        ' pnlLEft
+        ' 
+        pnlLEft.Controls.Add(trvArchives)
+        pnlLEft.Controls.Add(PictureBox1)
+        pnlLEft.Dock = DockStyle.Left
+        pnlLEft.Location = New Point(0, 0)
+        pnlLEft.Name = "pnlLEft"
+        pnlLEft.Size = New Size(203, 589)
+        pnlLEft.TabIndex = 0
+        ' 
+        ' trvArchives
+        ' 
+        trvArchives.AllowDrop = True
+        trvArchives.BackColor = SystemColors.ControlDarkDark
+        trvArchives.ContextMenuStrip = ctxTree
+        trvArchives.Dock = DockStyle.Fill
+        trvArchives.Font = New Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point)
+        trvArchives.FullRowSelect = True
+        trvArchives.HideSelection = False
+        trvArchives.LabelEdit = True
+        trvArchives.Location = New Point(0, 95)
+        trvArchives.Name = "trvArchives"
+        trvArchives.ShowRootLines = False
+        trvArchives.Size = New Size(203, 494)
+        trvArchives.TabIndex = 0
+        ' 
+        ' ctxTree
+        ' 
+        ctxTree.Items.AddRange(New ToolStripItem() {ImportHereToolStripMenuItem, AddImagesHereToolStripMenuItem, RenameToolStripMenuItem, ExportThisToolStripMenuItem, ToolStripMenuItem1, DeleteToolStripMenuItem})
+        ctxTree.Name = "ctxTree"
+        ctxTree.Size = New Size(164, 120)
+        ' 
+        ' ImportHereToolStripMenuItem
+        ' 
+        ImportHereToolStripMenuItem.Name = "ImportHereToolStripMenuItem"
+        ImportHereToolStripMenuItem.Size = New Size(163, 22)
+        ImportHereToolStripMenuItem.Text = "&Import here"
+        ' 
+        ' AddImagesHereToolStripMenuItem
+        ' 
+        AddImagesHereToolStripMenuItem.Name = "AddImagesHereToolStripMenuItem"
+        AddImagesHereToolStripMenuItem.Size = New Size(163, 22)
+        AddImagesHereToolStripMenuItem.Text = "&Add images here"
+        ' 
+        ' RenameToolStripMenuItem
+        ' 
+        RenameToolStripMenuItem.Name = "RenameToolStripMenuItem"
+        RenameToolStripMenuItem.Size = New Size(163, 22)
+        RenameToolStripMenuItem.Text = "&Rename "
+        ' 
+        ' ExportThisToolStripMenuItem
+        ' 
+        ExportThisToolStripMenuItem.Name = "ExportThisToolStripMenuItem"
+        ExportThisToolStripMenuItem.Size = New Size(163, 22)
+        ExportThisToolStripMenuItem.Text = "E&xport this"
+        ' 
+        ' ToolStripMenuItem1
+        ' 
+        ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        ToolStripMenuItem1.Size = New Size(160, 6)
+        ' 
+        ' DeleteToolStripMenuItem
+        ' 
+        DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        DeleteToolStripMenuItem.Size = New Size(163, 22)
+        DeleteToolStripMenuItem.Text = "&Delete"
+        ' 
+        ' PictureBox1
+        ' 
+        PictureBox1.BackColor = SystemColors.ControlDarkDark
+        PictureBox1.BorderStyle = BorderStyle.Fixed3D
+        PictureBox1.Dock = DockStyle.Top
+        PictureBox1.Image = My.Resources.Resources.piclib_128
+        PictureBox1.Location = New Point(0, 0)
+        PictureBox1.Name = "PictureBox1"
+        PictureBox1.Size = New Size(203, 95)
+        PictureBox1.SizeMode = PictureBoxSizeMode.Zoom
+        PictureBox1.TabIndex = 1
+        PictureBox1.TabStop = False
+        ' 
+        ' cboShowtypes
+        ' 
+        cboShowtypes.BackColor = SystemColors.ControlDarkDark
+        cboShowtypes.DropDownStyle = ComboBoxStyle.DropDownList
+        cboShowtypes.FormattingEnabled = True
+        cboShowtypes.Items.AddRange(New Object() {"All types", "JPG", "PNG", "BMP", "GIF"})
+        cboShowtypes.Location = New Point(289, 5)
+        cboShowtypes.Name = "cboShowtypes"
+        cboShowtypes.Size = New Size(127, 25)
+        cboShowtypes.TabIndex = 1
+        ' 
+        ' Label5
+        ' 
+        Label5.AutoSize = True
+        Label5.Location = New Point(232, 8)
+        Label5.Name = "Label5"
+        Label5.Size = New Size(39, 17)
+        Label5.TabIndex = 0
+        Label5.Text = "Show"
+        ' 
+        ' butExport
+        ' 
+        butExport.BackgroundImage = My.Resources.Resources.export
+        butExport.BackgroundImageLayout = ImageLayout.Zoom
+        butExport.Enabled = False
+        butExport.FlatAppearance.BorderSize = 0
+        butExport.FlatStyle = FlatStyle.Flat
+        butExport.Location = New Point(82, 5)
+        butExport.Name = "butExport"
+        butExport.Size = New Size(32, 32)
+        butExport.TabIndex = 2
+        ToolTip1.SetToolTip(butExport, "Export selected files")
+        butExport.UseVisualStyleBackColor = True
+        ' 
+        ' butImportImages
+        ' 
+        butImportImages.BackgroundImage = My.Resources.Resources.importimages
+        butImportImages.BackgroundImageLayout = ImageLayout.Zoom
+        butImportImages.Enabled = False
+        butImportImages.FlatAppearance.BorderSize = 0
+        butImportImages.FlatStyle = FlatStyle.Flat
+        butImportImages.Location = New Point(44, 5)
+        butImportImages.Name = "butImportImages"
+        butImportImages.Size = New Size(32, 32)
+        butImportImages.TabIndex = 1
+        ToolTip1.SetToolTip(butImportImages, "Import multiple files")
+        butImportImages.UseVisualStyleBackColor = True
+        ' 
+        ' butImport
+        ' 
+        butImport.BackgroundImage = My.Resources.Resources.importfolder
+        butImport.BackgroundImageLayout = ImageLayout.Zoom
+        butImport.Enabled = False
+        butImport.FlatAppearance.BorderSize = 0
+        butImport.FlatStyle = FlatStyle.Flat
+        butImport.Location = New Point(6, 5)
+        butImport.Name = "butImport"
+        butImport.Size = New Size(32, 32)
+        butImport.TabIndex = 0
+        ToolTip1.SetToolTip(butImport, "Import a folder")
+        butImport.UseVisualStyleBackColor = True
+        ' 
+        ' Splitter1
+        ' 
+        Splitter1.Location = New Point(203, 0)
+        Splitter1.Name = "Splitter1"
+        Splitter1.Size = New Size(4, 589)
+        Splitter1.TabIndex = 5
+        Splitter1.TabStop = False
+        ' 
+        ' plRight
+        ' 
+        plRight.Controls.Add(txtSearch)
+        plRight.Controls.Add(lblWarn2)
+        plRight.Controls.Add(lblWarn1)
+        plRight.Controls.Add(butUpdateComments)
+        plRight.Controls.Add(butSearch)
+        plRight.Controls.Add(butUpdateTags)
+        plRight.Controls.Add(txtExif)
+        plRight.Controls.Add(Label3)
+        plRight.Controls.Add(txtComments)
+        plRight.Controls.Add(Label2)
+        plRight.Controls.Add(txtTags)
+        plRight.Controls.Add(Label1)
+        plRight.Dock = DockStyle.Right
+        plRight.Location = New Point(973, 0)
+        plRight.Name = "plRight"
+        plRight.Size = New Size(220, 589)
+        plRight.TabIndex = 4
+        ' 
+        ' txtSearch
+        ' 
+        txtSearch.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txtSearch.BackColor = SystemColors.ControlDark
+        txtSearch.Location = New Point(3, 16)
+        txtSearch.Name = "txtSearch"
+        txtSearch.Size = New Size(184, 25)
+        txtSearch.TabIndex = 0
+        ' 
+        ' lblWarn2
+        ' 
+        lblWarn2.Image = My.Resources.Resources.excl
+        lblWarn2.Location = New Point(85, 441)
+        lblWarn2.Name = "lblWarn2"
+        lblWarn2.Size = New Size(18, 22)
+        lblWarn2.TabIndex = 9
+        lblWarn2.Visible = False
+        ' 
+        ' lblWarn1
+        ' 
+        lblWarn1.Image = My.Resources.Resources.excl
+        lblWarn1.Location = New Point(84, 246)
+        lblWarn1.Name = "lblWarn1"
+        lblWarn1.Size = New Size(18, 22)
+        lblWarn1.TabIndex = 5
+        lblWarn1.Visible = False
+        ' 
+        ' butUpdateComments
+        ' 
+        butUpdateComments.Enabled = False
+        butUpdateComments.FlatStyle = FlatStyle.Popup
+        butUpdateComments.Location = New Point(4, 441)
+        butUpdateComments.Name = "butUpdateComments"
+        butUpdateComments.Size = New Size(75, 26)
+        butUpdateComments.TabIndex = 8
+        butUpdateComments.Text = "Update"
+        butUpdateComments.UseVisualStyleBackColor = True
+        ' 
+        ' butSearch
+        ' 
+        butSearch.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        butSearch.FlatStyle = FlatStyle.Popup
+        butSearch.Image = My.Resources.Resources.search
+        butSearch.Location = New Point(193, 16)
+        butSearch.Name = "butSearch"
+        butSearch.Size = New Size(24, 26)
+        butSearch.TabIndex = 1
+        ToolTip1.SetToolTip(butSearch, "Search within the archive")
+        butSearch.UseVisualStyleBackColor = True
+        ' 
+        ' butUpdateTags
+        ' 
+        butUpdateTags.Enabled = False
+        butUpdateTags.FlatStyle = FlatStyle.Popup
+        butUpdateTags.Location = New Point(3, 241)
+        butUpdateTags.Name = "butUpdateTags"
+        butUpdateTags.Size = New Size(75, 26)
+        butUpdateTags.TabIndex = 4
+        butUpdateTags.Text = "Update"
+        butUpdateTags.UseVisualStyleBackColor = True
+        ' 
+        ' txtExif
+        ' 
+        txtExif.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
+        txtExif.BackColor = SystemColors.ControlDark
+        txtExif.Enabled = False
+        txtExif.Font = New Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point)
+        txtExif.Location = New Point(4, 494)
+        txtExif.Multiline = True
+        txtExif.Name = "txtExif"
+        txtExif.ReadOnly = True
+        txtExif.ScrollBars = ScrollBars.Vertical
+        txtExif.Size = New Size(211, 78)
+        txtExif.TabIndex = 10
+        ' 
+        ' Label3
+        ' 
+        Label3.AutoSize = True
+        Label3.Location = New Point(4, 474)
+        Label3.Name = "Label3"
+        Label3.Size = New Size(68, 17)
+        Label3.TabIndex = 9
+        Label3.Text = "&Meta data"
+        ' 
+        ' txtComments
+        ' 
+        txtComments.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txtComments.BackColor = SystemColors.ControlDark
+        txtComments.Enabled = False
+        txtComments.Location = New Point(4, 292)
+        txtComments.Multiline = True
+        txtComments.Name = "txtComments"
+        txtComments.Size = New Size(211, 141)
+        txtComments.TabIndex = 7
+        ' 
+        ' Label2
+        ' 
+        Label2.AutoSize = True
+        Label2.Location = New Point(4, 272)
+        Label2.Name = "Label2"
+        Label2.Size = New Size(70, 17)
+        Label2.TabIndex = 6
+        Label2.Text = "Co&mments"
+        ' 
+        ' txtTags
+        ' 
+        txtTags.Anchor = AnchorStyles.Top Or AnchorStyles.Left Or AnchorStyles.Right
+        txtTags.BackColor = SystemColors.ControlDark
+        txtTags.Enabled = False
+        txtTags.Location = New Point(4, 77)
+        txtTags.Multiline = True
+        txtTags.Name = "txtTags"
+        txtTags.Size = New Size(211, 157)
+        txtTags.TabIndex = 3
+        ' 
+        ' Label1
+        ' 
+        Label1.AutoSize = True
+        Label1.Location = New Point(4, 57)
+        Label1.Name = "Label1"
+        Label1.Size = New Size(35, 17)
+        Label1.TabIndex = 2
+        Label1.Text = "&Tags"
+        ' 
+        ' Splitter2
+        ' 
+        Splitter2.Dock = DockStyle.Right
+        Splitter2.Location = New Point(969, 0)
+        Splitter2.Name = "Splitter2"
+        Splitter2.Size = New Size(4, 589)
+        Splitter2.TabIndex = 7
+        Splitter2.TabStop = False
+        ' 
+        ' pnlTop
+        ' 
+        pnlTop.BackColor = SystemColors.ControlDarkDark
+        pnlTop.Controls.Add(butCacelOp)
+        pnlTop.Controls.Add(cboShowtypes)
+        pnlTop.Controls.Add(Label5)
+        pnlTop.Controls.Add(chkPrivate)
+        pnlTop.Controls.Add(Label4)
+        pnlTop.Controls.Add(cboArchives)
+        pnlTop.Controls.Add(butExport)
+        pnlTop.Controls.Add(butCopyFilelink)
+        pnlTop.Controls.Add(butImportImages)
+        pnlTop.Controls.Add(txtFile)
+        pnlTop.Controls.Add(butAbout)
+        pnlTop.Controls.Add(butSettings)
+        pnlTop.Controls.Add(butImport)
+        pnlTop.Controls.Add(ProgressBar1)
+        pnlTop.Dock = DockStyle.Top
+        pnlTop.Location = New Point(207, 0)
+        pnlTop.Name = "pnlTop"
+        pnlTop.Size = New Size(762, 64)
+        pnlTop.TabIndex = 1
+        ' 
+        ' butCacelOp
+        ' 
+        butCacelOp.BackgroundImage = My.Resources.Resources.cancelops
+        butCacelOp.FlatStyle = FlatStyle.Popup
+        butCacelOp.Location = New Point(221, 43)
+        butCacelOp.Name = "butCacelOp"
+        butCacelOp.Size = New Size(18, 18)
+        butCacelOp.TabIndex = 10
+        ToolTip1.SetToolTip(butCacelOp, "Cancel current operation")
+        butCacelOp.UseVisualStyleBackColor = True
+        butCacelOp.Visible = False
+        ' 
+        ' chkPrivate
+        ' 
+        chkPrivate.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        chkPrivate.AutoSize = True
+        chkPrivate.Location = New Point(632, 5)
+        chkPrivate.Name = "chkPrivate"
+        chkPrivate.Size = New Size(130, 21)
+        chkPrivate.TabIndex = 8
+        chkPrivate.Text = "Show private also"
+        ToolTip1.SetToolTip(chkPrivate, "List private archives")
+        chkPrivate.UseVisualStyleBackColor = True
+        ' 
+        ' Label4
+        ' 
+        Label4.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        Label4.AutoSize = True
+        Label4.Location = New Point(539, 5)
+        Label4.Name = "Label4"
+        Label4.Size = New Size(87, 17)
+        Label4.TabIndex = 7
+        Label4.Text = "Select archive"
+        ' 
+        ' cboArchives
+        ' 
+        cboArchives.Anchor = AnchorStyles.Top Or AnchorStyles.Right
+        cboArchives.BackColor = SystemColors.ControlDarkDark
+        cboArchives.DropDownStyle = ComboBoxStyle.DropDownList
+        cboArchives.FormattingEnabled = True
+        cboArchives.Location = New Point(542, 31)
+        cboArchives.Name = "cboArchives"
+        cboArchives.Size = New Size(214, 25)
+        cboArchives.TabIndex = 9
+        ' 
+        ' butCopyFilelink
+        ' 
+        butCopyFilelink.BackgroundImage = My.Resources.Resources.copy
+        butCopyFilelink.BackgroundImageLayout = ImageLayout.Zoom
+        butCopyFilelink.FlatAppearance.BorderSize = 0
+        butCopyFilelink.FlatStyle = FlatStyle.Popup
+        butCopyFilelink.Location = New Point(506, 41)
+        butCopyFilelink.Name = "butCopyFilelink"
+        butCopyFilelink.Size = New Size(18, 20)
+        butCopyFilelink.TabIndex = 6
+        ToolTip1.SetToolTip(butCopyFilelink, "Copy file path")
+        butCopyFilelink.UseVisualStyleBackColor = True
+        ' 
+        ' txtFile
+        ' 
+        txtFile.BackColor = SystemColors.ControlDark
+        txtFile.BorderStyle = BorderStyle.None
+        txtFile.Font = New Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point)
+        txtFile.Location = New Point(247, 43)
+        txtFile.Name = "txtFile"
+        txtFile.ReadOnly = True
+        txtFile.Size = New Size(253, 15)
+        txtFile.TabIndex = 5
+        ' 
+        ' butAbout
+        ' 
+        butAbout.BackgroundImage = My.Resources.Resources.about
+        butAbout.BackgroundImageLayout = ImageLayout.Zoom
+        butAbout.FlatAppearance.BorderSize = 0
+        butAbout.FlatStyle = FlatStyle.Flat
+        butAbout.Location = New Point(184, 5)
+        butAbout.Name = "butAbout"
+        butAbout.Size = New Size(32, 32)
+        butAbout.TabIndex = 4
+        ToolTip1.SetToolTip(butAbout, "About Image librarian")
+        butAbout.UseVisualStyleBackColor = True
+        ' 
+        ' butSettings
+        ' 
+        butSettings.BackgroundImage = My.Resources.Resources.settings
+        butSettings.BackgroundImageLayout = ImageLayout.Zoom
+        butSettings.FlatAppearance.BorderSize = 0
+        butSettings.FlatStyle = FlatStyle.Flat
+        butSettings.Location = New Point(146, 5)
+        butSettings.Name = "butSettings"
+        butSettings.Size = New Size(32, 32)
+        butSettings.TabIndex = 3
+        ToolTip1.SetToolTip(butSettings, "Show settings")
+        butSettings.UseVisualStyleBackColor = True
+        ' 
+        ' ProgressBar1
+        ' 
+        ProgressBar1.Location = New Point(6, 43)
+        ProgressBar1.Name = "ProgressBar1"
+        ProgressBar1.Size = New Size(210, 17)
+        ProgressBar1.Style = ProgressBarStyle.Continuous
+        ProgressBar1.TabIndex = 6
+        ProgressBar1.Visible = False
+        ' 
+        ' txtLog
+        ' 
+        txtLog.BackColor = SystemColors.ControlDark
+        txtLog.Dock = DockStyle.Bottom
+        txtLog.Font = New Font("Lucida Console", 8.25F, FontStyle.Regular, GraphicsUnit.Point)
+        txtLog.Location = New Point(207, 471)
+        txtLog.MaxLength = 256000000
+        txtLog.Multiline = True
+        txtLog.Name = "txtLog"
+        txtLog.ScrollBars = ScrollBars.Vertical
+        txtLog.Size = New Size(762, 118)
+        txtLog.TabIndex = 3
+        ' 
+        ' Splitter3
+        ' 
+        Splitter3.Dock = DockStyle.Bottom
+        Splitter3.Location = New Point(207, 468)
+        Splitter3.Name = "Splitter3"
+        Splitter3.Size = New Size(762, 3)
+        Splitter3.TabIndex = 1
+        Splitter3.TabStop = False
+        ' 
+        ' MainForm
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 17F)
+        AutoScaleMode = AutoScaleMode.Font
+        BackColor = SystemColors.ControlDarkDark
+        ClientSize = New Size(1193, 589)
+        Controls.Add(pnlThumbnails)
+        Controls.Add(pnlTop)
+        Controls.Add(Splitter3)
+        Controls.Add(txtLog)
+        Controls.Add(Splitter2)
+        Controls.Add(plRight)
+        Controls.Add(Splitter1)
+        Controls.Add(pnlLEft)
+        Font = New Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point)
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
+        Name = "MainForm"
+        StartPosition = FormStartPosition.CenterScreen
+        Text = "Image Librarian"
+        pnlThumbnails.ResumeLayout(False)
+        pnlThumbnails.PerformLayout()
+        pnlLEft.ResumeLayout(False)
+        ctxTree.ResumeLayout(False)
+        CType(PictureBox1, ComponentModel.ISupportInitialize).EndInit()
+        plRight.ResumeLayout(False)
+        plRight.PerformLayout()
+        pnlTop.ResumeLayout(False)
+        pnlTop.PerformLayout()
+        ResumeLayout(False)
+        PerformLayout()
 
     End Sub
 

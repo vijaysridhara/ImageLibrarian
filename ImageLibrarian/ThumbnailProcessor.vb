@@ -108,6 +108,7 @@ Friend Class ThumbnailProcessor
             RaiseEvent Message(indent & "***Folder: " & pth & "*******")
             '0.4.7 To ignore folders of format given
             For Each s As String In My.Settings.IgnoreFolders
+                If String.IsNullOrEmpty(s) Then Continue For 'Defect fixed for empty items.
                 mtch = Regex.Match(pth, s, RegexOptions.IgnoreCase Or RegexOptions.CultureInvariant)
                 If mtch.Success Then
                     RaiseEvent Message(indent & "Ignoring folder as it qualifies for pattern " & s)

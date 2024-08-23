@@ -1186,6 +1186,10 @@ Friend Class ThumbnailContainer
         End If
     End Sub
 
+    Private Sub ThumbnailContainer_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+
+    End Sub
+
     Public _ControlKey As Boolean
     Public _ShiftKey As Boolean
     Public Property ShiftKey As Boolean

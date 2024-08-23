@@ -20,8 +20,8 @@ Public Class MainForm
     Private WithEvents chktmr As New Timer()
     Private CurrentArchive As String = "<Archive name>"
     Private WithEvents thumbProcessor As New ThumbnailProcessor()
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Dim tn As TreeNode = trvArchives.Nodes.Add("[[ROOT]]", "<Archive name>")
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim tn = trvArchives.Nodes.Add("[[ROOT]]", "<Archive name>")
         tn.Tag = "ROOT"
         ' ARCHLOC = IO.Path.GetDirectoryName(Application.ExecutablePath)
         ARCHLOC = IIf(String.IsNullOrEmpty(My.Settings.ArchiveLocation), My.Computer.FileSystem.SpecialDirectories.MyDocuments, My.Settings.ArchiveLocation)
@@ -128,7 +128,7 @@ Public Class MainForm
         ShowThumbnailsinVisibleArea()
     End Sub
 
-    Private Sub ThumbnailContainer_KeyUp(sender As Object, e As KeyEventArgs) Handles Me.KeyUp
+    Private Sub ThumbnailContainer_KeyUp(sender As Object, e As KeyEventArgs) Handles MyBase.KeyUp
         If e.KeyCode = Keys.ControlKey Then
             ThumbnailContainer1.ControlKey = False
 
@@ -407,20 +407,20 @@ Public Class MainForm
 
     End Sub
 
-    Private Sub MainForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+    Private Sub MainForm_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing
         On Error Resume Next
-        ThumbnailContainer1.ClearImages()
+        ThumbnailContainer1.ClearImages
 
         If Not archHelper Is Nothing Then
-            archHelper.Cleanup()
+            archHelper.Cleanup
             RemoveHandler archHelper.DatabaseError, AddressOf archDBError
             RemoveHandler archHelper.Progress, AddressOf ArchProgress
 
 
         End If
-        chktmr.Dispose()
+        chktmr.Dispose
         archTimer.Enabled = False
-        archTimer.Dispose()
+        archTimer.Dispose
     End Sub
 
     Private Sub butCopyFilelink_Click(sender As Object, e As EventArgs) Handles butCopyFilelink.Click
@@ -514,7 +514,7 @@ Public Class MainForm
                             trvArchives_AfterSelect(trvArchives, New TreeViewEventArgs(trvArchives.Nodes("[[ROOT]]").Nodes(self.cboCat.Text).Nodes(self.cboSubCat.Text)))
                         End If
 
-                        End If
+                    End If
                     If .FileNames.Length > 0 Then
                         IMPFROM = IO.Path.GetDirectoryName(.FileNames(0))
                         My.Settings.ImportFrom = IO.Path.GetDirectoryName(.FileNames(0))
@@ -537,7 +537,7 @@ Public Class MainForm
 
 
 
-    Private Sub MainForm_Resize(sender As Object, e As EventArgs) Handles Me.Resize
+    Private Sub MainForm_Resize(sender As Object, e As EventArgs) Handles MyBase.Resize
         pnlThumbnails_Resize(Nothing, Nothing)
     End Sub
 
@@ -860,7 +860,7 @@ Public Class MainForm
     End Sub
 
     Private Sub cboShowtypes_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboShowtypes.SelectedIndexChanged
-         Select Case cboShowtypes.SelectedIndex
+        Select Case cboShowtypes.SelectedIndex
             Case 0
                 ThumbnailContainer1.Showtypes = "all"
             Case 1
@@ -940,7 +940,7 @@ Public Class MainForm
 
     End Sub
 
-    Private Sub MainForm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
+    Private Sub MainForm_KeyPress(sender As Object, e As KeyPressEventArgs) Handles MyBase.KeyPress
         e.Handled = True
     End Sub
 
@@ -1196,5 +1196,7 @@ Public Class MainForm
         msgQueue.Enqueue("[DBERROR]: " & ex.Message)
     End Sub
 
+    Private Sub pnlThumbnails_Paint(sender As Object, e As PaintEventArgs) Handles pnlThumbnails.Paint
 
+    End Sub
 End Class
